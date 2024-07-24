@@ -1,0 +1,16 @@
+com\example\demo\Controller\UserController.class
+com\example\demo\DemoApplication.class
+com\example\demo\Service\UserService.class
+com\example\demo\Model\Hero.class
+com\example\demo\Repository\UserRepository$1.class
+com\example\demo\Repository\HeroRepository$1.class
+com\example\demo\Repository\HeroRepository.class
+com\example\demo\Util\JwtUtil.class
+com\example\demo\Model\User.class
+com\example\demo\Repository\RoleRepository.class
+com\example\demo\Controller\HeroController.class
+com\example\demo\Request\AuthRequest.class
+com\example\demo\Repository\UserRepository.class
+com\example\demo\Model\Role.class
+com\example\demo\Config\SecurityConfig.class
+com\example\demo\Controller\AuthController.class
