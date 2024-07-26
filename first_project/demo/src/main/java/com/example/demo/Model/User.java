@@ -17,17 +17,17 @@ public class User {
     private String email;
     
     @ManyToOne
-    //@JoinColumn(name = "id")
-    private Long role;
+    @JoinColumn(name = "idRole")
+    private Long idRole;
 
-       public User(long id, String firstName, String lastName, String login, String password, String email, long role) {
+       public User(Long id, String firstName, String lastName, String login, String password, String email, Long idRole) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.login =login;
         this.password = password;
         this.email = email;
-        this.role=role;
+        this.idRole=idRole;
     }
 
     // Getters and Setters
@@ -79,16 +79,26 @@ public class User {
         this.email = email;
     }
 
-    public Long getRoleId() {
-        return Role.getId;
+
+    public Long getIdRole(){
+        return this.idRole;
     }
 
-    public Long getRole(){
-        return this.role;
+    public void setIdRole(Long role) {
+        this.idRole = role;
     }
 
-    public void setRole(Long role) {
-        this.role = role;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + idRole +
+                '}';
     }
 
 

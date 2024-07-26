@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Entity
 public class Role {
     
-    public static Long getId;
+    public static int getId;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

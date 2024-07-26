@@ -2,9 +2,11 @@ package com.example.demo.Repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.Model.Hero;
 import com.example.demo.Model.User;
 
 import javax.sql.DataSource;
@@ -17,9 +19,11 @@ import java.util.Optional;
 public class UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserRepository(DataSource dataSource) {
+    public UserRepository(DataSource dataSource, PasswordEncoder passwordEncoder) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.passwordEncoder = passwordEncoder;
     }
 
     private static final RowMapper<User> USER_ROW_MAPPER = new RowMapper<>() {
@@ -27,12 +31,12 @@ public class UserRepository {
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
             return new User(
                 rs.getLong("id"),
-                rs.getString("first_name"),
-                rs.getString("last_name"),
+                rs.getString("firstName"),
+                rs.getString("lastName"),
                 rs.getString("login"),
                 rs.getString("password"),
                 rs.getString("email"),
-                rs.getLong("id_role")
+                rs.getLong("idRole")
             );
         }
     };
@@ -48,12 +52,13 @@ public class UserRepository {
     }
 
     public int save(User user) {
+        String hashedPassword = passwordEncoder.encode(user.getPassword());
         if (user.getId() == null) {
-            return jdbcTemplate.update("INSERT INTO users (first_name, last_name, login, password, email, id_role) VALUES (?, ?, ?, ?, ?, ?)",
-                    user.getFirstName(), user.getLastName(), user.getLogin(), user.getPassword(), user.getEmail(), user.getRoleId());
+            return jdbcTemplate.update("INSERT INTO users (firstName, lastName, login, password, email, idRole) VALUES (?, ?, ?, ?, ?, ?)",
+                    user.getFirstName(), user.getLastName(), user.getLogin(), hashedPassword, user.getEmail(), user.getIdRole());
         } else {
-            return jdbcTemplate.update("UPDATE users SET first_name = ?, last_name = ?, login = ?, password = ?, email = ?, id_role = ? WHERE id = ?",
-                    user.getFirstName(), user.getLastName(), user.getLogin(), user.getPassword(), user.getEmail(), user.getRoleId(), user.getId());
+            return jdbcTemplate.update("UPDATE users SET firstName = ?, lastName = ?, login = ?, password = ?, email = ?, idRole = ? WHERE id = ?",
+                    user.getFirstName(), user.getLastName(), user.getLogin(),hashedPassword, user.getEmail(), user.getIdRole(), user.getId());
         }
     }
 
@@ -62,17 +67,23 @@ public class UserRepository {
     }
 
     public List<User> findByNameContaining(String term) {
-        String sql = "SELECT * FROM users WHERE first_name LIKE ? OR last_name LIKE ?";
+        String sql = "SELECT * FROM users WHERE firstName LIKE ? OR lastName LIKE ?";
         RowMapper<User> rowMapper = (rs, rowNum) -> new User(
             rs.getLong("id"),
-            rs.getString("first_name"),
-            rs.getString("last_name"),
+            rs.getString("firstName"),
+            rs.getString("lastName"),
             rs.getString("login"),
             rs.getString("password"), 
             rs.getString("email"),      
-            rs.getLong("id_role")
+            rs.getLong("idRole")
         );
         return jdbcTemplate.query(sql, rowMapper, "%" + term + "%", "%" + term + "%");
+    }
+
+    public Optional<User> findByLogin(String login) {
+        String sql = "SELECT * FROM users WHERE login = ?";
+        List<User> users = jdbcTemplate.query(sql, USER_ROW_MAPPER, login);
+        return users.stream().findFirst();
     }
 
 

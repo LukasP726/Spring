@@ -28,8 +28,8 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public void saveUser(User user) {
-        userRepository.save(user);
+    public int saveUser(User user) {
+        return userRepository.save(user);
     }
 
     public void deleteUser(Long id) {
@@ -42,5 +42,9 @@ public class UserService {
 
     public Optional<Role> getRoleById(Long id) {
         return roleService.getRoleById(id);
+    }
+
+    public List<User> findUserByName(String term) {
+        return userRepository.findByNameContaining(term);
     }
 }

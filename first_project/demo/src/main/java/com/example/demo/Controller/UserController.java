@@ -1,12 +1,17 @@
 package com.example.demo.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.Model.Hero;
 import com.example.demo.Model.User;
 import com.example.demo.Repository.UserRepository;
+import com.example.demo.Service.AuthService;
+import com.example.demo.Service.UserService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -15,11 +20,14 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
+    @Autowired
+    private AuthService authService;
+
 
     @GetMapping
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userService.getAllUsers();
     }
 
     @GetMapping("/test")
@@ -29,38 +37,56 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User getUserById(@PathVariable Long id) {
-        return userRepository.findById(id)
+        return userService.getUserById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id " + id));
     }
-
+/* 
     @PostMapping
     public void createUser(@RequestBody User user) {
-        userRepository.save(user);
+        userService.saveUser(user);
     }
-
+*/
     @PutMapping("/{id}")
     public User updateUser(@PathVariable Long id, @RequestBody User userDetails) {
-        User user = userRepository.findById(id)
+        User user = userService.getUserById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id " + id));
         user.setFirstName(userDetails.getFirstName());
         user.setLastName(userDetails.getLastName());
         user.setLogin(userDetails.getLogin());
         user.setPassword(userDetails.getPassword());
         user.setEmail(userDetails.getEmail());
-        user.setRole(userDetails.getRole());
-        userRepository.save(user);
+        user.setIdRole(userDetails.getIdRole());
+        userService.saveUser(user);
         return user;
     }
 
+        @PostMapping
+        public User addUser(@RequestBody User user) {
+        int result = userService.saveUser(user);
+        if (result == 1) {
+            return user; // Úspěšné vložení nebo aktualizace
+        } else {
+            throw new RuntimeException("Failed to add or update user");
+        }
+    }
+    
+
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
-        User user = userRepository.findById(id)
+        User user = userService.getUserById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id " + id));
-        userRepository.deleteById(id);
+        userService.deleteUser(id);
     }
 
     @GetMapping("/")
     public List<User> searchHeroes(@RequestParam(name = "name") String term) {
-        return userRepository.findByNameContaining(term);
+        return userService.findUserByName(term);
     }
+
+     @GetMapping("/me")
+    public User getCurrentUser(Principal principal) {
+        return authService.findByLogin(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+
 }
