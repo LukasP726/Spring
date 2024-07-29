@@ -22,10 +22,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.Model.Upload;
 import com.example.demo.Repository.UploadRepository;
 
+
+
 @RestController
-@RequestMapping("/api/upload")
+@RequestMapping("/api/uploads")
 @CrossOrigin(origins = {"http://localhost:4200","http://192.168.56.1:4200"})
-public class FileUploadController {
+public class UploadController {
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -47,6 +49,7 @@ public class FileUploadController {
             return new ResponseEntity<>("Failed to upload file.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+     
 
      @GetMapping("/search")
     public ResponseEntity<List<Upload>> getUploadsByFilename(@RequestParam String filename) {
@@ -59,4 +62,5 @@ public class FileUploadController {
         List<Upload> uploads = uploadRepository.findByUserId(userId);
         return ResponseEntity.ok(uploads);
     }
+        
 }
