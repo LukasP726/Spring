@@ -32,7 +32,7 @@ public class RegistrationController {
         } else {
             logger.log(Level.SEVERE, "Registration failed for user: {0}", user);
             //throw new RuntimeException("Failed to register user");
-            throw new RuntimeException("Failed to register user");
+            throw new RuntimeException(String.format("Failed to register user %d", result));
         }
 
     }

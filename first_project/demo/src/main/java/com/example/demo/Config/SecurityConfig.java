@@ -1,17 +1,20 @@
 package com.example.demo.Config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
 
 import javax.sql.DataSource;
 
@@ -19,39 +22,25 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        
-        http
-        .csrf(csrf -> csrf.disable())
-        .authorizeHttpRequests(auth -> auth
-            .anyRequest().permitAll() // Povolit přístup ke všem endpointům
-        )
-        .formLogin(form -> form.disable()) // Zakázat login form
-        .logout(logout -> logout.permitAll());
-    return http.build();
-    
-      
-        /* 
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                //.requestMatchers("/login").permitAll()
-                //.requestMatchers("/api/heroes/**").permitAll() //povolení přístupu bez autentizace
-                //.requestMatchers("/api/heroes/**").authenticated()
-                .requestMatchers("/login", "/api/users/**", "/users/**").permitAll() // Umožňuje přístup na /login a /users bez přihlášení
-                .anyRequest().authenticated()
+                .requestMatchers("/api/users/me").authenticated() // Ochrání endpoint /me
+                .anyRequest().permitAll() // Povolit přístup ke všem ostatním endpointům
             )
-            
-            .formLogin(form -> form
-                .loginPage("/login")
-                .permitAll()
-            )
-            .logout(logout -> logout.permitAll());
-           
+            .formLogin(form -> form.disable()) // Zakázat login form
+            .logout(logout -> logout.permitAll())
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // Disabling session
+
+        // Přidání JWT Filtru před UsernamePasswordAuthenticationFilter
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
-         */
-        
     }
 
     @Bean

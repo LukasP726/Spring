@@ -1,5 +1,7 @@
 package com.example.demo.Service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.Model.Role;
@@ -14,6 +16,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final RoleService roleService;
+
 
     public UserService(UserRepository userRepository, RoleService roleService) {
         this.userRepository = userRepository;
