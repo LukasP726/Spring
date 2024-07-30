@@ -1,36 +1,36 @@
 package com.example.demo.Repository;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+
 import com.example.demo.Model.Thread;
 
 @Repository
 public class ThreadRepository {
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    // Definice RowMapperu pro Thread
+    private final RowMapper<Thread> ROW_MAPPER = (rs, rowNum) -> {
+        Thread thread = new Thread();
+        thread.setId(rs.getInt("id"));
+        thread.setName(rs.getString("name"));
+        thread.setUserId(rs.getInt("idUser"));
+        thread.setCreatedAt(rs.getTimestamp("createdAt"));
+        return thread;
+    };
+
     public List<Thread> findByNameContaining(String name) {
-        String sql = "SELECT * FROM Threads WHERE name LIKE ?";
-        List<Map<String, Object>> rows = jdbcTemplate.queryForList(sql, "%" + name + "%");
-        
-        List<Thread> threads = new ArrayList<>();
-        for (Map<String, Object> row : rows) {
-            Thread thread = new Thread();
-            thread.setId((Long) row.get("id"));
-            thread.setName((String) row.get("name"));
-            thread.setUserId((Long) row.get("userId"));
-            thread.setCreatedAt((Date) row.get("createdAt"));
-            threads.add(thread);
-        }
-        return threads;
+        String sql = "SELECT * FROM threads WHERE name LIKE ?";
+        return jdbcTemplate.query(sql, ROW_MAPPER, name);
     }
 
     public void createThread(Thread thread) {
@@ -38,6 +38,18 @@ public class ThreadRepository {
         jdbcTemplate.update(sql, thread.getName(), thread.getId(), new Timestamp(System.currentTimeMillis()));
     }
 
-    // Další metody pro CRUD operace
-}
+    public List<Thread> getAllThreads() {
+        String sql = "SELECT * FROM threads";
+        return jdbcTemplate.query(sql, ROW_MAPPER);
+    }
 
+public Optional<Thread> getThreadById(Integer id) {
+    String sql = "SELECT * FROM threads WHERE id = ?";
+    try {
+        Thread thread = jdbcTemplate.queryForObject(sql, ROW_MAPPER, id);
+        return Optional.ofNullable(thread);
+    } catch (EmptyResultDataAccessException e) {
+        return Optional.empty();
+    }
+}
+}

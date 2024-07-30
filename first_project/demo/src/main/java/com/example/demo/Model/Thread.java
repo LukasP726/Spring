@@ -1,6 +1,6 @@
 package com.example.demo.Model;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 import java.sql.Date;
 
 import javax.persistence.*;
@@ -12,16 +12,16 @@ import javax.persistence.*;
 public class Thread {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     private String name;
-    private Long idUser;
-    private Date createdAt;
+    private Integer idUser;
+    private Timestamp createdAt;
 
     @ManyToOne
     @JoinColumn(name = "idUser", insertable = false, updatable = false)
     private User user;
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -29,12 +29,12 @@ public class Thread {
         this.name = name;
     }
 
-    public void setUserId(Long idUser) {
+    public void setUserId(Integer idUser) {
         this.idUser = idUser;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setCreatedAt(java.sql.Timestamp timestamp) {
+        this.createdAt = timestamp;
         
     }
 
@@ -42,7 +42,7 @@ public class Thread {
       return name;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 

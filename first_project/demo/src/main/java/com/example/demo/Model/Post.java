@@ -1,6 +1,6 @@
 package com.example.demo.Model;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 import javax.persistence.*;
 
@@ -9,35 +9,58 @@ import javax.persistence.*;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     private String content;
-    private Long idUser;
-    private Long idThread;
+    
+    @ManyToOne
+    @JoinColumn(name = "idUser")
+    private Integer idUser;
+
+    @ManyToOne
+    @JoinColumn(name = "idThread")
+    private Integer idThread;
     private Timestamp createdAt;
 
-    @ManyToOne
-    @JoinColumn(name = "idUser", insertable = false, updatable = false)
-    private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "idThread", insertable = false, updatable = false)
-    private Thread thread;
 
-    public Object getContent() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getContent'");
+
+    public String getContent() {
+        return content;
     }
 
-    public Object getUserId() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUserId'");
+    public Integer getUserId() {
+       return idUser;
     }
 
     public Object getThreadId() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getThreadId'");
+       return idThread;
     }
 
-    // Gettery a settery
+    public void setId(Integer id){
+        this.id = id;
+
+    }
+
+    public void setIdUser(Integer idUser){
+        this.idUser = idUser;
+        
+    }
+
+
+    public void setIdThread(Integer idThread){
+        this.idThread = idThread;
+        
+    }
+
+    public void setContent(String content){
+        this.content = content;
+        
+    }
+
+    public void setCreatedAt(java.sql.Timestamp createdAt) {
+       this.createdAt = createdAt;
+    }
+
+ 
 }
 

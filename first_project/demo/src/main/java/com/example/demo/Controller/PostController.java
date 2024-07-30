@@ -31,8 +31,8 @@ public class PostController {
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Post>> getPostsByUserId(@PathVariable Long userId) {
-        List<Post> posts = postRepository.findByUserId(userId);
+    public ResponseEntity<List<Post>> getPostsByUserId(@PathVariable Long idUser) {
+        List<Post> posts = postRepository.findByUserId(idUser);
         return ResponseEntity.ok(posts);
     }
 
@@ -42,6 +42,15 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.CREATED).body(post);
     }
 
-    // Další metody pro CRUD operace
+
+    
+    @GetMapping("/thread/{idThread}")
+    public ResponseEntity<List<Post>> getPostsByUserId(@PathVariable Integer idThread) {
+        List<Post> posts = postRepository.findByThreadId(idThread);
+        return ResponseEntity.ok(posts);
+    }
+
+
+
 }
 

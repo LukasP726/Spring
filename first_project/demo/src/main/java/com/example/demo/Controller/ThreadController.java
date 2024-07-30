@@ -1,12 +1,14 @@
 package com.example.demo.Controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Repository.ThreadRepository;
 import com.example.demo.Model.Thread;
+import com.example.demo.Model.User;
 
 @RestController
 @RequestMapping("/api/threads")
@@ -35,6 +38,17 @@ public class ThreadController {
         return ResponseEntity.status(HttpStatus.CREATED).body(thread);
     }
 
-    // Další metody pro CRUD operace
+    @GetMapping
+    public List<Thread> getAllUsers() {
+        return threadRepository.getAllThreads();
+    }
+
+    @GetMapping("/{id}")
+    public Thread getThreadById(@PathVariable Integer id){
+        return threadRepository.getThreadById(id)
+            .orElseThrow(() -> new RuntimeException("Thread not found with id " + id));
+    }
+
+    
 }
 
