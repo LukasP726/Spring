@@ -27,7 +27,10 @@ public class LoginController {
             String token = authService.login(loginRequest.getUsername(), loginRequest.getPassword());
             return ResponseEntity.ok(new AuthResponse(token));
         } catch (Exception e) {
+            // Přidání logování chyby
+            System.err.println("Chyba při přihlášení: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid login or password");
         }
     }
+    
 }

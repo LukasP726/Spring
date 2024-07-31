@@ -47,7 +47,11 @@ public class UserService {
         return roleService.getRoleById(id);
     }
 
-    public List<User> findUserByName(String term) {
+    public List<User> searchByName(String term) {
         return userRepository.findByNameContaining(term);
+    }
+
+    public Optional<User> findByName(String name){
+        return userRepository.findByLogin(name);
     }
 }

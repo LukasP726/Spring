@@ -2,6 +2,9 @@ package com.example.demo.Controller;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,18 +26,16 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public User register(@RequestBody User user) {
+    public ResponseEntity<User> register(@RequestBody User user) {
         logger.log(Level.INFO, "Received registration request: {0}", user);
         int result = userService.saveUser(user);
         if (result == 1) {
             logger.log(Level.INFO, "Registration successful for user: {0}", user);
-            return user; // Úspěšná registrace
+            return new ResponseEntity<>(user, HttpStatus.CREATED);
         } else {
             logger.log(Level.SEVERE, "Registration failed for user: {0}", user);
-            //throw new RuntimeException("Failed to register user");
-            throw new RuntimeException(String.format("Failed to register user %d", result));
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
 }
 

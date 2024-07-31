@@ -1,7 +1,6 @@
 com\example\demo\DemoApplication.class
 com\example\demo\Repository\HeroRepository$1.class
 com\example\demo\Repository\HeroRepository.class
-com\example\demo\Util\JwtUtil.class
 com\example\demo\Model\User.class
 com\example\demo\Repository\UserRepository.class
 com\example\demo\Model\Role.class

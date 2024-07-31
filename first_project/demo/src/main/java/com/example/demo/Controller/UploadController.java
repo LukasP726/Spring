@@ -62,5 +62,9 @@ public class UploadController {
         List<Upload> uploads = uploadRepository.findByUserId(userId);
         return ResponseEntity.ok(uploads);
     }
+
+
+
+    
         
 }

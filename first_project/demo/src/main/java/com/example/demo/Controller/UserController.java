@@ -3,6 +3,7 @@ package com.example.demo.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.Model.Hero;
@@ -80,13 +81,27 @@ public class UserController {
 
     @GetMapping("/")
     public List<User> searchHeroes(@RequestParam(name = "name") String term) {
-        return userService.findUserByName(term);
+        return userService.searchByName(term);
     }
-
-     @GetMapping("/me")
-    public User getCurrentUser(Principal principal) {
-        return authService.findByLogin(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
+/* 
+    @GetMapping("/me")
+    public ResponseEntity<User> getCurrentUser(Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null); 
+        }
+    
+        User user = authService.findByLogin(principal.getName())
+                               .orElseThrow(() -> new RuntimeException("User not found"));
+        return ResponseEntity.ok(user);
     }
+*/
 
+@GetMapping("/me")
+public ResponseEntity<User> getCurrentUser(Authentication authentication) {
+    String username = authentication.getName();
+    User user = userService.findByName(username)
+        .orElseThrow(() -> new RuntimeException("User not found"));
+    return ResponseEntity.ok(user);
+}
 
 }

@@ -30,6 +30,8 @@ public class User {
         this.idRole=idRole;
     }
 
+    public User() {}
+
     // Getters and Setters
        public Long getId() {
         return id;
