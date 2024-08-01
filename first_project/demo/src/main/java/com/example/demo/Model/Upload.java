@@ -1,6 +1,6 @@
 package com.example.demo.Model;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 import javax.persistence.*;
 
@@ -9,33 +9,58 @@ import javax.persistence.*;
 public class Upload {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     private String filename;
-    private Long userId;
-    private Long postId;
+    @ManyToOne
+    @JoinColumn(name = "idUser")
+    private Integer idUser;
+
+    @ManyToOne
+    @JoinColumn(name = "idPost")
+    private Integer idPost;
     private Timestamp createdAt;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    private User user;
+    
 
-    @ManyToOne
-    @JoinColumn(name = "post_id", insertable = false, updatable = false)
-    private Post post;
 
-    public Object getFilename() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFilename'");
+    public String getFilename() {
+        return filename;
     }
 
-    public Object getUserId() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getUserId'");
+    public Integer getIdUser() {
+       return idUser;
     }
 
-    public Object getPostId() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPostId'");
+    public Integer getIdPost() {
+       return idPost;
+    }
+
+    public void setFilename(String originalFilename) {
+      this.filename = originalFilename;
+    }
+
+    public void setIdUser(Integer idUser) {
+        this.idUser = idUser;
+    }
+
+    public void setIdPost(Integer idPost) {
+        this.idPost = idPost;
+    }
+
+    public void setCreatedAt(java.sql.Timestamp createAt) {
+        this.createdAt = createAt;
+    }
+
+    public Timestamp getCreatedAt(){
+        return createdAt;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getId(){
+        return id;
     }
 
     // Gettery a settery

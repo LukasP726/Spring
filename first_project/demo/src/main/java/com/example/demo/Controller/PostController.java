@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Model.Post;
+import com.example.demo.Model.Upload;
 import com.example.demo.Repository.PostRepository;
 
 @RestController
@@ -38,9 +39,29 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<Post> createPost(@RequestBody Post post) {
+        // Nastavíme potřebné hodnoty, např. ID uživatele, pokud není předáno frontendem
+        // post.setIdUser(someUserId);
+    
+        // Uložení příspěvku do databáze
         postRepository.createPost(post);
+    
+        // Získání vygenerovaného ID
+        Integer generatedId = postRepository.getLastInsertId();
+    
+        // Nastavení vygenerovaného ID a dalších atributů zpět do objektu post
+        post.setId(generatedId);
+    
+        // Příklad: nastavení dalších atributů, pokud nejsou správně inicializovány
+        post.setIdUser(post.getIdUser());
+        post.setIdUser(post.getIdUser());
+        post.setIdThread(post.getIdThread());
+        post.setCreatedAt(post.getCreatedAt());
+    
+        // Vytvoření a vrácení ResponseEntity s naplněným objektem Post
         return ResponseEntity.status(HttpStatus.CREATED).body(post);
     }
+    
+        
 
 
     
@@ -49,6 +70,8 @@ public class PostController {
         List<Post> posts = postRepository.findByThreadId(idThread);
         return ResponseEntity.ok(posts);
     }
+
+
 
 
 

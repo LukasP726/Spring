@@ -28,17 +28,21 @@ public class Post {
         return content;
     }
 
-    public Integer getUserId() {
+    public Integer getIdUser() {
        return idUser;
     }
 
-    public Object getThreadId() {
+    public Integer getIdThread() {
        return idThread;
     }
 
     public void setId(Integer id){
         this.id = id;
 
+    }
+
+    public Integer getId(){
+        return id;
     }
 
     public void setIdUser(Integer idUser){
@@ -59,6 +63,10 @@ public class Post {
 
     public void setCreatedAt(java.sql.Timestamp createdAt) {
        this.createdAt = createdAt;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
  

@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.Model.Post;
+import com.example.demo.Model.Upload;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -37,9 +38,14 @@ public class PostRepository {
         return jdbcTemplate.query(sql, rowMapper, idUser);
     }
 
+    public Integer getIdUserById(Integer id) {
+        String sql = "SELECT idUser FROM posts WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, id);
+    }
+
     public void createPost(Post post) {
         String sql = "INSERT INTO posts (content, idUser, idThread, createdAt) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, post.getContent(), post.getUserId(), post.getThreadId(), new Timestamp(System.currentTimeMillis()));
+        jdbcTemplate.update(sql, post.getContent(), post.getIdUser(), post.getIdThread(), new Timestamp(System.currentTimeMillis()));
     }
 
     public List<Post> findByThreadId(Integer idThread){
@@ -47,5 +53,11 @@ public class PostRepository {
         return jdbcTemplate.query(sql, rowMapper, idThread);
         
     }
+
+    public Integer getLastInsertId() {
+        return jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+    }
+
+
 
 }
