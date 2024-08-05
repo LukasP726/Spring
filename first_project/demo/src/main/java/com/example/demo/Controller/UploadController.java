@@ -115,4 +115,11 @@ public class UploadController {
     return ResponseEntity.ok(upload);
     }
 
+    @GetMapping("/")
+    public List<Upload> searchUploads(@RequestParam(name = "name") String term) {
+        return uploadRepository.findByFilenameContaining(term);
+    }
+
+    
+
 }

@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -154,6 +155,24 @@ public class UserRepository {
             sb.append(String.format("%02x", b));
         }
         return sb.toString();
+    }
+
+
+    public List<User> getTopUsersByPostFrequency() {
+        // Krok 1: Získání 5 nejčastějších idUser
+        String sql = "SELECT idUser, COUNT(*) AS frequency FROM posts GROUP BY idUser ORDER BY frequency DESC LIMIT 5";
+        List<Long> topUserIds = jdbcTemplate.query(sql, (rs, rowNum) -> rs.getLong("idUser"));
+
+        // Krok 2: Získání uživatelů podle idUser
+        if (topUserIds.isEmpty()) {
+            return List.of(); // Pokud nejsou nalezeni žádní uživatelé, vrátí prázdný seznam
+        }
+
+        // Vytvoření SQL dotazu s IN klauzulí pro získání uživatelů
+        String inSql = String.join(",", topUserIds.stream().map(String::valueOf).toArray(String[]::new));
+        String usersSql = "SELECT id, firstName, lastName, login, password, email, idRole FROM users WHERE id IN (" + inSql + ")";
+
+        return jdbcTemplate.query(usersSql, USER_ROW_MAPPER);
     }
 
 

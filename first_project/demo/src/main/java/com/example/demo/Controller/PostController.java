@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Model.Post;
 import com.example.demo.Model.Upload;
+import com.example.demo.Model.User;
 import com.example.demo.Repository.PostRepository;
 
 @RestController
@@ -66,11 +67,23 @@ public class PostController {
 
     
     @GetMapping("/thread/{idThread}")
-    public ResponseEntity<List<Post>> getPostsByUserId(@PathVariable Integer idThread) {
+    public ResponseEntity<List<Post>> getPostsByThreadId(@PathVariable Integer idThread) {
         List<Post> posts = postRepository.findByThreadId(idThread);
         return ResponseEntity.ok(posts);
     }
 
+
+    @GetMapping("/")
+    public List<Post> searchPosts(@RequestParam(name = "name") String term) {
+        return postRepository.findByContentContaining(term);
+    }
+
+
+    @GetMapping("/{id}")
+    public Post getPostById(@PathVariable Integer id) {
+        return postRepository.getPostById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id " + id));
+    }
 
 
 

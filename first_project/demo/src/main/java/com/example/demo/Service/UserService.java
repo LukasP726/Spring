@@ -9,6 +9,7 @@ import com.example.demo.Model.User;
 import com.example.demo.Repository.UserRepository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -53,5 +54,9 @@ public class UserService {
 
     public Optional<User> findByName(String name){
         return userRepository.findByLogin(name);
+    }
+
+    public List<User> getTopUsers() {
+       return userRepository.getTopUsersByPostFrequency();
     }
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Repository.ThreadRepository;
+import com.example.demo.Model.Post;
 import com.example.demo.Model.Thread;
 import com.example.demo.Model.User;
 
@@ -32,6 +33,11 @@ public class ThreadController {
         return ResponseEntity.ok(threads);
     }
 
+    @GetMapping("/")
+    public List<Thread> searchPosts(@RequestParam(name = "name") String term) {
+        return threadRepository.findByNameContaining(term);
+    }
+
     @PostMapping
     public ResponseEntity<Thread> createThread(@RequestBody Thread thread) {
         threadRepository.createThread(thread);
@@ -39,7 +45,7 @@ public class ThreadController {
     }
 
     @GetMapping
-    public List<Thread> getAllUsers() {
+    public List<Thread> getAllThreads() {
         return threadRepository.getAllThreads();
     }
 

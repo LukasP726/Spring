@@ -30,7 +30,7 @@ public class ThreadRepository {
 
     public List<Thread> findByNameContaining(String name) {
         String sql = "SELECT * FROM threads WHERE name LIKE ?";
-        return jdbcTemplate.query(sql, ROW_MAPPER, name);
+        return jdbcTemplate.query(sql, ROW_MAPPER, "%" +name + "%" );
     }
 
     public void createThread(Thread thread) {

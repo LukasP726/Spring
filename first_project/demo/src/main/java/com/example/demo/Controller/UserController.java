@@ -14,6 +14,7 @@ import com.example.demo.Service.UserService;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -80,7 +81,7 @@ public class UserController {
     }
 
     @GetMapping("/")
-    public List<User> searchHeroes(@RequestParam(name = "name") String term) {
+    public List<User> searchUsers(@RequestParam(name = "name") String term) {
         return userService.searchByName(term);
     }
 /* 
@@ -96,12 +97,17 @@ public class UserController {
     }
 */
 
-@GetMapping("/me")
-public ResponseEntity<User> getCurrentUser(Authentication authentication) {
-    String username = authentication.getName();
-    User user = userService.findByName(username)
-        .orElseThrow(() -> new RuntimeException("User not found"));
-    return ResponseEntity.ok(user);
-}
+    @GetMapping("/me")
+    public ResponseEntity<User> getCurrentUser(Authentication authentication) {
+        String username = authentication.getName();
+        User user = userService.findByName(username)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/top-users")
+    public List<User> getTopUsers() {
+        return userService.getTopUsers();
+    }
 
 }
