@@ -3,7 +3,10 @@ package com.example.demo.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.Model.Hero;
@@ -96,18 +99,28 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 */
-
+    
     @GetMapping("/me")
+    //@PreAuthorize("hasAnyRole('VIEWER', 'ADMIN', 'EDITOR')") // Omezení přístupu na role USER a ADMIN
     public ResponseEntity<User> getCurrentUser(Authentication authentication) {
         String username = authentication.getName();
         User user = userService.findByName(username)
             .orElseThrow(() -> new RuntimeException("User not found"));
         return ResponseEntity.ok(user);
     }
+    
+
+
 
     @GetMapping("/top-users")
     public List<User> getTopUsers() {
         return userService.getTopUsers();
+    }
+
+    @GetMapping("/admin")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> adminEndpoint() {
+        return ResponseEntity.ok().body("Welcome, Admin!");
     }
 
 }

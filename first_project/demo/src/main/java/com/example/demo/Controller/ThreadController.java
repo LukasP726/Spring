@@ -55,6 +55,15 @@ public class ThreadController {
             .orElseThrow(() -> new RuntimeException("Thread not found with id " + id));
     }
 
+
+
+    
+    @GetMapping("/user/{idUser}")
+    public ResponseEntity<List<Thread>> getPostsByUserId(@PathVariable Integer idUser) {
+        List<Thread> thread = threadRepository.findByUserId(idUser);
+        return ResponseEntity.ok(thread);
+    }
+
     
 }
 

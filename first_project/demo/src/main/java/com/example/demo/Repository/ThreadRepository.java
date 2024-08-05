@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.Model.Post;
 import com.example.demo.Model.Thread;
 
 @Repository
@@ -43,13 +44,22 @@ public class ThreadRepository {
         return jdbcTemplate.query(sql, ROW_MAPPER);
     }
 
-public Optional<Thread> getThreadById(Integer id) {
-    String sql = "SELECT * FROM threads WHERE id = ?";
-    try {
-        Thread thread = jdbcTemplate.queryForObject(sql, ROW_MAPPER, id);
-        return Optional.ofNullable(thread);
-    } catch (EmptyResultDataAccessException e) {
-        return Optional.empty();
+    public Optional<Thread> getThreadById(Integer id) {
+        String sql = "SELECT * FROM threads WHERE id = ?";
+        try {
+            Thread thread = jdbcTemplate.queryForObject(sql, ROW_MAPPER, id);
+            return Optional.ofNullable(thread);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
-}
+
+
+
+        public List<Thread> findByUserId(Integer idUser) {
+        String sql = "SELECT * FROM threads WHERE idUser = ?";
+        return jdbcTemplate.query(sql, ROW_MAPPER, idUser);
+    }
+
+
 }

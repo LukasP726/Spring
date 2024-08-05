@@ -37,7 +37,7 @@ public class RoleController {
     }
 
     @GetMapping("/{id}")
-    public Role getUserById(@PathVariable Long id) {
+    public Role getRoleById(@PathVariable Long id) {
         return roleService.getRoleById(id)
                 .orElseThrow(() -> new RuntimeException("Role not found with id " + id));
     }

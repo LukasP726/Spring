@@ -38,6 +38,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         // Načtení role uživatele z databáze
         String roleQuery = "SELECT name FROM role WHERE id = ?";
+        //"ROLE_"+
         String roleName = jdbcTemplate.queryForObject(roleQuery, new Object[]{user.getIdRole()}, String.class);
 
         // Převod role na GrantedAuthority

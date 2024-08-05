@@ -5,12 +5,17 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import org.springframework.security.core.userdetails.UserDetails;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtUtil {
@@ -40,9 +45,19 @@ public class JwtUtil {
     }
 
     public String generateToken(UserDetails userDetails) {
-        Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userDetails.getUsername());
+        String username = userDetails.getUsername();
+        //byte[] secretKeyBytes = secret.getBytes(StandardCharsets.UTF_8);
+        return Jwts.builder()
+            .setSubject(username)
+            .claim("roles", userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(System.currentTimeMillis() + 864_000_000))
+            .signWith(SignatureAlgorithm.HS256, secret.getBytes(StandardCharsets.UTF_8))
+            .compact();
     }
+    
+
 
     private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
@@ -55,7 +70,34 @@ public class JwtUtil {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        try {
+            // Ověření podpisu tokenu a získání nároků
+            Claims claims = extractAllClaims(token);
+    
+            // Ověření, že uživatelské jméno v tokenu odpovídá uživateli a token není vypršelý
+            String username = claims.getSubject();
+        if (!username.equals(userDetails.getUsername())) {
+            return false;
+        }
+
+        // Získání rolí z tokenu
+        List<String> tokenRoles = claims.get("roles", List.class);
+        List<String> userRoles = userDetails.getAuthorities().stream()
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.toList());
+
+        // Ověření, že role z tokenu odpovídají rolím uživatele
+        if (!tokenRoles.containsAll(userRoles) || userRoles.size() != tokenRoles.size()) {
+            return false;
+        }
+
+        // Ověření, že token není vypršelý
+        return !isTokenExpired(token);
+        } catch (Exception e) {
+            // Logování chyby pro ladění
+            e.printStackTrace();
+            return false; // Token není validní
+        }
     }
+    
 }

@@ -32,7 +32,7 @@ public class PostController {
         return ResponseEntity.ok(posts);
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/user/{idUser}")
     public ResponseEntity<List<Post>> getPostsByUserId(@PathVariable Long idUser) {
         List<Post> posts = postRepository.findByUserId(idUser);
         return ResponseEntity.ok(posts);
