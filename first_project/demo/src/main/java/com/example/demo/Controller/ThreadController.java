@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,6 +63,15 @@ public class ThreadController {
     public ResponseEntity<List<Thread>> getPostsByUserId(@PathVariable Integer idUser) {
         List<Thread> thread = threadRepository.findByUserId(idUser);
         return ResponseEntity.ok(thread);
+    }
+
+
+    
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable Integer id) {
+        Thread thread = threadRepository.getThreadById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id " + id));
+        threadRepository.deleteById(id);
     }
 
     

@@ -40,6 +40,8 @@
                 .authorizeHttpRequests(auth -> auth
                     //.requestMatchers("/api/users/me").authenticated()//.permitAll()//
                     .requestMatchers("/api/users/me").hasRole("Admin")
+                    .requestMatchers("/api/users/verify-password").hasRole("Admin")
+                    .requestMatchers("/api/users/change-password").hasRole("Admin")
                     .anyRequest().permitAll()
                 )
                 .formLogin(form -> form.disable())

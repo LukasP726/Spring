@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,17 +8,22 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.Model.Hero;
 import com.example.demo.Model.User;
 import com.example.demo.Repository.UserRepository;
+import com.example.demo.Request.ChangePasswordRequest;
+import com.example.demo.Request.PasswordVerificationRequest;
 import com.example.demo.Service.AuthService;
 import com.example.demo.Service.UserService;
 
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
@@ -28,6 +34,8 @@ public class UserController {
     private UserService userService;
     @Autowired
     private AuthService authService;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
 
     @GetMapping
@@ -65,8 +73,8 @@ public class UserController {
         return user;
     }
 
-        @PostMapping
-        public User addUser(@RequestBody User user) {
+    @PostMapping
+    public User addUser(@RequestBody User user) {
         int result = userService.saveUser(user);
         if (result == 1) {
             return user; // Úspěšné vložení nebo aktualizace
@@ -121,6 +129,75 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> adminEndpoint() {
         return ResponseEntity.ok().body("Welcome, Admin!");
+    }
+
+    @PostMapping("/verify-password")
+    public ResponseEntity<Boolean> verifyPassword(@RequestBody PasswordVerificationRequest request, Authentication authentication) {
+        Optional<User> optionalUser = userService.findByName(authentication.getName());
+
+        if (!optionalUser.isPresent()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+        }
+
+        User currentUser = optionalUser.get();
+
+        boolean matches = passwordEncoder.matches(request.getPassword(), currentUser.getPassword());
+
+        if (matches) {
+            return ResponseEntity.ok(true);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
+        }
+    }
+
+
+
+    @PostMapping("/change-password")
+    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest request, Authentication authentication) {
+        String oldPassword = request.getCurrentPassword();
+        String newPassword = request.getNewPassword();
+    
+        if (oldPassword == null) {
+            return ResponseEntity.badRequest().body("OldPassword cannot be null");
+        }
+
+        if (newPassword == null) {
+            return ResponseEntity.badRequest().body("NewPassword cannot be null");
+        }
+
+        
+
+        Optional<User> optionalUser = userService.findByName(authentication.getName());
+        
+        if (!optionalUser.isPresent()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+        }
+
+        User currentUser = optionalUser.get();
+
+        // Ověření stávajícího hesla
+        if (!passwordEncoder.matches(request.getCurrentPassword(), currentUser.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Current password is incorrect");
+        }
+
+        if (request.getNewPassword() == null || request.getNewPassword().isEmpty()) {
+            throw new IllegalArgumentException("New password cannot be null or empty");
+        }
+
+        // Ověření, že nová hesla se shodují
+        if (!request.getNewPassword().equals(request.getConfirmNewPassword())) {
+            return ResponseEntity.badRequest().body("New passwords do not match");
+        }
+
+        // Aktualizace hesla
+        currentUser.setPassword(request.getNewPassword());
+        if(userService.saveUser(currentUser) > 0){
+            return ResponseEntity.ok("Password changed successfully");
+        }
+        else{
+            return ResponseEntity.badRequest().body("Password did not change");
+            }
+       
     }
 
 }

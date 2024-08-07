@@ -23,8 +23,11 @@ D:\Spring\first_project\demo\src\main\java\com\example\demo\Repository\ThreadRep
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Repository\UploadRepository.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Repository\UserRepository.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Request\AuthRequest.java
+D:\Spring\first_project\demo\src\main\java\com\example\demo\Request\ChangePasswordRequest.java
+D:\Spring\first_project\demo\src\main\java\com\example\demo\Request\PasswordVerificationRequest.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Response\AuthResponse.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Service\AuthService.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Service\CustomUserDetailsService.java
+D:\Spring\first_project\demo\src\main\java\com\example\demo\Service\MailService.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Service\RoleService.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Service\UserService.java

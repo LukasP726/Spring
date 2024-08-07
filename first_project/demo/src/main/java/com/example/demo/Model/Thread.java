@@ -29,8 +29,12 @@ public class Thread {
         this.name = name;
     }
 
-    public void setUserId(Integer idUser) {
+    public void setIdUser(Integer idUser) {
         this.idUser = idUser;
+    }
+
+    public Integer getIdUser(){
+        return idUser;
     }
 
     public void setCreatedAt(java.sql.Timestamp timestamp) {

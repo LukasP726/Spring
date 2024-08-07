@@ -63,6 +63,7 @@ public class UserRepository {
     @Transactional
     public int save(User user) {
         String rawPassword = user.getPassword();
+        if(rawPassword == null) return -1;
         String hashedPassword = passwordEncoder.encode(rawPassword);
 
         int rowsAffected;

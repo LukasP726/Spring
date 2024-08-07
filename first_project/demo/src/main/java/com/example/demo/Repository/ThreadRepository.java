@@ -24,7 +24,7 @@ public class ThreadRepository {
         Thread thread = new Thread();
         thread.setId(rs.getInt("id"));
         thread.setName(rs.getString("name"));
-        thread.setUserId(rs.getInt("idUser"));
+        thread.setIdUser(rs.getInt("idUser"));
         thread.setCreatedAt(rs.getTimestamp("createdAt"));
         return thread;
     };
@@ -36,7 +36,7 @@ public class ThreadRepository {
 
     public void createThread(Thread thread) {
         String sql = "INSERT INTO threads (name, idUser, createdAt) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, thread.getName(), thread.getId(), new Timestamp(System.currentTimeMillis()));
+        jdbcTemplate.update(sql, thread.getName(), thread.getIdUser(), new Timestamp(System.currentTimeMillis()));
     }
 
     public List<Thread> getAllThreads() {
@@ -61,5 +61,10 @@ public class ThreadRepository {
         return jdbcTemplate.query(sql, ROW_MAPPER, idUser);
     }
 
+
+    public int deleteById(Integer id) {
+        int rowsAffected = jdbcTemplate.update("DELETE FROM threads WHERE id = ?", id);
+        return rowsAffected;
+    }
 
 }

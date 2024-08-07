@@ -98,6 +98,8 @@ public class UploadController {
                 .body(resource);
     }
     */
+
+    /* 
     @GetMapping("/download/{uploadId}")
     public ResponseEntity<Resource> downloadFile(@PathVariable Long uploadId) {
     Upload upload = uploadRepository.findById(uploadId).orElseThrow(() -> new ResourceNotFoundException("File not found"));
@@ -106,6 +108,25 @@ public class UploadController {
     return ResponseEntity.ok()
             .contentType(MediaType.APPLICATION_OCTET_STREAM)
             .body(resource);
+    }
+    */
+
+    @GetMapping("/download/{uploadId}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable Long uploadId) {
+        // Najděte soubor v databázi na základě ID
+        Upload upload = uploadRepository.findById(uploadId).orElseThrow(() -> new ResourceNotFoundException("File not found"));
+
+        // Cesta k souboru na disku
+        Path filePath = Paths.get(uploadPath + upload.getFilename());
+        Resource resource = new FileSystemResource(filePath);
+
+        // Extrahujte skutečný název souboru z databáze nebo z cesty k souboru
+        String originalFilename = upload.getFilename(); // Předpokládá se, že tento atribut je v modelu Upload
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + originalFilename + "\"")
+                .body(resource);
     }
 
 
