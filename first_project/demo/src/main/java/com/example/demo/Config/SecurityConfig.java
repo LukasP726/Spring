@@ -13,8 +13,9 @@
     import org.springframework.security.crypto.password.PasswordEncoder;
     import org.springframework.security.web.SecurityFilterChain;
     import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.header.writers.ContentSecurityPolicyHeaderWriter;
 
-    import com.example.demo.Service.CustomUserDetailsService;
+import com.example.demo.Service.CustomUserDetailsService;
 
     @Configuration
     @EnableWebSecurity
@@ -36,7 +37,7 @@
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
             http
-                .csrf(csrf -> csrf.disable())
+                .csrf(csrf -> csrf.disable()) //deaktivace ochrany proti CROSS-SITE REQUEST FORGERY 
                 .authorizeHttpRequests(auth -> auth
                     //.requestMatchers("/api/users/me").authenticated()//.permitAll()//
                     .requestMatchers("/api/users/me").hasRole("Admin")
@@ -47,6 +48,12 @@
                 .formLogin(form -> form.disable())
                 .logout(logout -> logout.permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                //vynucení hlaviček, které povolují spouštění skriptů
+                .headers(headers -> headers
+                .addHeaderWriter(new ContentSecurityPolicyHeaderWriter(
+                    "default-src 'self'; script-src 'self' 'unsafe-inline'; object-src 'none'; frame-ancestors 'none';"
+                ))
+            )
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
             return http.build();
