@@ -23,21 +23,21 @@ public class UserService {
         this.userRepository = userRepository;
         this.roleService = roleService;
     }
-
+ 
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepository.getAllUsers();
     }
 
     public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+        return userRepository.getUserById(id);
     }
 
     public int saveUser(User user) {
-        return userRepository.save(user);
+        return userRepository.saveUser(user);
     }
 
     public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+        userRepository.deleteUserById(id);
     }
 
     public List<Role> getAllRoles() {

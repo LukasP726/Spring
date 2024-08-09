@@ -40,6 +40,10 @@ public class UploadRepository {
         String sql = "SELECT * FROM Uploads WHERE idUser = ?";
         return jdbcTemplate.query(sql, new Object[]{userId}, new BeanPropertyRowMapper<>(Upload.class));
     }
+    
+
+
+
 
     public void createUpload(Upload upload) {
         String sql = "INSERT INTO Uploads (filename, idUser, idPost, createdAt) VALUES (?, ?, ?, ?)";

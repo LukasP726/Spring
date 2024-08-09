@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Repository.ThreadRepository;
+import com.example.demo.Service.ThreadService;
 import com.example.demo.Model.Post;
 import com.example.demo.Model.Thread;
 import com.example.demo.Model.User;
@@ -26,33 +27,34 @@ import com.example.demo.Model.User;
 @CrossOrigin(origins = {"http://localhost:4200","http://192.168.56.1:4200"})
 public class ThreadController {
     @Autowired
-    private ThreadRepository threadRepository;
+    //private ThreadRepository threadRepository;
+    private ThreadService threadService;
 
     @GetMapping("/search")
     public ResponseEntity<List<Thread>> getThreadsByName(@RequestParam String name) {
-        List<Thread> threads = threadRepository.findByNameContaining(name);
+        List<Thread> threads = threadService.findByNameContaining(name);
         return ResponseEntity.ok(threads);
     }
 
     @GetMapping("/")
     public List<Thread> searchPosts(@RequestParam(name = "name") String term) {
-        return threadRepository.findByNameContaining(term);
+        return threadService.findByNameContaining(term);
     }
 
     @PostMapping
     public ResponseEntity<Thread> createThread(@RequestBody Thread thread) {
-        threadRepository.createThread(thread);
+        threadService.createThread(thread);
         return ResponseEntity.status(HttpStatus.CREATED).body(thread);
     }
 
     @GetMapping
     public List<Thread> getAllThreads() {
-        return threadRepository.getAllThreads();
+        return threadService.getAllThreads();
     }
 
     @GetMapping("/{id}")
     public Thread getThreadById(@PathVariable Integer id){
-        return threadRepository.getThreadById(id)
+        return threadService.getThreadById(id)
             .orElseThrow(() -> new RuntimeException("Thread not found with id " + id));
     }
 
@@ -61,7 +63,7 @@ public class ThreadController {
     
     @GetMapping("/user/{idUser}")
     public ResponseEntity<List<Thread>> getPostsByUserId(@PathVariable Integer idUser) {
-        List<Thread> thread = threadRepository.findByUserId(idUser);
+        List<Thread> thread = threadService.findByUserId(idUser);
         return ResponseEntity.ok(thread);
     }
 
@@ -69,9 +71,9 @@ public class ThreadController {
     
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Integer id) {
-        Thread thread = threadRepository.getThreadById(id)
+        Thread thread = threadService.getThreadById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id " + id));
-        threadRepository.deleteById(id);
+        threadService.deleteById(id);
     }
 
     

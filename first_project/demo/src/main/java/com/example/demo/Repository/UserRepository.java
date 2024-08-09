@@ -35,7 +35,7 @@ public class UserRepository {
         this.passwordEncoder = passwordEncoder;
     }
 
-    private static final RowMapper<User> USER_ROW_MAPPER = new RowMapper<>() {
+    private static final RowMapper<User> ROW_MAPPER = new RowMapper<>() {
         @Override
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
             return new User(
@@ -50,18 +50,18 @@ public class UserRepository {
         }
     };
 
-    public List<User> findAll() {
-        return jdbcTemplate.query("SELECT * FROM users", USER_ROW_MAPPER);
+    public List<User> getAllUsers() {
+        return jdbcTemplate.query("SELECT * FROM users", ROW_MAPPER);
     }
 
-    public Optional<User> findById(Long id) {
-        return jdbcTemplate.query("SELECT * FROM users WHERE id = ?", USER_ROW_MAPPER, id)
+    public Optional<User> getUserById(Long id) {
+        return jdbcTemplate.query("SELECT * FROM users WHERE id = ?", ROW_MAPPER, id)
                 .stream()
                 .findFirst();
     }
 
     @Transactional
-    public int save(User user) {
+    public int saveUser(User user) {
         String rawPassword = user.getPassword();
         if(rawPassword == null) return -1;
         String hashedPassword = passwordEncoder.encode(rawPassword);
@@ -99,7 +99,7 @@ public class UserRepository {
         return rowsAffected;
     }
 
-    public int deleteById(Long id) {
+    public int deleteUserById(Long id) {
         int rowsAffected = jdbcTemplate.update("DELETE FROM users WHERE id = ?", id);
         rowsAffected += jdbcTemplate.update("DELETE FROM hashed_passwords WHERE idUser = ?", id);
         return rowsAffected;
@@ -107,21 +107,12 @@ public class UserRepository {
 
     public List<User> findByNameContaining(String term) {
         String sql = "SELECT * FROM users WHERE firstName LIKE ? OR lastName LIKE ? OR login LIKE ?";
-        RowMapper<User> rowMapper = (rs, rowNum) -> new User(
-            rs.getLong("id"),
-            rs.getString("firstName"),
-            rs.getString("lastName"),
-            rs.getString("login"),
-            rs.getString("password"), 
-            rs.getString("email"),      
-            rs.getLong("idRole")
-        );
-        return jdbcTemplate.query(sql, rowMapper, "%" + term + "%", "%" + term + "%","%" + term + "%");
+        return jdbcTemplate.query(sql, ROW_MAPPER, "%" + term + "%", "%" + term + "%","%" + term + "%");
     }
 
     public Optional<User> findByLogin(String login) {
         String sql = "SELECT * FROM users WHERE login = ?";
-        List<User> users = jdbcTemplate.query(sql, USER_ROW_MAPPER, login);
+        List<User> users = jdbcTemplate.query(sql, ROW_MAPPER, login);
         return users.stream().findFirst();
     }
 
@@ -173,7 +164,7 @@ public class UserRepository {
         String inSql = String.join(",", topUserIds.stream().map(String::valueOf).toArray(String[]::new));
         String usersSql = "SELECT id, firstName, lastName, login, password, email, idRole FROM users WHERE id IN (" + inSql + ")";
 
-        return jdbcTemplate.query(usersSql, USER_ROW_MAPPER);
+        return jdbcTemplate.query(usersSql, ROW_MAPPER);
     }
 
 

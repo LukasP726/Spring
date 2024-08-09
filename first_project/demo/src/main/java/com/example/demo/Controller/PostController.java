@@ -18,23 +18,25 @@ import com.example.demo.Model.Post;
 import com.example.demo.Model.Upload;
 import com.example.demo.Model.User;
 import com.example.demo.Repository.PostRepository;
+import com.example.demo.Service.PostService;
 
 @RestController
 @RequestMapping("/api/posts")
 @CrossOrigin(origins = {"http://localhost:4200","http://192.168.56.1:4200"})
 public class PostController {
     @Autowired
-    private PostRepository postRepository;
+    //private PostRepository postRepository;
+    private PostService postService;
 
     @GetMapping("/search")
     public ResponseEntity<List<Post>> getPostsByContent(@RequestParam String content) {
-        List<Post> posts = postRepository.findByContentContaining(content);
+        List<Post> posts = postService.findByContentContaining(content);
         return ResponseEntity.ok(posts);
     }
 
     @GetMapping("/user/{idUser}")
     public ResponseEntity<List<Post>> getPostsByUserId(@PathVariable Long idUser) {
-        List<Post> posts = postRepository.findByUserId(idUser);
+        List<Post> posts = postService.findByUserId(idUser);
         return ResponseEntity.ok(posts);
     }
 
@@ -44,10 +46,10 @@ public class PostController {
         // post.setIdUser(someUserId);
     
         // Uložení příspěvku do databáze
-        postRepository.createPost(post);
+        postService.createPost(post);
     
         // Získání vygenerovaného ID
-        Integer generatedId = postRepository.getLastInsertId();
+        Integer generatedId = postService.getLastInsertId();
     
         // Nastavení vygenerovaného ID a dalších atributů zpět do objektu post
         post.setId(generatedId);
@@ -68,20 +70,20 @@ public class PostController {
     
     @GetMapping("/thread/{idThread}")
     public ResponseEntity<List<Post>> getPostsByThreadId(@PathVariable Integer idThread) {
-        List<Post> posts = postRepository.findByThreadId(idThread);
+        List<Post> posts = postService.findByThreadId(idThread);
         return ResponseEntity.ok(posts);
     }
 
 
     @GetMapping("/")
     public List<Post> searchPosts(@RequestParam(name = "name") String term) {
-        return postRepository.findByContentContaining(term);
+        return postService.findByContentContaining(term);
     }
 
 
     @GetMapping("/{id}")
     public Post getPostById(@PathVariable Integer id) {
-        return postRepository.getPostById(id)
+        return postService.getPostById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id " + id));
     }
 

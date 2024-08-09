@@ -31,6 +31,7 @@ import org.springframework.core.io.UrlResource;
 import com.example.demo.Model.Post;
 import com.example.demo.Model.Upload;
 import com.example.demo.Repository.UploadRepository;
+import com.example.demo.Service.UploadService;
 
 @RestController
 @RequestMapping("/api/uploads")
@@ -42,6 +43,7 @@ public class UploadController {
 
     @Autowired
     private UploadRepository uploadRepository;
+    //private UploadService uploadRepository;
 
     @PostMapping
     public ResponseEntity<?> uploadFile(

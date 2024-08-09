@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Model.User;
+import com.example.demo.Repository.UserRepository;
 import com.example.demo.Service.UserService;
 
 @RestController
@@ -20,10 +21,17 @@ import com.example.demo.Service.UserService;
 public class RegistrationController {
     private static final Logger logger = Logger.getLogger(RegistrationController.class.getName());
     private final UserService userService;
-
+    //private final UserRepository userRepository;
+    
     public RegistrationController(UserService userService) {
         this.userService = userService;
     }
+    
+    /* 
+    public RegistrationController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+        */
 
     @PostMapping
     public ResponseEntity<User> register(@RequestBody User user) {
