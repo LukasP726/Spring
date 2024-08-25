@@ -1,6 +1,8 @@
     package com.example.demo.Config;
 
-    import org.springframework.beans.factory.annotation.Autowired;
+    import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
     import org.springframework.context.annotation.Bean;
     import org.springframework.context.annotation.Configuration;
     import org.springframework.security.authentication.AuthenticationManager;
@@ -37,6 +39,16 @@ import com.example.demo.Service.CustomUserDetailsService;
         @Bean
         public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
             http
+/* 
+            .cors(cors -> cors.configurationSource(request -> {
+                var corsConfig = new org.springframework.web.cors.CorsConfiguration();
+                corsConfig.setAllowedOrigins(List.of("http://localhost:4200", "http://192.168.56.1:4200")); // povolte požadavky z localhost:4200
+                corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                corsConfig.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+                return corsConfig;
+            }))
+                */
+
                 .csrf(csrf -> csrf.disable()) //deaktivace ochrany proti CROSS-SITE REQUEST FORGERY 
                 .authorizeHttpRequests(auth -> auth
                     //.requestMatchers("/api/users/me").authenticated()//.permitAll()//
@@ -49,11 +61,14 @@ import com.example.demo.Service.CustomUserDetailsService;
                 .logout(logout -> logout.permitAll())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 //vynucení hlaviček, které povolují spouštění skriptů
+                
                 .headers(headers -> headers
                 .addHeaderWriter(new ContentSecurityPolicyHeaderWriter(
                     "default-src 'self'; script-src 'self' 'unsafe-inline'; object-src 'none'; frame-ancestors 'none';"
                 ))
+                  
             )
+                  
                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
             return http.build();

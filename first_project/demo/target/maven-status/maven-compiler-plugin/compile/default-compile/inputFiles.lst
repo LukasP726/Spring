@@ -1,7 +1,7 @@
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Config\JwtAuthenticationFilter.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Config\JwtUtil.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Config\SecurityConfig.java
-D:\Spring\first_project\demo\src\main\java\com\example\demo\Controller\HeroController.java
+D:\Spring\first_project\demo\src\main\java\com\example\demo\Controller\CommandController.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Controller\LoginController.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Controller\PostController.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Controller\RegistrationController.java
@@ -16,7 +16,6 @@ D:\Spring\first_project\demo\src\main\java\com\example\demo\Model\Role.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Model\Thread.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Model\Upload.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Model\User.java
-D:\Spring\first_project\demo\src\main\java\com\example\demo\Repository\HeroRepository.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Repository\PostRepository.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Repository\RoleRepository.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Repository\ThreadRepository.java
@@ -29,5 +28,8 @@ D:\Spring\first_project\demo\src\main\java\com\example\demo\Response\AuthRespons
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Service\AuthService.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Service\CustomUserDetailsService.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Service\MailService.java
+D:\Spring\first_project\demo\src\main\java\com\example\demo\Service\PostService.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Service\RoleService.java
+D:\Spring\first_project\demo\src\main\java\com\example\demo\Service\ThreadService.java
+D:\Spring\first_project\demo\src\main\java\com\example\demo\Service\UploadService.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Service\UserService.java
