@@ -73,6 +73,11 @@ public class PostRepository {
     }
 }
 
+    public int deleteByIdUser(Long idUser) {
+        int rowsAffected = jdbcTemplate.update("DELETE FROM posts WHERE idUser = ?", idUser);
+        return rowsAffected;
+    }
+
 
 
 

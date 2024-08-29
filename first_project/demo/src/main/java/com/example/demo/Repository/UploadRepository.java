@@ -63,6 +63,11 @@ public class UploadRepository {
 
     }
 
+    public int deleteByIdUser(Long idUser) {
+        int rowsAffected = jdbcTemplate.update("DELETE FROM uploads WHERE idUser = ?", idUser);
+        return rowsAffected;
+    }
+
     // Další metody pro CRUD operace
 }
 

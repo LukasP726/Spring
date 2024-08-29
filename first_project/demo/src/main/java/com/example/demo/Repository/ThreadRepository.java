@@ -67,4 +67,9 @@ public class ThreadRepository {
         return rowsAffected;
     }
 
+    public int deleteByIdUser(Long idUser) {
+        int rowsAffected = jdbcTemplate.update("DELETE FROM threads WHERE idUser = ?", idUser);
+        return rowsAffected;
+    }
+
 }

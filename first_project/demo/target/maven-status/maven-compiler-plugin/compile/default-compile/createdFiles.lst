@@ -4,7 +4,6 @@ com\example\demo\Repository\UserRepository.class
 com\example\demo\Model\Role.class
 com\example\demo\Controller\UserController.class
 com\example\demo\Service\UserService.class
-com\example\demo\Model\Hero.class
 com\example\demo\Repository\UserRepository$1.class
 com\example\demo\Repository\RoleRepository.class
 com\example\demo\Request\AuthRequest.class

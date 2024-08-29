@@ -65,7 +65,8 @@ import com.example.demo.Service.CustomUserDetailsService;
                 .headers(headers -> headers
                 .addHeaderWriter(new ContentSecurityPolicyHeaderWriter(
                     "default-src 'self'; script-src 'self' 'unsafe-inline'; object-src 'none'; frame-ancestors 'none';"
-                ))
+                 //"script-src 'self' 'unsafe-inline'; object-src 'none'; frame-ancestors 'none';"
+                    ))
                   
             )
                   

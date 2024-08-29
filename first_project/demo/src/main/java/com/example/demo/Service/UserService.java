@@ -7,21 +7,46 @@ import org.springframework.stereotype.Service;
 import com.example.demo.Model.Role;
 import com.example.demo.Model.User;
 import com.example.demo.Repository.UserRepository;
+import com.example.demo.Repository.PostRepository;
+import com.example.demo.Repository.ThreadRepository;
+import com.example.demo.Repository.UploadRepository;
+import com.example.demo.Repository.HashedPasswordsRepository;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
     private final RoleService roleService;
+    private final PostRepository postRepository;
+    private final ThreadRepository threadRepository;
+    private final UploadRepository uploadRepository;
+    private final HashedPasswordsRepository hashedPasswordsRepository;
 
 
-    public UserService(UserRepository userRepository, RoleService roleService) {
+
+
+
+    public UserService(
+        UserRepository userRepository, 
+        RoleService roleService, 
+        PostRepository postRepository,
+        ThreadRepository threadRepository,
+        UploadRepository uploadRepository,
+        HashedPasswordsRepository hashedPasswordsRepository
+    ) {
         this.userRepository = userRepository;
         this.roleService = roleService;
+        this.postRepository = postRepository;
+        this.threadRepository = threadRepository;
+        this.uploadRepository = uploadRepository;
+        this.hashedPasswordsRepository = hashedPasswordsRepository;
+
     }
  
     public List<User> getAllUsers() {
@@ -38,6 +63,10 @@ public class UserService {
 
     public void deleteUser(Long id) {
         userRepository.deleteUserById(id);
+        threadRepository.deleteByIdUser(id);
+        postRepository.deleteByIdUser(id);
+        uploadRepository.deleteByIdUser(id);
+        hashedPasswordsRepository.deleteByIdUser(id);
     }
 
     public List<Role> getAllRoles() {

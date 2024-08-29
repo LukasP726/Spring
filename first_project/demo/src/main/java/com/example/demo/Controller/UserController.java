@@ -12,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.Model.Hero;
 import com.example.demo.Model.User;
 import com.example.demo.Repository.UserRepository;
 import com.example.demo.Request.ChangePasswordRequest;

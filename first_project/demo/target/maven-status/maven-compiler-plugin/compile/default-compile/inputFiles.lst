@@ -10,12 +10,12 @@ D:\Spring\first_project\demo\src\main\java\com\example\demo\Controller\ThreadCon
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Controller\UploadController.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Controller\UserController.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\DemoApplication.java
-D:\Spring\first_project\demo\src\main\java\com\example\demo\Model\Hero.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Model\Post.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Model\Role.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Model\Thread.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Model\Upload.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Model\User.java
+D:\Spring\first_project\demo\src\main\java\com\example\demo\Repository\HashedPasswordsRepository.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Repository\PostRepository.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Repository\RoleRepository.java
 D:\Spring\first_project\demo\src\main\java\com\example\demo\Repository\ThreadRepository.java
