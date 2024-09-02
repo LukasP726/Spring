@@ -19,6 +19,10 @@ import com.example.demo.Request.PasswordVerificationRequest;
 import com.example.demo.Service.AuthService;
 import com.example.demo.Service.UserService;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -106,7 +110,7 @@ public class UserController {
                                .orElseThrow(() -> new RuntimeException("User not found"));
         return ResponseEntity.ok(user);
     }
-*/
+
     
     @GetMapping("/me")
     //@PreAuthorize("hasAnyRole('VIEWER', 'ADMIN', 'EDITOR')") // Omezení přístupu na role USER a ADMIN
@@ -116,8 +120,54 @@ public class UserController {
             .orElseThrow(() -> new RuntimeException("User not found"));
         return ResponseEntity.ok(user);
     }
-    
+        */
 
+    @GetMapping("/me")
+    
+    public ResponseEntity<User> getCurrentUser(HttpServletRequest request) {
+        // 1. Získání session ID z cookies
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("JSESSIONID".equals(cookie.getName())) { // Nahraď "SESSIONID" názvem své session cookie
+                    String sessionId = cookie.getValue();
+                    System.out.println("Session ID(getCurrentUser): " + sessionId);
+                    
+                    // 2. Validace session a získání uživatele
+                    User user = userService.findBySessionId(sessionId); // Najdi uživatele podle session ID
+                    if (user != null) {
+                        return ResponseEntity.ok(user); // Uživatel byl nalezen a ověřen
+                    } else {
+                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // Uživatel není ověřen
+                    }
+                }
+            }
+        }
+
+        // Pokud není autentizován
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+    
+/*
+    @GetMapping("/me")
+    public ResponseEntity<User> getCurrentUser(HttpServletRequest request) {
+    // Získání session ID z aktuální session
+    HttpSession session = request.getSession(false);  // Získat aktuální session, pokud existuje
+    if (session == null) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();  // Není žádná session, vrátí 401 Unauthorized
+    }
+
+    String sessionId = session.getId();  // Získání ID session
+
+    // Načtení uživatele podle ID session
+    Optional<User> userOptional = userService.findBySessionId(sessionId);
+    if (userOptional.isEmpty()) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();  // Uživatele nelze najít, vrátí 401 Unauthorized
+    }
+
+    return ResponseEntity.ok(userOptional.get());
+}
+ */
 
 
     @GetMapping("/top-users")

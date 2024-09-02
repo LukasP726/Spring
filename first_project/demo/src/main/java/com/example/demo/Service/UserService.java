@@ -7,6 +7,9 @@ import org.springframework.stereotype.Service;
 import com.example.demo.Model.Role;
 import com.example.demo.Model.User;
 import com.example.demo.Repository.UserRepository;
+
+import jakarta.websocket.Session;
+
 import com.example.demo.Repository.PostRepository;
 import com.example.demo.Repository.ThreadRepository;
 import com.example.demo.Repository.UploadRepository;
@@ -88,6 +91,12 @@ public class UserService {
     public List<User> getTopUsers() {
        return userRepository.getTopUsersByPostFrequency();
     }
+
+    public User findBySessionId(String sessionId) {
+        return userRepository.findBySessionId(sessionId).orElse(null);
+    }
+
+    
 
 
     
