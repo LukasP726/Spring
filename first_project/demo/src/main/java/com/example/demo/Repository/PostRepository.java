@@ -78,6 +78,23 @@ public class PostRepository {
         return rowsAffected;
     }
 
+    public int deletePost(Long id){
+        int rowsAffected = jdbcTemplate.update("DELETE FROM posts WHERE id = ?", id);
+        return rowsAffected;
+    }
+
+    public int updatePost(int postId, String content) {
+        /* 
+        doplnit updateAt
+        String sql = "UPDATE Posts SET content = ?, updatedAt = ? WHERE id = ?";
+        return jdbcTemplate.update(sql, content, new Timestamp(System.currentTimeMillis()), postId);
+        */
+        String sql = "UPDATE Posts SET content = ? WHERE id = ?";
+        return jdbcTemplate.update(sql, content, postId);
+    }
+
+
+
 
 
 

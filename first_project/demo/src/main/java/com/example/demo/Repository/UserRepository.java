@@ -213,6 +213,17 @@ private void saveOrUpdateHashedPasswords(Long userId, String password) throws No
         return jdbcTemplate.query(usersSql, ROW_MAPPER);
     }
 
+    public Optional<User> findBySessionId(String sessionId) {
+        //String sql = "SELECT * FROM users WHERE session_id = ?";  // Předpokládáme, že uživatelé mají sloupec 'session_id'
+        String sql = "SELECT u.* FROM users u JOIN sessions s ON u.id = s.user_id WHERE s.session_id = ?";
+        try {
+            User user = jdbcTemplate.queryForObject(sql, new Object[]{sessionId},ROW_MAPPER);
+            return Optional.ofNullable(user);
+        } catch (Exception e) {
+            return Optional.empty();  // Pokud uživatel není nalezen nebo nastane jiná chyba
+        }
+    }
+
 
 
 

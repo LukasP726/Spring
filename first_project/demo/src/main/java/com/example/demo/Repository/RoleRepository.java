@@ -55,6 +55,12 @@ public class RoleRepository {
     public int deleteById(Long id) {
         return jdbcTemplate.update("DELETE FROM role WHERE id = ?", id);
     }
+
+    public int getWeightByRoleId(int idRole) {
+        String sql = "SELECT weight FROM role WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{idRole}, Integer.class);
+        
+    }
 }
 
 
