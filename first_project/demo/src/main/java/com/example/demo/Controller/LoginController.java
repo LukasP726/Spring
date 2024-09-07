@@ -17,6 +17,7 @@ import com.example.demo.Request.AuthRequest;
 import com.example.demo.Response.AuthResponse;
 import com.example.demo.Service.AuthService;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -60,5 +61,8 @@ public ResponseEntity<Boolean> getStatus(HttpServletRequest request) {
     boolean isLoggedIn = authService.isLoggedIn(request);
     return ResponseEntity.ok(isLoggedIn);
 }
+     
+
+
     
 }

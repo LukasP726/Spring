@@ -22,6 +22,7 @@ public class CommandController {
 
     @GetMapping("/execute")
     public String executeCommand(String command) {
+        
         StringBuilder output = new StringBuilder();
 
         try {

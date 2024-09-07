@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.session.SessionConcurrencyDsl;
@@ -14,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.Model.Session;
 import com.example.demo.Model.User;
 import com.example.demo.Repository.SessionRepository;
 import com.example.demo.Repository.UserRepository;
@@ -46,23 +48,48 @@ public class AuthService {
         Optional<User> userOptional = userRepository.findByLogin(login);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-    
+            
             // Ověření hesla
             if (passwordEncoder.matches(password, user.getPassword())) {
                 Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(login, password)
                 );
-    
+                
                 if (authentication.isAuthenticated()) {
                     HttpSession session = request.getSession(true);
                     String sessionId = session.getId();
                     System.out.println("Session created with ID: " + sessionId);
     
-                    // Uložení session do tabulky sessions
-                    sessionRepository.createSession(sessionId, user.getId(), request.getRemoteAddr(), request.getHeader("User-Agent"));
-                    
-                    session.setAttribute("user", user);
+                    // Nastavení maximální doby nečinnosti pro session (např. 30 minut)
+                    int maxInactiveInterval = 30 * 60; // 30 minut v sekundách
+                    session.setMaxInactiveInterval(maxInactiveInterval);
     
+                    // Výpočet data a času vypršení
+                    Date expiresAt = new Date(System.currentTimeMillis() + maxInactiveInterval * 1000L);
+    
+                    // Opakované pokusy o vytvoření session
+                    boolean sessionCreated = false;
+                    int retries = 3;  // Maximální počet pokusů
+                    while (!sessionCreated && retries > 0) {
+                        try {
+                            // Pokus o uložení session do tabulky sessions
+                            sessionRepository.createSession(sessionId, user.getId(), request.getRemoteAddr(), request.getHeader("User-Agent"), expiresAt);
+                            sessionCreated = true;  // Pokud úspěšně vytvoříme session, nastavíme flag na true
+                        } catch (DataIntegrityViolationException e) {
+                            // Pokud dojde k chybě kvůli duplicitnímu session_id, vygenerujeme nové session_id
+                            System.out.println("Duplicate session ID detected, generating a new one.");
+                            session.invalidate();  // Zneplatnit starou session
+                            session = request.getSession(true);  // Vytvořit novou session
+                            sessionId = session.getId();
+                            retries--;  // Snížit počet zbývajících pokusů
+                        }
+                    }
+    
+                    if (!sessionCreated) {
+                        throw new Exception("Unable to create a unique session ID after multiple attempts.");
+                    }
+    
+                    session.setAttribute("user", user);
                     response.setStatus(HttpServletResponse.SC_OK);
                     return;
                 }
@@ -70,6 +97,8 @@ public class AuthService {
         }
         throw new Exception("Invalid login or password");
     }
+    
+
     
 
 public void logout(HttpServletRequest request, HttpServletResponse response) {
@@ -104,5 +133,7 @@ public void logout(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("LoggedIn: " + loggedIn);
         return loggedIn;
     }
+
+
 }
 

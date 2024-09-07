@@ -1,4 +1,0 @@
-graylog
-keycloack - idm
-wildfly
-vazuh

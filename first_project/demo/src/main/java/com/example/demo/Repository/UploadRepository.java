@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -64,8 +65,21 @@ public class UploadRepository {
     }
 
     public int deleteByIdUser(Long idUser) {
-        int rowsAffected = jdbcTemplate.update("DELETE FROM uploads WHERE idUser = ?", idUser);
-        return rowsAffected;
+        return jdbcTemplate.update("DELETE FROM uploads WHERE idUser = ?", idUser);
+    }
+
+    public int deleteByIdPost(Long idPost){
+        return jdbcTemplate.update("DELETE FROM uploads WHERE idPost = ?", idPost);
+    }
+
+    public String getFileNameByPostId(Long idPost) {
+        try {
+            String sql = "SELECT filename FROM uploads WHERE idPost = ?";
+            return jdbcTemplate.queryForObject(sql, new Object[]{idPost}, String.class);
+        } catch (EmptyResultDataAccessException e) {
+            // Záznam nebyl nalezen,
+            return null;
+        }
     }
 
     // Další metody pro CRUD operace

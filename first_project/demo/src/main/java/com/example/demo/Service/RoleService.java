@@ -32,5 +32,9 @@ public class RoleService {
     public void deleteRole(Long id) {
         roleRepository.deleteById(id);
     }
+
+    public int getWeightByRoleId(int idRole) {
+       return roleRepository.getWeightByRoleId(idRole);
+    }
 }
 

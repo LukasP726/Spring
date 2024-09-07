@@ -42,5 +42,11 @@ public class RoleController {
                 .orElseThrow(() -> new RuntimeException("Role not found with id " + id));
     }
 
+
+    @GetMapping("/weight/{idRole}")
+    public ResponseEntity<Integer> getWeightByRoleId(@PathVariable int idRole) {
+        int weight = roleService.getWeightByRoleId(idRole);
+        return ResponseEntity.ok(weight);
+    }
     // Přidejte další metody podle potřeby, např. pro aktualizaci role
 }

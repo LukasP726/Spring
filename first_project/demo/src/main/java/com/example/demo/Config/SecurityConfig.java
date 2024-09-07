@@ -1,6 +1,7 @@
 package com.example.demo.Config;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -31,46 +32,42 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-        .csrf(csrf -> csrf.disable()) //deaktivace ochrany proti CROSS-SITE REQUEST FORGERY 
-        .cors(cors -> cors.configurationSource(request -> {
-            var corsConfig = new org.springframework.web.cors.CorsConfiguration();
-            corsConfig.setAllowedOrigins(List.of("http://localhost:4200", "http://192.168.56.1:4200")); // povolte požadavky z localhost:4200
-            corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-            corsConfig.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
-            //corsConfig.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type", "Cookie", "Set-Cookie"));
-            corsConfig.setAllowCredentials(true);
-            //corsConfig.setMaxAge(3600L);
-            
-            return corsConfig;
-        }))
-           
-
-
+            .csrf(csrf -> csrf.disable()) // Deaktivace ochrany proti CROSS-SITE REQUEST FORGERY 
+            .cors(cors -> cors.configurationSource(request -> {
+                var corsConfig = new org.springframework.web.cors.CorsConfiguration();
+                corsConfig.setAllowedOrigins(List.of("http://localhost:4200", "http://192.168.56.1:4200")); // Povolit požadavky z localhost:4200
+                corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                corsConfig.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+                    //corsConfig.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type", "Cookie", "Set-Cookie"));
+                corsConfig.setAllowCredentials(true);
+                corsConfig.setMaxAge(3600L); // Nastavení maximální doby platnosti CORS v sekundách
+                return corsConfig;
+            }))
             .authorizeHttpRequests(auth -> auth
-                //.requestMatchers("/api/users/me").authenticated()//.permitAll()//
                 //.requestMatchers("/api/users/me").hasRole("Admin")
                 //.requestMatchers("/api/users/me").authenticated()
                 //.requestMatchers("/api/users/verify-password").authenticated()
                 //.requestMatchers("/api/users/change-password").authenticated()
                 //.requestMatchers("/api/users/verify-password").hasRole("Admin")
                 //.requestMatchers("/api/users/change-password").hasRole("Admin")
-                .anyRequest().permitAll()
+                .anyRequest().permitAll() // Povolit přístup ke všem ostatním endpointům
             )
-            .formLogin(form -> form.disable())
+            .formLogin(form -> form.disable()) // Zakázat login form
             .logout(logout -> logout.permitAll())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
-            //.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            //vynucení hlaviček, které povolují spouštění skriptů
-             
+             //.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+            .sessionManagement(session -> session
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // Politika vytváření session
+                .sessionFixation().none() // Vyhnout se session fixation útokům
+                .invalidSessionUrl("/session-invalid") // URL pro přesměrování po neplatné session
+                .maximumSessions(1) // Maximální počet session na uživatele
+                .expiredUrl("/session-expired") // URL pro přesměrování po vypršení session
+            )
             .headers(headers -> headers
-            .addHeaderWriter(new ContentSecurityPolicyHeaderWriter(
-                "default-src 'self'; script-src 'self' 'unsafe-inline'; object-src 'none'; frame-ancestors 'none';"
-             //"script-src 'self' 'unsafe-inline'; object-src 'none'; frame-ancestors 'none';"
+                .addHeaderWriter(new ContentSecurityPolicyHeaderWriter(
+                    "default-src 'self'; script-src 'self' 'unsafe-inline'; object-src 'none'; frame-ancestors 'none';"
+                      //"script-src 'self' 'unsafe-inline'; object-src 'none'; frame-ancestors 'none';"
                 ))
-              
-        );
-              
-            //.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+            );
 
         return http.build();
     }

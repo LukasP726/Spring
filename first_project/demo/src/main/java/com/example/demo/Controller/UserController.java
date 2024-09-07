@@ -12,11 +12,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.Model.Session;
 import com.example.demo.Model.User;
 import com.example.demo.Repository.UserRepository;
 import com.example.demo.Request.ChangePasswordRequest;
 import com.example.demo.Request.PasswordVerificationRequest;
 import com.example.demo.Service.AuthService;
+import com.example.demo.Service.SessionService;
 import com.example.demo.Service.UserService;
 
 import jakarta.servlet.http.Cookie;
@@ -38,6 +40,10 @@ public class UserController {
 
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private SessionService sessionService;
+
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -122,31 +128,34 @@ public class UserController {
     }
         */
 
-    @GetMapping("/me")
+        @GetMapping("/me")
     
-    public ResponseEntity<User> getCurrentUser(HttpServletRequest request) {
-        // 1. Získání session ID z cookies
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("JSESSIONID".equals(cookie.getName())) { // Nahraď "SESSIONID" názvem své session cookie
-                    String sessionId = cookie.getValue();
-                    System.out.println("Session ID(getCurrentUser): " + sessionId);
-                    
-                    // 2. Validace session a získání uživatele
-                    User user = userService.findBySessionId(sessionId); // Najdi uživatele podle session ID
-                    if (user != null) {
-                        return ResponseEntity.ok(user); // Uživatel byl nalezen a ověřen
-                    } else {
-                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // Uživatel není ověřen
+        public ResponseEntity<User> getCurrentUser(HttpServletRequest request) {
+            sessionService.checkAndExtendSession(request);
+            // 1. Získání session ID z cookies
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
+                for (Cookie cookie : cookies) {
+                    if ("JSESSIONID".equals(cookie.getName())) { // Nahraď "SESSIONID" názvem své session cookie
+                        String sessionId = cookie.getValue();
+                        System.out.println("Session ID(getCurrentUser): " + sessionId);
+                        
+                        // 2. Validace session a získání uživatele
+                        User user = userService.findBySessionId(sessionId); // Najdi uživatele podle session ID
+
+                        if (user != null) {
+                            return ResponseEntity.ok(user); // Uživatel byl nalezen a ověřen
+                        } else {
+                            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // Uživatel není ověřen
+                        }
                     }
                 }
             }
+    
+            // Pokud není autentizován
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-
-        // Pokud není autentizován
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-    }
+        
     
 /*
     @GetMapping("/me")
@@ -248,6 +257,20 @@ public class UserController {
             return ResponseEntity.badRequest().body("Password did not change");
             }
        
+    }
+
+
+    @GetMapping("/is-admin")
+    public ResponseEntity<Boolean> isAdmin(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            User user = (User) session.getAttribute("user");
+            if (user != null) {
+                // Vrátí true pokud má idRole rovno 1, jinak false
+                return ResponseEntity.ok(user.getIdRole() == 1);
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false); // Pokud není přihlášen, vrátí false
     }
 
 }
