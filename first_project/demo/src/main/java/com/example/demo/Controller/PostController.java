@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Model.Post;
+import com.example.demo.Model.PostDTO;
 import com.example.demo.Model.Upload;
 import com.example.demo.Model.User;
 import com.example.demo.Repository.PostRepository;
 import com.example.demo.Service.PostService;
+import com.example.demo.Service.ThreadService;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -30,6 +32,8 @@ public class PostController {
     @Autowired
     //private PostRepository postRepository;
     private PostService postService;
+
+
 
     @GetMapping("/search")
     public ResponseEntity<List<Post>> getPostsByContent(@RequestParam String content) {
@@ -70,12 +74,30 @@ public class PostController {
         
 
 
-    
+        /* 
+   
     @GetMapping("/thread/{idThread}")
     public ResponseEntity<List<Post>> getPostsByThreadId(@PathVariable Integer idThread) {
         List<Post> posts = postService.findByThreadId(idThread);
         return ResponseEntity.ok(posts);
     }
+        
+*/
+    @GetMapping("/thread/{idThread}")
+    public ResponseEntity<List<PostDTO>> getPostsByThreadId(@PathVariable Integer idThread) {
+        List<PostDTO> posts = postService.findPostDTOsByThreadId(idThread);
+        return ResponseEntity.ok(posts);
+    }
+
+
+
+
+
+
+
+
+
+
 
 
     @GetMapping("/")

@@ -42,8 +42,8 @@ public class UploadController {
     private String uploadPath;
 
     @Autowired
-    private UploadRepository uploadRepository;
-    //private UploadService uploadRepository;
+    //private UploadRepository uploadRepository;
+    private UploadService uploadService;
 
     @PostMapping
     public ResponseEntity<?> uploadFile(
@@ -68,7 +68,7 @@ public class UploadController {
             upload.setIdPost(idPost);
             upload.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
-            uploadRepository.createUpload(upload);
+            uploadService.createUpload(upload);
 
             return new ResponseEntity<>("Successfully uploaded - " + file.getOriginalFilename(), HttpStatus.OK);
         } catch (IOException e) {
@@ -80,13 +80,13 @@ public class UploadController {
 
     @GetMapping("/search")
     public ResponseEntity<List<Upload>> getUploadsByFilename(@RequestParam String filename) {
-        List<Upload> uploads = uploadRepository.findByFilenameContaining(filename);
+        List<Upload> uploads = uploadService.findByFilenameContaining(filename);
         return ResponseEntity.ok(uploads);
     }
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Upload>> getUploadsByUserId(@PathVariable Long userId) {
-        List<Upload> uploads = uploadRepository.findByUserId(userId);
+        List<Upload> uploads = uploadService.findByUserId(userId);
         return ResponseEntity.ok(uploads);
     }
 
@@ -116,7 +116,7 @@ public class UploadController {
     @GetMapping("/download/{uploadId}")
     public ResponseEntity<Resource> downloadFile(@PathVariable Long uploadId) {
         // Najděte soubor v databázi na základě ID
-        Upload upload = uploadRepository.findById(uploadId).orElseThrow(() -> new ResourceNotFoundException("File not found"));
+        Upload upload = uploadService.findById(uploadId).orElseThrow(() -> new ResourceNotFoundException("File not found"));
 
         // Cesta k souboru na disku
         Path filePath = Paths.get(uploadPath + upload.getFilename());
@@ -134,13 +134,20 @@ public class UploadController {
 
     @GetMapping("/{postId}")
     public ResponseEntity<List<Upload>> getUploadsForPost(@PathVariable Long postId) {
-    List<Upload> upload = uploadRepository.findByPostId(postId);
+    List<Upload> upload = uploadService.findByPostId(postId);
     return ResponseEntity.ok(upload);
     }
 
     @GetMapping("/")
     public List<Upload> searchUploads(@RequestParam(name = "name") String term) {
-        return uploadRepository.findByFilenameContaining(term);
+        return uploadService.findByFilenameContaining(term);
+    }
+
+
+    @GetMapping("/latest-images")
+    public ResponseEntity<List<Upload>> getLatestImages() {
+        List<Upload> latestImages = uploadService.getLatestImages();
+        return ResponseEntity.ok(latestImages);
     }
 
     

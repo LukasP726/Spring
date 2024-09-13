@@ -6,15 +6,18 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import com.example.demo.Model.Thread;
 import com.example.demo.Repository.ThreadRepository;
+import com.example.demo.Repository.UserRepository;
 
 @Service
 public class ThreadService {
  private final ThreadRepository threadRepository;
+ private final UserRepository userRepository;
  
 
 
-    public ThreadService(ThreadRepository threadRepository) {
+    public ThreadService(ThreadRepository threadRepository, UserRepository userRepository) {
         this.threadRepository=threadRepository;
+        this.userRepository=userRepository;
     }
 
 
@@ -51,6 +54,14 @@ public class ThreadService {
 
     public void deleteById(Integer id) {
       threadRepository.deleteById(id);
+    }
+
+    public String findOwnerByThreadId(int idThread) {
+
+        int idUser = threadRepository.findOwnerByThreadId(idThread);
+        return userRepository.getLoginByIdUser(idUser);
+
+         
     }
 
 

@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.example.demo.Model.Post;
+import com.example.demo.Model.PostDTO;
 import com.example.demo.Repository.PostRepository;
 import com.example.demo.Repository.UploadRepository;
 
@@ -48,6 +49,10 @@ public class PostService {
     public List<Post> findByThreadId(Integer idThread) {
       return postRepository.findByThreadId(idThread);
     }
+
+    public List<PostDTO> findPostDTOsByThreadId(Integer idThread) {
+        return postRepository.findPostDTOsByThreadId(idThread);
+      }
 
     public Optional<Post> getPostById(Integer id) {
        return postRepository.getPostById(id);

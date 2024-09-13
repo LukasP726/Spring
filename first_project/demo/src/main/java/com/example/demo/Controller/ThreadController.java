@@ -76,6 +76,21 @@ public class ThreadController {
         threadService.deleteById(id);
     }
 
+    @GetMapping("/{idThread}/owner")
+    public ResponseEntity<String> getOwnerOfThread(@PathVariable int idThread) {
+
+        //String ownerName = threadService.findOwnerByThreadId(idThread); 
+        //return ResponseEntity.ok().body(ownerName);  // Odpověď jako prostý text
+         
+        String ownerName = threadService.findOwnerByThreadId(idThread);
+        if (ownerName != null) {
+            return ResponseEntity.ok(ownerName);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+        
+    }
+
     
 }
 

@@ -72,4 +72,9 @@ public class ThreadRepository {
         return rowsAffected;
     }
 
+    public Integer findOwnerByThreadId(int idThread) {
+        String sql = "SELECT idUser FROM threads WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{idThread}, Integer.class);
+    }
+
 }

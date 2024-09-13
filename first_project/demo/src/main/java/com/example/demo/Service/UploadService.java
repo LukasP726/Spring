@@ -1,11 +1,14 @@
 package com.example.demo.Service;
 
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
 
 import com.example.demo.Model.Upload;
 import com.example.demo.Repository.UploadRepository;
 
-
+@Service
 public class UploadService {
     private final UploadRepository uploadRepository;
     public UploadService(UploadRepository uploadRepository){
@@ -28,4 +31,14 @@ public class UploadService {
        return uploadRepository.findByPostId(postId);
     }
 
+
+
+
+    public List<Upload> getLatestImages() {
+        return uploadRepository.findTop5ImagesOrderByCreatedAtDesc();
+    }
+
+    public  Optional<Upload> findById(Long uploadId) {
+        return uploadRepository.findById(uploadId);
+    }
 }

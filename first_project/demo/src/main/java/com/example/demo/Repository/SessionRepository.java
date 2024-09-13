@@ -6,7 +6,7 @@ import java.util.Date;
 
 import javax.sql.DataSource;
 
-
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -56,6 +56,7 @@ public class SessionRepository {
 
     public Session findBySessionId(String sessionId) {
     String sql = "SELECT * FROM sessions WHERE session_id = ?";
+    try {
     return jdbcTemplate.queryForObject(sql, new Object[]{sessionId}, new RowMapper<Session>() {
         @Override
         public Session mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -70,6 +71,10 @@ public class SessionRepository {
             return session;
         }
     });
+    } catch (EmptyResultDataAccessException e) {
+        // Pokud není nalezen žádný výsledek, vrátíme null nebo výchozí hodnotu
+        return null; 
+    }
 }
 
     public void save(Session session) {

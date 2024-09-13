@@ -82,6 +82,12 @@ public class UploadRepository {
         }
     }
 
+    public List<Upload> findTop5ImagesOrderByCreatedAtDesc() {
+        String sql = "SELECT * FROM uploads WHERE filename LIKE '%.jpg' OR filename LIKE '%.jpeg' OR filename LIKE '%.png' OR filename LIKE '%.gif' ORDER BY createdAt DESC LIMIT 5";
+
+        return jdbcTemplate.query(sql, rowMapper);
+    }
+
     // Další metody pro CRUD operace
 }
 

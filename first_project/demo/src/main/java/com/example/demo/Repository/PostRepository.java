@@ -2,11 +2,13 @@ package com.example.demo.Repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.Model.Post;
+import com.example.demo.Model.PostDTO;
 import com.example.demo.Model.Upload;
 import com.example.demo.Model.User;
 
@@ -57,6 +59,23 @@ public class PostRepository {
         
     }
 
+    public List<PostDTO> findPostDTOsByThreadId(Integer idThread) {
+        String sql = "SELECT p.id, p.content, p.createdAt, u.login AS owner " +
+                     "FROM posts p " +
+                     "JOIN users u ON p.idUser = u.id " +
+                     "WHERE p.idThread = ?";
+        
+        return jdbcTemplate.query(sql, new Object[]{idThread}, new BeanPropertyRowMapper<>(PostDTO.class));
+    }
+
+/* 
+    public String getOwnerByIdUser(int idUser){
+        String sql="SELECT u.login FROM posts p JOIN users u ON p.idUser = u.id WHERE p.idUser = ?";
+        return jdbcTemplate.queryForObject(sql, String.class, idUser);
+       
+    }
+        */
+
     public Integer getLastInsertId() {
         return jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
     }
@@ -92,6 +111,9 @@ public class PostRepository {
         String sql = "UPDATE Posts SET content = ? WHERE id = ?";
         return jdbcTemplate.update(sql, content, postId);
     }
+
+
+
 
 
 

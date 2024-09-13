@@ -224,6 +224,11 @@ private void saveOrUpdateHashedPasswords(Long userId, String password) throws No
         }
     }
 
+    public String getLoginByIdUser(int id){
+        String sql = "SELECT login FROM users WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{id},String.class);
+    }
+
 
 
 

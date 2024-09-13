@@ -17,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.writers.ContentSecurityPolicyHeaderWriter;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.example.demo.Service.CustomUserDetailsService;
 
@@ -71,6 +73,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
