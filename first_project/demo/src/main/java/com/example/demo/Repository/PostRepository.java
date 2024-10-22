@@ -32,10 +32,19 @@ public class PostRepository {
         post.setCreatedAt(rs.getTimestamp("createdAt"));
         return post;
     };
-
+/* 
     public List<Post> findByContentContaining(String content) {
         String sql = "SELECT * FROM Posts WHERE content LIKE ?";
         return jdbcTemplate.query(sql, ROW_MAPPER, "%" + content + "%");
+    }
+    */
+
+    public List<Post> findByContentContaining(String content) {
+        // Přímo vkládáme uživatelský vstup do SQL dotazu
+        String sql = "SELECT * FROM Posts WHERE content LIKE '%" + content + "%'";
+        
+        // Vykonání dotazu bez použití parametrizace
+        return jdbcTemplate.query(sql, ROW_MAPPER);
     }
 
     public List<Post> findByUserId(Long idUser) {
@@ -63,7 +72,8 @@ public class PostRepository {
         String sql = "SELECT p.id, p.content, p.createdAt, u.login AS owner " +
                      "FROM posts p " +
                      "JOIN users u ON p.idUser = u.id " +
-                     "WHERE p.idThread = ?";
+                     "WHERE p.idThread = ? " +
+                     "ORDER BY createdAt DESC ";
         
         return jdbcTemplate.query(sql, new Object[]{idThread}, new BeanPropertyRowMapper<>(PostDTO.class));
     }

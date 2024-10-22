@@ -32,10 +32,24 @@ public class UploadRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    /* 
+
     public List<Upload> findByFilenameContaining(String filename) {
         String sql = "SELECT * FROM uploads WHERE filename LIKE ?";
         return jdbcTemplate.query(sql, new Object[]{"%" + filename + "%"}, new BeanPropertyRowMapper<>(Upload.class));
     }
+    */
+    
+    public List<Upload> findByFilenameContaining(String filename) {
+        // Přímo vkládáme uživatelský vstup do SQL dotazu
+        String sql = "SELECT * FROM uploads WHERE filename LIKE '%" + filename + "%'";
+        
+        // Vykonání dotazu bez použití parametrizace
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Upload.class));
+    }
+    
+
+
 
     public List<Upload> findByUserId(Long userId) {
         String sql = "SELECT * FROM Uploads WHERE idUser = ?";
@@ -82,8 +96,8 @@ public class UploadRepository {
         }
     }
 
-    public List<Upload> findTop5ImagesOrderByCreatedAtDesc() {
-        String sql = "SELECT * FROM uploads WHERE filename LIKE '%.jpg' OR filename LIKE '%.jpeg' OR filename LIKE '%.png' OR filename LIKE '%.gif' ORDER BY createdAt DESC LIMIT 5";
+    public List<Upload> findTop3ImagesOrderByCreatedAtDesc() {
+        String sql = "SELECT * FROM uploads WHERE filename LIKE '%.jpg' OR filename LIKE '%.jpeg' OR filename LIKE '%.png' OR filename LIKE '%.gif' ORDER BY createdAt DESC LIMIT 3";
 
         return jdbcTemplate.query(sql, rowMapper);
     }

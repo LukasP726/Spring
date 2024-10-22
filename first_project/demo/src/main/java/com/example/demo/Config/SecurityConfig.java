@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.writers.ContentSecurityPolicyHeaderWriter;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -64,12 +65,20 @@ public class SecurityConfig {
                 .maximumSessions(1) // Maximální počet session na uživatele
                 .expiredUrl("/session-expired") // URL pro přesměrování po vypršení session
             )
+
+            .headers(headers -> headers
+                .addHeaderWriter(new StaticHeadersWriter("Content-Security-Policy", "")) // Prázdná hlavička
+            );
+
+            /* 
             .headers(headers -> headers
                 .addHeaderWriter(new ContentSecurityPolicyHeaderWriter(
-                    "default-src 'self'; script-src 'self' 'unsafe-inline'; object-src 'none'; frame-ancestors 'none';"
-                      //"script-src 'self' 'unsafe-inline'; object-src 'none'; frame-ancestors 'none';"
+                 
+                    //"default-src 'self'; script-src 'self' 'unsafe-inline'; object-src 'none'; frame-ancestors 'none';"
+                      "script-src * 'unsafe-inline'; object-src 'none'; frame-ancestors 'none';"
                 ))
             );
+            */
 
         return http.build();
     }

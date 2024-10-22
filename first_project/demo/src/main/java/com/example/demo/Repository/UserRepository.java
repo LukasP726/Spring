@@ -107,11 +107,20 @@ public class UserRepository {
         rowsAffected += jdbcTemplate.update("DELETE FROM hashed_passwords WHERE idUser = ?", id);
         return rowsAffected;
     }
-
+/* 
     public List<User> findByNameContaining(String term) {
         String sql = "SELECT * FROM users WHERE firstName LIKE ? OR lastName LIKE ? OR login LIKE ?";
         return jdbcTemplate.query(sql, ROW_MAPPER, "%" + term + "%", "%" + term + "%","%" + term + "%");
     }
+*/
+    public List<User> findByNameContaining(String term) {
+        // Přímo vkládáme uživatelský vstup do SQL dotazu
+        String sql = "SELECT * FROM users WHERE firstName LIKE '%" + term + "%' OR lastName LIKE '%" + term + "%' OR login LIKE '%" + term + "%'";
+        
+        // Vykonání dotazu bez použití parametrizace
+        return jdbcTemplate.query(sql, ROW_MAPPER);
+    }
+    
 
     public Optional<User> findByLogin(String login) {
         String sql = "SELECT * FROM users WHERE login = ?";

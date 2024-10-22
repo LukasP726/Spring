@@ -28,12 +28,25 @@ public class ThreadRepository {
         thread.setCreatedAt(rs.getTimestamp("createdAt"));
         return thread;
     };
-
+/* 
     public List<Thread> findByNameContaining(String name) {
         String sql = "SELECT * FROM threads WHERE name LIKE ?";
         return jdbcTemplate.query(sql, ROW_MAPPER, "%" +name + "%" );
     }
+    */
 
+    
+    
+    public List<Thread> findByNameContaining(String name) {
+        // Přímo vkládáme uživatelský vstup do SQL dotazu
+        String sql = "SELECT * FROM threads WHERE name LIKE '%" + name + "%'";
+        
+        // Vykonání dotazu bez použití parametrizace
+        return jdbcTemplate.query(sql, ROW_MAPPER);
+    }
+
+
+    
     public void createThread(Thread thread) {
         String sql = "INSERT INTO threads (name, idUser, createdAt) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, thread.getName(), thread.getIdUser(), new Timestamp(System.currentTimeMillis()));

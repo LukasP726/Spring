@@ -35,7 +35,7 @@ public class UploadService {
 
 
     public List<Upload> getLatestImages() {
-        return uploadRepository.findTop5ImagesOrderByCreatedAtDesc();
+        return uploadRepository.findTop3ImagesOrderByCreatedAtDesc();
     }
 
     public  Optional<Upload> findById(Long uploadId) {
