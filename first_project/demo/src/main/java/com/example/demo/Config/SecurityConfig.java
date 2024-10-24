@@ -40,8 +40,8 @@ public class SecurityConfig {
                 var corsConfig = new org.springframework.web.cors.CorsConfiguration();
                 corsConfig.setAllowedOrigins(List.of("http://localhost:4200", "http://192.168.56.1:4200")); // Povolit požadavky z localhost:4200
                 corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                corsConfig.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
-                    //corsConfig.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type", "Cookie", "Set-Cookie"));
+                //corsConfig.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+                corsConfig.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type", "Cookie", "Set-Cookie"));
                 corsConfig.setAllowCredentials(true);
                 corsConfig.setMaxAge(3600L); // Nastavení maximální doby platnosti CORS v sekundách
                 return corsConfig;

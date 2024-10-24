@@ -64,7 +64,8 @@ public class UserRepository {
     public int saveUser(User user) {
         String rawPassword = user.getPassword();
         if(rawPassword == null) return -1;
-        String hashedPassword = passwordEncoder.encode(rawPassword);
+        //String hashedPassword = passwordEncoder.encode(rawPassword);
+        String hashedPassword = hashPassword(rawPassword, "MD5");
 
         int rowsAffected;
         Long userId;
@@ -85,18 +86,7 @@ public class UserRepository {
             userId = user.getId();
         }
         
-        if(userId != null){
-            if (userId > 0) {
-                try {
-                    //saveHashedPasswords(userId, rawPassword);
-                    saveOrUpdateHashedPasswords(userId, hashedPassword);
-                } catch (NoSuchAlgorithmException | SQLException e) {
-                    e.printStackTrace();
-                    // Pokud dojde k chybě při ukládání hashů, zahoďme transakci
-                    throw new DataAccessException("Failed to save hashed passwords", e) {};
-                }
-            }
-        }
+
             
 
         return rowsAffected;
@@ -151,50 +141,11 @@ public class UserRepository {
     }
 */
 
-private void saveOrUpdateHashedPasswords(Long userId, String password) throws NoSuchAlgorithmException, SQLException {
-    String md5Hash = hashPassword(password, "MD5");
-    String sha1Hash = hashPassword(password, "SHA-1");
-    String sha256Hash = hashPassword(password, "SHA-256");
 
-    // Kontrola, zda už existuje záznam pro daný userId
-    String checkSQL = "SELECT COUNT(*) FROM hashed_passwords WHERE idUser = ?";
-    String insertSQL = "INSERT INTO hashed_passwords (idUser, password_md5, password_sha1, password_sha256) VALUES (?, ?, ?, ?)";
-    String updateSQL = "UPDATE hashed_passwords SET password_md5 = ?, password_sha1 = ?, password_sha256 = ? WHERE idUser = ?";
+    private String hashPassword(String password, String algorithm){
+        try {
+            
 
-    try (Connection connection = jdbcTemplate.getDataSource().getConnection()) {
-        try (PreparedStatement checkStmt = connection.prepareStatement(checkSQL)) {
-            checkStmt.setLong(1, userId);
-            try (ResultSet resultSet = checkStmt.executeQuery()) {
-                if (resultSet.next() && resultSet.getInt(1) > 0) {
-                    // Záznam už existuje, provedeme update
-                    try (PreparedStatement updateStmt = connection.prepareStatement(updateSQL)) {
-                        updateStmt.setString(1, md5Hash);
-                        updateStmt.setString(2, sha1Hash);
-                        updateStmt.setString(3, sha256Hash);
-                        updateStmt.setLong(4, userId);
-                        updateStmt.executeUpdate();
-                        System.out.println("Hashed passwords updated for user ID: " + userId);
-                    }
-                } else {
-                    // Záznam neexistuje, provedeme insert
-                    try (PreparedStatement insertStmt = connection.prepareStatement(insertSQL)) {
-                        insertStmt.setLong(1, userId);
-                        insertStmt.setString(2, md5Hash);
-                        insertStmt.setString(3, sha1Hash);
-                        insertStmt.setString(4, sha256Hash);
-                        insertStmt.executeUpdate();
-                        System.out.println("Hashed passwords saved for user ID: " + userId);
-                    }
-                }
-            }
-        }
-    } catch (SQLException e) {
-        System.err.println("Error saving or updating hashed passwords: " + e.getMessage());
-        throw e;
-    }
-}
-
-    private String hashPassword(String password, String algorithm) throws NoSuchAlgorithmException {
         MessageDigest messageDigest = MessageDigest.getInstance(algorithm);
         byte[] hashedBytes = messageDigest.digest(password.getBytes());
         StringBuilder sb = new StringBuilder();
@@ -202,6 +153,9 @@ private void saveOrUpdateHashedPasswords(Long userId, String password) throws No
             sb.append(String.format("%02x", b));
         }
         return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            return null;
+        }
     }
 
 
