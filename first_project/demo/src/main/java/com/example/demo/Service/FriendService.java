@@ -87,10 +87,15 @@ public class FriendService {
         }
     
         // Ulož přátelství do databáze
-        Friendship friendship = new Friendship();
-        friendship.setUserId(request.getFromUserId());
-        friendship.setFriendId(request.getToUserId());
-        friendshipRepository.addFriendship(friendship);
+        Friendship friendship1 = new Friendship();
+        friendship1.setUserId(request.getFromUserId());
+        friendship1.setFriendId(request.getToUserId());
+        friendshipRepository.addFriendship(friendship1);
+
+        Friendship friendship2 = new Friendship();
+        friendship2.setUserId(request.getToUserId());
+        friendship2.setFriendId(request.getFromUserId());
+        friendshipRepository.addFriendship(friendship2);
     
         // Odstranění žádosti o přátelství
         friendRequestRepository.deleteFriendRequest(requestId);
@@ -102,7 +107,12 @@ public class FriendService {
             .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         // Získat seznam přátel z FriendshipRepository
+        System.out.println(user.getId());
         return friendshipRepository.findFriendsByUserId(user.getId());
+    }
+
+    public List<FriendRequest> getRequests(String username) {
+        return friendRequestRepository.getRequests(username);
     }
     
 }

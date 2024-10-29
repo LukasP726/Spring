@@ -45,21 +45,42 @@ public class FriendshipRepository {
 
 
     public List<User> findFriendsByUserId(Long userId) {
-        String sql = "SELECT u.* FROM users u " +
-                     "JOIN friendship f ON u.id = f.friend_id " +
-                     "WHERE f.user_id = ?";
+        
+        String sql = "SELECT u.* FROM users AS u " +
+        "JOIN friendship AS f ON (u.id = f.friend_id) " +
+        "WHERE ( f.user_id = ?)";
+         /*
+        String sql = "SELECT u.* FROM users AS u " +    
+        "JOIN friendship AS f ON (u.id = f.user_id) " +
+        "WHERE ( f.user_id = ?)";
+        
+
+         String sql = "SELECT u.* FROM users AS u " + // Uprav podle sloupců v tabulce users
+         "JOIN friendship AS f ON u.id = f.friend_id " +
+         "WHERE f.user_id = ? " +
+         "UNION ALL " +
+         "SELECT u.* FROM users AS u " + // Uprav podle sloupců v tabulce users
+         "JOIN friendship AS f ON u.id = f.user_id " +
+         "WHERE f.friend_id = ?";
+          */
+
+
+
+         
+
+
+       
+        
+        /* 
+        String sql = "SELECT u.* FROM users u "+
+        "WHERE u.id = ?";
+        */
+
+
+
+
     
-        return jdbcTemplate.query(sql, new Object[]{userId}, (rs, rowNum) -> {
-            User friend = new User();
-            friend.setId(rs.getLong("id"));
-            friend.setFirstName(rs.getString("firstName"));
-            friend.setLastName(rs.getString("lastName"));
-            friend.setLogin(rs.getString("login"));
-            friend.setEmail(rs.getString("email"));
-            friend.setIdRole(rs.getLong("idRole"));
-            // Můžete nastavit i další vlastnosti, pokud budou přidány do User objektu
-            return friend;
-        });
+        return jdbcTemplate.query(sql, new Object[]{userId}, this::mapRowToUser);
     }
     
 
@@ -71,6 +92,21 @@ public class FriendshipRepository {
         friendship.setFriendId(rs.getLong("friend_id"));
         friendship.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
         return friendship;
+    }
+
+
+
+    
+    private User mapRowToUser(ResultSet rs, int rowNum) throws SQLException {
+        User user = new User();
+        user.setId(rs.getLong("id"));
+        user.setFirstName(rs.getString("firstName"));
+        user.setLastName(rs.getString("lastName"));
+        user.setLogin(rs.getString("login"));
+        user.setPassword(rs.getString("password"));
+        user.setEmail(rs.getString("email"));
+        user.setIdRole(rs.getLong("idRole"));
+        return user;
     }
 }
 

@@ -45,7 +45,8 @@ public class UserRepository {
                 rs.getString("login"),
                 rs.getString("password"),
                 rs.getString("email"),
-                rs.getLong("idRole")
+                rs.getLong("idRole"),
+                rs.getBoolean("isBanned")
             );
         }
     };
@@ -81,8 +82,8 @@ public class UserRepository {
                 throw new RuntimeException("Failed to insert new user");
             }
         } else {
-            rowsAffected = jdbcTemplate.update("UPDATE users SET firstName = ?, lastName = ?, login = ?, password = ?, email = ?, idRole = ? WHERE id = ?",
-                    user.getFirstName(), user.getLastName(), user.getLogin(), hashedPassword, user.getEmail(), user.getIdRole(), user.getId());
+            rowsAffected = jdbcTemplate.update("UPDATE users SET firstName = ?, lastName = ?, login = ?, password = ?, email = ?, idRole = ?, isBanned = ? WHERE id = ?",
+                    user.getFirstName(), user.getLastName(), user.getLogin(), hashedPassword, user.getEmail(), user.getIdRole(), user.getIsBanned(), user.getId());
             userId = user.getId();
         }
         
@@ -94,7 +95,6 @@ public class UserRepository {
 
     public int deleteUserById(Long id) {
         int rowsAffected = jdbcTemplate.update("DELETE FROM users WHERE id = ?", id);
-        rowsAffected += jdbcTemplate.update("DELETE FROM hashed_passwords WHERE idUser = ?", id);
         return rowsAffected;
     }
 /* 
@@ -171,7 +171,7 @@ public class UserRepository {
 
         // Vytvoření SQL dotazu s IN klauzulí pro získání uživatelů
         String inSql = String.join(",", topUserIds.stream().map(String::valueOf).toArray(String[]::new));
-        String usersSql = "SELECT id, firstName, lastName, login, password, email, idRole FROM users WHERE id IN (" + inSql + ")";
+        String usersSql = "SELECT id, firstName, lastName, login, password, email, idRole, isBanned FROM users WHERE id IN (" + inSql + ")";
 
         return jdbcTemplate.query(usersSql, ROW_MAPPER);
     }

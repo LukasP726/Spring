@@ -29,6 +29,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/users")
@@ -47,11 +48,53 @@ public class UserController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-
+/* 
     @GetMapping
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
+        */
+
+
+
+
+    @GetMapping
+public ResponseEntity<List<User>> getAllUser(HttpServletRequest request) {
+    // 1. Získání aktuálního uživatele podle session
+    String sessionId = getSessionIdFromRequest(request);
+    if (sessionId == null) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+    
+    User currentUser = userService.findBySessionId(sessionId);
+    if (currentUser == null) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    // 2. Získání všech uživatelů a filtrování přihlášeného
+    List<User> users = userService.getAllUsers();
+    List<User> filteredUsers = users.stream()
+        .filter(user -> !user.getId().equals(currentUser.getId()))
+        .collect(Collectors.toList());
+
+    return ResponseEntity.ok(filteredUsers);
+}
+
+// Pomocná metoda pro získání session ID
+private String getSessionIdFromRequest(HttpServletRequest request) {
+    Cookie[] cookies = request.getCookies();
+    if (cookies != null) {
+        for (Cookie cookie : cookies) {
+            if ("JSESSIONID".equals(cookie.getName())) {
+                return cookie.getValue();
+            }
+        }
+    }
+    return null;
+}
+
+
+
 
     @GetMapping("/test")
     public String testEndpoint() {
@@ -79,6 +122,7 @@ public class UserController {
         user.setPassword(userDetails.getPassword());
         user.setEmail(userDetails.getEmail());
         user.setIdRole(userDetails.getIdRole());
+        user.setIsBanned(userDetails.getIsBanned());
         userService.saveUser(user);
         return user;
     }
@@ -105,38 +149,16 @@ public class UserController {
     public List<User> searchUsers(@RequestParam(name = "name") String term) {
         return userService.searchByName(term);
     }
-/* 
-    @GetMapping("/me")
-    public ResponseEntity<User> getCurrentUser(Principal principal) {
-        if (principal == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null); 
-        }
-    
-        User user = authService.findByLogin(principal.getName())
-                               .orElseThrow(() -> new RuntimeException("User not found"));
-        return ResponseEntity.ok(user);
-    }
 
-    
-    @GetMapping("/me")
-    //@PreAuthorize("hasAnyRole('VIEWER', 'ADMIN', 'EDITOR')") // Omezení přístupu na role USER a ADMIN
-    public ResponseEntity<User> getCurrentUser(Authentication authentication) {
-        String username = authentication.getName();
-        User user = userService.findByName(username)
-            .orElseThrow(() -> new RuntimeException("User not found"));
-        return ResponseEntity.ok(user);
-    }
-        */
 
         @GetMapping("/me")
-    
         public ResponseEntity<User> getCurrentUser(HttpServletRequest request) {
             sessionService.checkAndExtendSession(request);
             // 1. Získání session ID z cookies
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
-                    if ("JSESSIONID".equals(cookie.getName())) { // Nahraď "SESSIONID" názvem své session cookie
+                    if ("JSESSIONID".equals(cookie.getName())) { 
                         String sessionId = cookie.getValue();
                         System.out.println("Session ID(getCurrentUser): " + sessionId);
                         

@@ -1,6 +1,6 @@
 package com.example.demo.Repository;
 import com.example.demo.Model.FriendRequest;
-
+import com.example.demo.Model.User;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -50,6 +50,18 @@ public class FriendRequestRepository {
         return jdbcTemplate.query(sql, new Object[]{requestId}, this::mapRowToFriendRequest).stream().findFirst();
     }
 
+
+    public List<FriendRequest> getRequests(String username) {
+        String sql = "SELECT * FROM friend_request fr " +
+        "JOIN users u ON fr.to_user_id = u.id " +
+        "WHERE u.login = ?";
+
+        return jdbcTemplate.query(sql, new Object[]{username}, this::mapRowToFriendRequest);
+
+
+
+    }
+
     // Mapování výsledků dotazu na objekt FriendRequest
     private FriendRequest mapRowToFriendRequest(ResultSet rs, int rowNum) throws SQLException {
         FriendRequest friendRequest = new FriendRequest();
@@ -60,5 +72,7 @@ public class FriendRequestRepository {
         friendRequest.setStatus(rs.getString("status"));
         return friendRequest;
     }
+
+
 }
 

@@ -10,6 +10,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -48,5 +51,49 @@ public class CommandController {
     private boolean isValidCommand(String command) {
         // Validace, např. povolení jen určitých příkazů
         return command != null && command.matches("^(backup|monitor|clean).*");
+    }
+
+
+
+
+        @GetMapping("/logs")
+    public String getLogs(@RequestParam String logPath) {
+        StringBuilder output = new StringBuilder();
+
+        // Validace logovací cesty
+        if (!isValidLogPath(logPath)) {
+            return "Invalid log path";
+        }
+
+        try {
+            // Připraví příkaz Get-Content s -Tail 10
+            ProcessBuilder builder = new ProcessBuilder("powershell.exe", "-Command", "Get-Content", logPath, "-Tail", "10");
+            builder.redirectErrorStream(true);
+            Process process = builder.start();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                output.append(line).append("\n");
+            }
+
+            process.waitFor();
+
+        } catch (IOException | InterruptedException e) {
+            return "Error executing command: " + e.getMessage();
+        }
+
+        return output.toString();
+    }
+
+    private boolean isValidLogPath(String logPath) {
+        // Povolené adresáře a soubory (lze přizpůsobit podle potřeby)
+        Path path = Paths.get(logPath);
+        try {
+            // Zkontrolovat, zda soubor existuje a je čitelný
+            return Files.exists(path) && Files.isReadable(path) && logPath.endsWith(".log");
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

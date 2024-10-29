@@ -55,10 +55,12 @@ public class FriendController {
     @GetMapping("/list")
     public ResponseEntity<List<User>> getFriends(HttpServletRequest request) {
         String username = getUsernameFromRequest(request); // Získání username z cookies
+        //System.out.println(username);
         List<User> friends = friendService.getFriends(username);
+      
         return ResponseEntity.ok(friends);
     }
-    /* 
+
 
     @GetMapping("/requests")
     public ResponseEntity<List<FriendRequest>> getRequests(HttpServletRequest request) {
@@ -66,7 +68,7 @@ public class FriendController {
         List<FriendRequest> requests = friendService.getRequests(username);
         return ResponseEntity.ok(requests);
     }
-        */
+        
 
 
 

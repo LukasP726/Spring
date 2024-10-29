@@ -15,19 +15,25 @@ public class User {
     private String login;
     private String password;
     private String email;
+
+
     
     @ManyToOne
     @JoinColumn(name = "idRole")
     private Long idRole;
 
-       public User(Long id, String firstName, String lastName, String login, String password, String email, Long idRole) {
+    @Column(name = "isBanned")
+    private boolean isBanned;
+
+       public User(Long id, String firstName, String lastName, String login, String password, String email, Long idRole, boolean isBanned) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.login =login;
         this.password = password;
         this.email = email;
-        this.idRole=idRole;
+        this.idRole = idRole;
+        this.isBanned = isBanned;
     }
 
     public User() {}
@@ -92,6 +98,7 @@ public class User {
 
     @Override
     public String toString() {
+        
         return "User{" +
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
@@ -99,8 +106,18 @@ public class User {
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
-                ", role=" + idRole +
+                ", role=" + idRole + '\'' +
+                ", isBanned=" + isBanned +
                 '}';
+    }
+
+    public boolean getIsBanned() {
+    System.out.println(isBanned);
+       return isBanned;
+    }
+
+    public void setIsBanned(boolean isBanned) {
+        this.isBanned = isBanned;
     }
 
 
