@@ -83,11 +83,17 @@ public class SecurityConfig {
         return http.build();
     }
 
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+        //return new Md5PasswordEncoder();
     }
+   /*     
+    @Bean
+    public Md5PasswordEncoder Md5passwordEncoder() {
+        return new Md5PasswordEncoder();
+    }
+        */
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {

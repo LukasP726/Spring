@@ -26,6 +26,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+//import com.example.demo.Config.Md5PasswordEncoder;
 
 @Service
 public class AuthService {
@@ -35,13 +36,16 @@ public class AuthService {
 
     @Autowired
     private SessionRepository sessionRepository;
-
+    
     @Autowired
     private PasswordEncoder passwordEncoder;
-
+ 
     @Autowired
     private AuthenticationManager authenticationManager;
-
+    /* 
+    @Autowired
+    private Md5PasswordEncoder passwordEncoder;
+*/ 
 
 
     public void login(String login, String password, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -50,6 +54,7 @@ public class AuthService {
             User user = userOptional.get();
             
             // Ověření hesla
+            //System.out.println(user.getPassword());
             if (passwordEncoder.matches(password, user.getPassword())) {
                 Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(login, password)

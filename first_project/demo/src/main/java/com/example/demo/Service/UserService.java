@@ -13,7 +13,7 @@ import jakarta.websocket.Session;
 import com.example.demo.Repository.PostRepository;
 import com.example.demo.Repository.ThreadRepository;
 import com.example.demo.Repository.UploadRepository;
-import com.example.demo.Repository.HashedPasswordsRepository;
+
 
 import java.util.List;
 import java.util.Map;
@@ -29,7 +29,7 @@ public class UserService {
     private final PostRepository postRepository;
     private final ThreadRepository threadRepository;
     private final UploadRepository uploadRepository;
-    private final HashedPasswordsRepository hashedPasswordsRepository;
+
 
 
 
@@ -40,15 +40,15 @@ public class UserService {
         RoleService roleService, 
         PostRepository postRepository,
         ThreadRepository threadRepository,
-        UploadRepository uploadRepository,
-        HashedPasswordsRepository hashedPasswordsRepository
+        UploadRepository uploadRepository
+       
     ) {
         this.userRepository = userRepository;
         this.roleService = roleService;
         this.postRepository = postRepository;
         this.threadRepository = threadRepository;
         this.uploadRepository = uploadRepository;
-        this.hashedPasswordsRepository = hashedPasswordsRepository;
+       
 
     }
  
@@ -69,7 +69,7 @@ public class UserService {
         threadRepository.deleteByIdUser(id);
         postRepository.deleteByIdUser(id);
         uploadRepository.deleteByIdUser(id);
-        hashedPasswordsRepository.deleteByIdUser(id);
+      
     }
 
     public List<Role> getAllRoles() {

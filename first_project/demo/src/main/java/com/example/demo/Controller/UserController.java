@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+//import com.example.demo.Config.Md5PasswordEncoder;
 import com.example.demo.Model.Session;
 import com.example.demo.Model.User;
 import com.example.demo.Repository.UserRepository;
@@ -28,6 +29,7 @@ import jakarta.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -44,9 +46,14 @@ public class UserController {
 
     @Autowired
     private SessionService sessionService;
-
+    
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
+    
+/*
+    @Autowired
+    private Md5PasswordEncoder passwordEncoder;
+     */
 
 /* 
     @GetMapping
@@ -103,6 +110,7 @@ private String getSessionIdFromRequest(HttpServletRequest request) {
 
     @GetMapping("/{id}")
     public User getUserById(@PathVariable Long id) {
+
         return userService.getUserById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id " + id));
     }

@@ -23,13 +23,15 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+//import com.example.demo.Config.Md5PasswordEncoder;
 
 @Repository
 public class UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final PasswordEncoder passwordEncoder;
-
+    //private final Md5PasswordEncoder passwordEncoder;
+                                                //  Md5PasswordEncoder passwordEncoder
     public UserRepository(DataSource dataSource, PasswordEncoder passwordEncoder) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
         this.passwordEncoder = passwordEncoder;
@@ -65,8 +67,9 @@ public class UserRepository {
     public int saveUser(User user) {
         String rawPassword = user.getPassword();
         if(rawPassword == null) return -1;
+        String hashedPassword = passwordEncoder.encode(rawPassword);
+        //String hashedPassword = hashPassword(rawPassword, "MD5");
         //String hashedPassword = passwordEncoder.encode(rawPassword);
-        String hashedPassword = hashPassword(rawPassword, "MD5");
 
         int rowsAffected;
         Long userId;
@@ -116,46 +119,6 @@ public class UserRepository {
         String sql = "SELECT * FROM users WHERE login = ?";
         List<User> users = jdbcTemplate.query(sql, ROW_MAPPER, login);
         return users.stream().findFirst();
-    }
- /* 
-    private void saveHashedPasswords(Long userId, String password) throws NoSuchAlgorithmException, SQLException {
-        String md5Hash = hashPassword(password, "MD5");
-        String sha1Hash = hashPassword(password, "SHA-1");
-        String sha256Hash = hashPassword(password, "SHA-256");
-
-        // Uložení hashů do tabulky hashed_passwords
-        try (Connection connection = jdbcTemplate.getDataSource().getConnection()) {
-            String insertSQL = "INSERT INTO hashed_passwords (idUser, password_md5, password_sha1, password_sha256) VALUES (?, ?, ?, ?)";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(insertSQL)) {
-                preparedStatement.setLong(1, userId);
-                preparedStatement.setString(2, md5Hash);
-                preparedStatement.setString(3, sha1Hash);
-                preparedStatement.setString(4, sha256Hash);
-                preparedStatement.executeUpdate();
-                System.out.println("Hashed passwords saved for user ID: " + userId);
-            }
-        } catch (SQLException e) {
-            System.err.println("Error saving hashed passwords: " + e.getMessage());
-            throw e;
-        }
-    }
-*/
-
-
-    private String hashPassword(String password, String algorithm){
-        try {
-            
-
-        MessageDigest messageDigest = MessageDigest.getInstance(algorithm);
-        byte[] hashedBytes = messageDigest.digest(password.getBytes());
-        StringBuilder sb = new StringBuilder();
-        for (byte b : hashedBytes) {
-            sb.append(String.format("%02x", b));
-        }
-        return sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            return null;
-        }
     }
 
 

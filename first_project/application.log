@@ -1,0 +1,177 @@
+2024-11-01T08:38:03.727+01:00  INFO 13360 --- [demo] [restartedMain] com.example.demo.DemoApplication         : Starting DemoApplication using Java 23 with PID 13360 (C:\Users\Trans\GitHub\Spring\first_project\demo\target\classes started by Trans in C:\Users\Trans\GitHub\Spring\first_project\demo)
+2024-11-01T08:38:03.743+01:00  INFO 13360 --- [demo] [restartedMain] com.example.demo.DemoApplication         : No active profile set, falling back to 1 default profile: "default"
+2024-11-01T08:38:03.856+01:00  INFO 13360 --- [demo] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\Trans\.m2\repository\com\sun\xml\bind\jaxb-core\2.3.0.1\jaxb-core-2.3.0.1.jar referenced one or more files that do not exist: file:/C:/Users/Trans/.m2/repository/com/sun/xml/bind/jaxb-core/2.3.0.1/jaxb-api.jar
+2024-11-01T08:38:03.856+01:00  INFO 13360 --- [demo] [restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\Trans\.m2\repository\com\sun\xml\bind\jaxb-impl\2.3.1\jaxb-impl-2.3.1.jar referenced one or more files that do not exist: file:/C:/Users/Trans/.m2/repository/com/sun/xml/bind/jaxb-impl/2.3.1/jaxb-runtime-2.3.1.jar,file:/C:/Users/Trans/.m2/repository/com/sun/xml/bind/jaxb-impl/2.3.1/txw2-2.3.1.jar,file:/C:/Users/Trans/.m2/repository/com/sun/xml/bind/jaxb-impl/2.3.1/istack-commons-runtime-3.0.7.jar,file:/C:/Users/Trans/.m2/repository/com/sun/xml/bind/jaxb-impl/2.3.1/stax-ex-1.8.jar,file:/C:/Users/Trans/.m2/repository/com/sun/xml/bind/jaxb-impl/2.3.1/FastInfoset-1.2.15.jar,file:/C:/Users/Trans/.m2/repository/com/sun/xml/bind/jaxb-impl/2.3.1/javax.activation-api-1.2.0.jar
+2024-11-01T08:38:03.862+01:00  INFO 13360 --- [demo] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-11-01T08:38:03.862+01:00  INFO 13360 --- [demo] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-11-01T08:38:04.920+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-11-01T08:38:04.929+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-11-01T08:38:04.953+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 21 ms. Found 0 JDBC repository interfaces.
+2024-11-01T08:38:04.978+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-11-01T08:38:04.978+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-01T08:38:04.994+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 JPA repository interfaces.
+2024-11-01T08:38:05.974+01:00  INFO 13360 --- [demo] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-01T08:38:06.006+01:00  INFO 13360 --- [demo] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-01T08:38:06.006+01:00  INFO 13360 --- [demo] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.25]
+2024-11-01T08:38:06.081+01:00  INFO 13360 --- [demo] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-11-01T08:38:06.081+01:00  INFO 13360 --- [demo] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2219 ms
+2024-11-01T08:38:06.305+01:00  INFO 13360 --- [demo] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-01T08:38:06.421+01:00  INFO 13360 --- [demo] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2024-11-01T08:38:06.486+01:00  INFO 13360 --- [demo] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-11-01T08:38:06.967+01:00  INFO 13360 --- [demo] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-11-01T08:38:07.013+01:00  INFO 13360 --- [demo] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-11-01T08:38:07.719+01:00  INFO 13360 --- [demo] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@52c659c3
+2024-11-01T08:38:07.724+01:00  INFO 13360 --- [demo] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-11-01T08:38:08.356+01:00  INFO 13360 --- [demo] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-11-01T08:38:08.369+01:00  INFO 13360 --- [demo] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-01T08:38:08.581+01:00  INFO 13360 --- [demo] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2024-11-01T08:38:08.647+01:00  WARN 13360 --- [demo] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-11-01T08:38:09.809+01:00  WARN 13360 --- [demo] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-11-01T08:38:10.112+01:00  INFO 13360 --- [demo] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-11-01T08:38:10.162+01:00  INFO 13360 --- [demo] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-01T08:38:10.179+01:00  INFO 13360 --- [demo] [restartedMain] com.example.demo.DemoApplication         : Started DemoApplication in 7.073 seconds (process running for 7.821)
+2024-11-01T08:38:41.268+01:00  INFO 13360 --- [demo] [http-nio-8080-exec-8] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-11-01T08:38:41.270+01:00  INFO 13360 --- [demo] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-11-01T08:38:41.273+01:00  INFO 13360 --- [demo] [http-nio-8080-exec-8] o.s.web.servlet.DispatcherServlet        : Completed initialization in 3 ms
+2024-11-01T08:38:49.711+01:00  WARN 13360 --- [demo] [http-nio-8080-exec-7] o.s.s.c.bcrypt.BCryptPasswordEncoder     : Encoded password does not look like BCrypt
+2024-11-01T08:39:05.672+01:00  WARN 13360 --- [demo] [http-nio-8080-exec-10] o.s.s.c.bcrypt.BCryptPasswordEncoder     : Encoded password does not look like BCrypt
+2024-11-01T08:41:57.672+01:00  INFO 13360 --- [demo] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2024-11-01T08:41:57.706+01:00  INFO 13360 --- [demo] [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-11-01T08:41:57.723+01:00  INFO 13360 --- [demo] [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2024-11-01T08:41:57.744+01:00  INFO 13360 --- [demo] [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2024-11-01T08:41:57.943+01:00  INFO 13360 --- [demo] [restartedMain] com.example.demo.DemoApplication         : Starting DemoApplication using Java 23 with PID 13360 (C:\Users\Trans\GitHub\Spring\first_project\demo\target\classes started by Trans in C:\Users\Trans\GitHub\Spring\first_project\demo)
+2024-11-01T08:41:57.945+01:00  INFO 13360 --- [demo] [restartedMain] com.example.demo.DemoApplication         : No active profile set, falling back to 1 default profile: "default"
+2024-11-01T08:41:58.492+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-11-01T08:41:58.494+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-11-01T08:41:58.502+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 8 ms. Found 0 JDBC repository interfaces.
+2024-11-01T08:41:58.510+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-11-01T08:41:58.511+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-01T08:41:58.517+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 5 ms. Found 0 JPA repository interfaces.
+2024-11-01T08:41:58.803+01:00  INFO 13360 --- [demo] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-01T08:41:58.807+01:00  INFO 13360 --- [demo] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-01T08:41:58.808+01:00  INFO 13360 --- [demo] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.25]
+2024-11-01T08:41:58.867+01:00  INFO 13360 --- [demo] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-11-01T08:41:58.868+01:00  INFO 13360 --- [demo] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 917 ms
+2024-11-01T08:41:58.953+01:00  INFO 13360 --- [demo] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-01T08:41:58.958+01:00  INFO 13360 --- [demo] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-11-01T08:41:58.975+01:00  INFO 13360 --- [demo] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-11-01T08:41:58.978+01:00  INFO 13360 --- [demo] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2024-11-01T08:41:59.017+01:00  INFO 13360 --- [demo] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@43599050
+2024-11-01T08:41:59.019+01:00  INFO 13360 --- [demo] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2024-11-01T08:41:59.073+01:00  INFO 13360 --- [demo] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-11-01T08:41:59.075+01:00  INFO 13360 --- [demo] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-01T08:41:59.247+01:00  INFO 13360 --- [demo] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2024-11-01T08:41:59.310+01:00  WARN 13360 --- [demo] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-11-01T08:41:59.887+01:00  WARN 13360 --- [demo] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-11-01T08:42:00.049+01:00  INFO 13360 --- [demo] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-11-01T08:42:00.071+01:00  INFO 13360 --- [demo] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-01T08:42:00.079+01:00  INFO 13360 --- [demo] [restartedMain] com.example.demo.DemoApplication         : Started DemoApplication in 2.193 seconds (process running for 237.72)
+2024-11-01T08:42:00.083+01:00  INFO 13360 --- [demo] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-11-01T08:42:01.531+01:00  INFO 13360 --- [demo] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2024-11-01T08:42:01.567+01:00  INFO 13360 --- [demo] [Thread-7] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-11-01T08:42:01.568+01:00  INFO 13360 --- [demo] [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2024-11-01T08:42:01.577+01:00  INFO 13360 --- [demo] [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2024-11-01T08:42:01.793+01:00  INFO 13360 --- [demo] [restartedMain] com.example.demo.DemoApplication         : Starting DemoApplication using Java 23 with PID 13360 (C:\Users\Trans\GitHub\Spring\first_project\demo\target\classes started by Trans in C:\Users\Trans\GitHub\Spring\first_project\demo)
+2024-11-01T08:42:01.793+01:00  INFO 13360 --- [demo] [restartedMain] com.example.demo.DemoApplication         : No active profile set, falling back to 1 default profile: "default"
+2024-11-01T08:42:02.206+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-11-01T08:42:02.207+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-11-01T08:42:02.214+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 5 ms. Found 0 JDBC repository interfaces.
+2024-11-01T08:42:02.218+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-11-01T08:42:02.218+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-01T08:42:02.227+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 5 ms. Found 0 JPA repository interfaces.
+2024-11-01T08:42:02.430+01:00  INFO 13360 --- [demo] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-01T08:42:02.434+01:00  INFO 13360 --- [demo] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-01T08:42:02.434+01:00  INFO 13360 --- [demo] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.25]
+2024-11-01T08:42:02.476+01:00  INFO 13360 --- [demo] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-11-01T08:42:02.480+01:00  INFO 13360 --- [demo] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 682 ms
+2024-11-01T08:42:02.557+01:00  INFO 13360 --- [demo] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-01T08:42:02.567+01:00  INFO 13360 --- [demo] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-11-01T08:42:02.583+01:00  INFO 13360 --- [demo] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-11-01T08:42:02.583+01:00  INFO 13360 --- [demo] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2024-11-01T08:42:02.624+01:00  INFO 13360 --- [demo] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5fd144db
+2024-11-01T08:42:02.625+01:00  INFO 13360 --- [demo] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2024-11-01T08:42:02.662+01:00  INFO 13360 --- [demo] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-11-01T08:42:02.662+01:00  INFO 13360 --- [demo] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-01T08:42:02.776+01:00  INFO 13360 --- [demo] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2024-11-01T08:42:02.813+01:00  WARN 13360 --- [demo] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-11-01T08:42:03.192+01:00  WARN 13360 --- [demo] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-11-01T08:42:03.334+01:00  INFO 13360 --- [demo] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-11-01T08:42:03.349+01:00  INFO 13360 --- [demo] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-01T08:42:03.358+01:00  INFO 13360 --- [demo] [restartedMain] com.example.demo.DemoApplication         : Started DemoApplication in 1.618 seconds (process running for 241.001)
+2024-11-01T08:42:03.361+01:00  INFO 13360 --- [demo] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-11-01T08:42:15.243+01:00  INFO 13360 --- [demo] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2024-11-01T08:42:15.265+01:00  INFO 13360 --- [demo] [Thread-11] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-11-01T08:42:15.267+01:00  INFO 13360 --- [demo] [Thread-11] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2024-11-01T08:42:15.282+01:00  INFO 13360 --- [demo] [Thread-11] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
+2024-11-01T08:42:15.474+01:00  INFO 13360 --- [demo] [restartedMain] com.example.demo.DemoApplication         : Starting DemoApplication using Java 23 with PID 13360 (C:\Users\Trans\GitHub\Spring\first_project\demo\target\classes started by Trans in C:\Users\Trans\GitHub\Spring\first_project\demo)
+2024-11-01T08:42:15.475+01:00  INFO 13360 --- [demo] [restartedMain] com.example.demo.DemoApplication         : No active profile set, falling back to 1 default profile: "default"
+2024-11-01T08:42:15.978+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-11-01T08:42:15.979+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-11-01T08:42:15.992+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 0 JDBC repository interfaces.
+2024-11-01T08:42:16.000+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-11-01T08:42:16.001+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-01T08:42:16.011+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 8 ms. Found 0 JPA repository interfaces.
+2024-11-01T08:42:16.269+01:00  INFO 13360 --- [demo] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-01T08:42:16.274+01:00  INFO 13360 --- [demo] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-01T08:42:16.276+01:00  INFO 13360 --- [demo] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.25]
+2024-11-01T08:42:16.330+01:00  INFO 13360 --- [demo] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-11-01T08:42:16.332+01:00  INFO 13360 --- [demo] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 852 ms
+2024-11-01T08:42:16.411+01:00  INFO 13360 --- [demo] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-01T08:42:16.419+01:00  INFO 13360 --- [demo] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-11-01T08:42:16.437+01:00  INFO 13360 --- [demo] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-11-01T08:42:16.440+01:00  INFO 13360 --- [demo] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2024-11-01T08:42:16.474+01:00  INFO 13360 --- [demo] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection com.mysql.cj.jdbc.ConnectionImpl@56431e29
+2024-11-01T08:42:16.474+01:00  INFO 13360 --- [demo] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2024-11-01T08:42:16.521+01:00  INFO 13360 --- [demo] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-11-01T08:42:16.522+01:00  INFO 13360 --- [demo] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-01T08:42:16.671+01:00  INFO 13360 --- [demo] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2024-11-01T08:42:16.715+01:00  WARN 13360 --- [demo] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-11-01T08:42:17.160+01:00  WARN 13360 --- [demo] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-11-01T08:42:17.331+01:00  INFO 13360 --- [demo] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-11-01T08:42:17.361+01:00  INFO 13360 --- [demo] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-01T08:42:17.376+01:00  INFO 13360 --- [demo] [restartedMain] com.example.demo.DemoApplication         : Started DemoApplication in 1.958 seconds (process running for 255.017)
+2024-11-01T08:42:17.380+01:00  INFO 13360 --- [demo] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-11-01T08:42:19.895+01:00  INFO 13360 --- [demo] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2024-11-01T08:42:19.912+01:00  INFO 13360 --- [demo] [Thread-15] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-11-01T08:42:19.916+01:00  INFO 13360 --- [demo] [Thread-15] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown initiated...
+2024-11-01T08:42:19.926+01:00  INFO 13360 --- [demo] [Thread-15] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown completed.
+2024-11-01T08:42:20.119+01:00  INFO 13360 --- [demo] [restartedMain] com.example.demo.DemoApplication         : Starting DemoApplication using Java 23 with PID 13360 (C:\Users\Trans\GitHub\Spring\first_project\demo\target\classes started by Trans in C:\Users\Trans\GitHub\Spring\first_project\demo)
+2024-11-01T08:42:20.120+01:00  INFO 13360 --- [demo] [restartedMain] com.example.demo.DemoApplication         : No active profile set, falling back to 1 default profile: "default"
+2024-11-01T08:42:20.580+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-11-01T08:42:20.581+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+2024-11-01T08:42:20.589+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 7 ms. Found 0 JDBC repository interfaces.
+2024-11-01T08:42:20.597+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-11-01T08:42:20.597+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-11-01T08:42:20.603+01:00  INFO 13360 --- [demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 5 ms. Found 0 JPA repository interfaces.
+2024-11-01T08:42:20.830+01:00  INFO 13360 --- [demo] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2024-11-01T08:42:20.835+01:00  INFO 13360 --- [demo] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2024-11-01T08:42:20.841+01:00  INFO 13360 --- [demo] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.25]
+2024-11-01T08:42:20.899+01:00  INFO 13360 --- [demo] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2024-11-01T08:42:20.899+01:00  INFO 13360 --- [demo] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 774 ms
+2024-11-01T08:42:20.999+01:00  INFO 13360 --- [demo] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-11-01T08:42:21.005+01:00  INFO 13360 --- [demo] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2024-11-01T08:42:21.024+01:00  INFO 13360 --- [demo] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-11-01T08:42:21.029+01:00  INFO 13360 --- [demo] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Starting...
+2024-11-01T08:42:21.065+01:00  INFO 13360 --- [demo] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-5 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1a618bf1
+2024-11-01T08:42:21.067+01:00  INFO 13360 --- [demo] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Start completed.
+2024-11-01T08:42:21.112+01:00  INFO 13360 --- [demo] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-11-01T08:42:21.113+01:00  INFO 13360 --- [demo] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-11-01T08:42:21.293+01:00  INFO 13360 --- [demo] [restartedMain] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2024-11-01T08:42:21.350+01:00  WARN 13360 --- [demo] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-11-01T08:42:21.878+01:00  WARN 13360 --- [demo] [restartedMain] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2024-11-01T08:42:22.051+01:00  INFO 13360 --- [demo] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2024-11-01T08:42:22.083+01:00  INFO 13360 --- [demo] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2024-11-01T08:42:22.091+01:00  INFO 13360 --- [demo] [restartedMain] com.example.demo.DemoApplication         : Started DemoApplication in 2.031 seconds (process running for 259.734)
+2024-11-01T08:42:22.093+01:00  INFO 13360 --- [demo] [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2024-11-01T08:42:23.375+01:00  INFO 13360 --- [demo] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-11-01T08:42:23.375+01:00  INFO 13360 --- [demo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2024-11-01T08:42:23.384+01:00  INFO 13360 --- [demo] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 9 ms
+2024-11-01T08:42:23.409+01:00  WARN 13360 --- [demo] [http-nio-8080-exec-1] o.s.s.c.bcrypt.BCryptPasswordEncoder     : Encoded password does not look like BCrypt
+2024-11-01T08:49:45.426+01:00  WARN 13360 --- [demo] [http-nio-8080-exec-10] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.dao.DuplicateKeyException: PreparedStatementCallback; SQL [INSERT INTO friendship (user_id, friend_id) VALUES (?, ?)]; Duplicate entry '30-30' for key 'friendship.unique_friendship']
+2024-11-01T08:49:48.238+01:00  WARN 13360 --- [demo] [http-nio-8080-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.dao.DuplicateKeyException: PreparedStatementCallback; SQL [INSERT INTO friendship (user_id, friend_id) VALUES (?, ?)]; Duplicate entry '30-30' for key 'friendship.unique_friendship']
+2024-11-01T08:49:52.112+01:00  WARN 13360 --- [demo] [http-nio-8080-exec-7] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.dao.DuplicateKeyException: PreparedStatementCallback; SQL [INSERT INTO friendship (user_id, friend_id) VALUES (?, ?)]; Duplicate entry '30-30' for key 'friendship.unique_friendship']
+2024-11-01T09:03:02.099+01:00  WARN 13360 --- [demo] [http-nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO posts (content, idUser, idThread, createdAt) VALUES (?, ?, ?, ?)]; Data truncation: Data too long for column 'content' at row 1]
+2024-11-01T09:06:51.378+01:00  WARN 13360 --- [demo] [http-nio-8080-exec-3] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.dao.DataIntegrityViolationException: PreparedStatementCallback; SQL [INSERT INTO posts (content, idUser, idThread, createdAt) VALUES (?, ?, ?, ?)]; Data truncation: Data too long for column 'content' at row 1]
+2024-11-01T09:12:04.942+01:00  WARN 13360 --- [demo] [http-nio-8080-exec-8] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [java.nio.file.InvalidPathException: Illegal char <"> at index 8: uploads\"unnamed - kopie.png"]
+2024-11-01T09:12:15.542+01:00  WARN 13360 --- [demo] [http-nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [java.nio.file.InvalidPathException: Illegal char <"> at index 8: uploads/"unnamed - kopie.png"]
+2024-11-01T09:12:18.910+01:00  WARN 13360 --- [demo] [http-nio-8080-exec-5] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [java.nio.file.InvalidPathException: Illegal char <"> at index 8: uploads/"unnamed - kopie.png"]
