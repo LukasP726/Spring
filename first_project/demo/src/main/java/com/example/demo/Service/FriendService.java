@@ -116,9 +116,14 @@ public class FriendService {
         return friendRequestRepository.getRequests(username);
     }
 
-    public void deleteFriend(long userId){
-        friendshipRepository.deleteFriendship(null, null);
-        friendshipRepository.deleteFriendship(null, null);
+    public void deleteFriend(Long userId, String username ){
+        // Získání uživatele podle uživatelského jména
+        User user = userRepository.findByLogin(username)
+        .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+
+        friendshipRepository.deleteFriendship(userId, user.getId());
+        friendshipRepository.deleteFriendship(user.getId(), userId);
     }
     
 }

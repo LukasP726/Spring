@@ -55,7 +55,7 @@ public class FriendController {
     @DeleteMapping("/{userId}")
     public ResponseEntity<?> removeFriend(@PathVariable Long userId, HttpServletRequest request) {
         String username = getUsernameFromRequest(request);
-        friendService.deleteFriend(userId);
+        friendService.deleteFriend(userId, username);
         return ResponseEntity.ok().build();
     }
     
