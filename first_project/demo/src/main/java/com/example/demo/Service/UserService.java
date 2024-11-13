@@ -10,6 +10,7 @@ import com.example.demo.Repository.UserRepository;
 
 import jakarta.websocket.Session;
 
+import com.example.demo.Repository.FriendshipRepository;
 import com.example.demo.Repository.PostRepository;
 import com.example.demo.Repository.ThreadRepository;
 import com.example.demo.Repository.UploadRepository;
@@ -29,6 +30,7 @@ public class UserService {
     private final PostRepository postRepository;
     private final ThreadRepository threadRepository;
     private final UploadRepository uploadRepository;
+    private final FriendshipRepository friendshipRepository;
 
 
 
@@ -40,7 +42,8 @@ public class UserService {
         RoleService roleService, 
         PostRepository postRepository,
         ThreadRepository threadRepository,
-        UploadRepository uploadRepository
+        UploadRepository uploadRepository,
+        FriendshipRepository friendshipRepository
        
     ) {
         this.userRepository = userRepository;
@@ -48,6 +51,7 @@ public class UserService {
         this.postRepository = postRepository;
         this.threadRepository = threadRepository;
         this.uploadRepository = uploadRepository;
+        this.friendshipRepository = friendshipRepository;
        
 
     }
@@ -69,6 +73,7 @@ public class UserService {
         threadRepository.deleteByIdUser(id);
         postRepository.deleteByIdUser(id);
         uploadRepository.deleteByIdUser(id);
+        friendshipRepository.deleteAllFriendshipsByUserId(id);
       
     }
 

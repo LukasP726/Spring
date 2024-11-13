@@ -106,13 +106,17 @@ public class UserRepository {
         return jdbcTemplate.query(sql, ROW_MAPPER, "%" + term + "%", "%" + term + "%","%" + term + "%");
     }
 */
-    public List<User> findByNameContaining(String term) {
-        // Přímo vkládáme uživatelský vstup do SQL dotazu
-        String sql = "SELECT * FROM users WHERE firstName LIKE '%" + term + "%' OR lastName LIKE '%" + term + "%' OR login LIKE '%" + term + "%'";
-        
-        // Vykonání dotazu bez použití parametrizace
-        return jdbcTemplate.query(sql, ROW_MAPPER);
-    }
+public List<User> findByNameContaining(String term) {
+    // Upravený SQL dotaz s parametrizací
+    String sql = "SELECT * FROM users WHERE (firstName LIKE ? OR lastName LIKE ? OR login LIKE ?) AND isBanned = false";
+
+    // Přidání zástupných znaků procent k termínu vyhledávání
+    String searchTerm = "%" + term + "%";
+
+    // Použití parametrizovaného dotazu s třemi argumenty, aby se předešlo SQL injection
+    return jdbcTemplate.query(sql, new Object[]{searchTerm, searchTerm, searchTerm}, ROW_MAPPER);
+}
+
     
 
     public Optional<User> findByLogin(String login) {

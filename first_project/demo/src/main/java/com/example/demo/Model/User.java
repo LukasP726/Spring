@@ -112,7 +112,7 @@ public class User {
     }
 
     public boolean getIsBanned() {
-    System.out.println(isBanned);
+    //System.out.println(isBanned);
        return isBanned;
     }
 

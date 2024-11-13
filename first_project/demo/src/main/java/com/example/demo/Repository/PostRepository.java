@@ -40,12 +40,18 @@ public class PostRepository {
     */
 
     public List<Post> findByContentContaining(String content) {
-        // Přímo vkládáme uživatelský vstup do SQL dotazu
-        String sql = "SELECT * FROM Posts WHERE content LIKE '%" + content + "%'";
-        
-        // Vykonání dotazu bez použití parametrizace
-        return jdbcTemplate.query(sql, ROW_MAPPER);
+        // SQL dotaz s JOIN na tabulku Users a kontrolou isBanned
+        String sql = "SELECT p.* FROM Posts p " +
+                     "JOIN Users u ON p.idUser = u.id " +
+                     "WHERE p.content LIKE ? AND u.isBanned = false";
+    
+        // Přidání zástupných znaků procent k contentu vyhledávání
+        String searchTerm = "%" + content + "%";
+    
+        // Použití parametrizovaného dotazu s argumentem searchTerm
+        return jdbcTemplate.query(sql, new Object[]{searchTerm}, ROW_MAPPER);
     }
+    
 
     public List<Post> findByUserId(Long idUser) {
         String sql = "SELECT * FROM posts WHERE idUser = ?";

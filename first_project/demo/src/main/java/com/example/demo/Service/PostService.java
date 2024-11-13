@@ -65,7 +65,7 @@ public class PostService {
     public int deletePost(Long id) {
         int rowsAffected = 0;
         String filename = uploadRepository.getFileNameByPostId(id); // Přizpůsobte podle vašeho úložiště
-        System.out.println("filename: "+ filename);
+        //System.out.println("filename: "+ filename);
     if (filename != null && !filename.isEmpty()) {
         try {
             Path path = Paths.get(uploadPath + filename);

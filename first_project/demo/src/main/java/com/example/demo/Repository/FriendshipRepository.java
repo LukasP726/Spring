@@ -43,6 +43,11 @@ public class FriendshipRepository {
         jdbcTemplate.update(sql, userId, friendId);
     }
 
+    public void deleteAllFriendshipsByUserId(Long userId) {
+        String sql = "DELETE FROM friendship WHERE user_id = ? OR friend_id = ?";
+        jdbcTemplate.update(sql, userId, userId);
+    }
+
 
     public List<User> findFriendsByUserId(Long userId) {
         

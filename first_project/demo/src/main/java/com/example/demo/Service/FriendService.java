@@ -29,7 +29,7 @@ public class FriendService {
             Optional<User> optionalUser = userRepository.findByLogin(username);
             if (optionalUser.isPresent()) {
                 Long fromUserId = optionalUser.get().getId();
-                System.out.println("isFriend: "+friendshipRepository.existsByUserIdAndFriendId(fromUserId, userId));
+                //System.out.println("isFriend: "+friendshipRepository.existsByUserIdAndFriendId(fromUserId, userId));
                 return friendshipRepository.existsByUserIdAndFriendId(fromUserId, userId);
             } else {
                 // Zpracování situace, kdy uživatel nebyl nalezen
@@ -108,7 +108,7 @@ public class FriendService {
             .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         // Získat seznam přátel z FriendshipRepository
-        System.out.println(user.getId());
+        //System.out.println(user.getId());
         return friendshipRepository.findFriendsByUserId(user.getId());
     }
 

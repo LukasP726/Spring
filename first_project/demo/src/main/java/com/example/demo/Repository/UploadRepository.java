@@ -41,12 +41,18 @@ public class UploadRepository {
     */
     
     public List<Upload> findByFilenameContaining(String filename) {
-        // Přímo vkládáme uživatelský vstup do SQL dotazu
-        String sql = "SELECT * FROM uploads WHERE filename LIKE '%" + filename + "%'";
-        
-        // Vykonání dotazu bez použití parametrizace
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Upload.class));
+        // SQL dotaz s JOIN na tabulku users a kontrolou isBanned
+        String sql = "SELECT u.* FROM uploads u " +
+                     "JOIN users usr ON u.idUser = usr.id " +
+                     "WHERE u.filename LIKE ? AND usr.isBanned = false";
+    
+        // Přidání zástupných znaků procent k termínu vyhledávání
+        String searchTerm = "%" + filename + "%";
+    
+        // Použití parametrizovaného dotazu s argumentem searchTerm
+        return jdbcTemplate.query(sql, new Object[]{searchTerm}, new BeanPropertyRowMapper<>(Upload.class));
     }
+    
     
 
 
