@@ -12,12 +12,14 @@ public class Upload {
     private Integer id;
     private String filename;
     @ManyToOne
-    @JoinColumn(name = "idUser")
+    @JoinColumn(name = "id_user")
     private Integer idUser;
 
     @ManyToOne
-    @JoinColumn(name = "idPost")
+    @JoinColumn(name = "id_post")
     private Integer idPost;
+    
+    @JoinColumn(name = "created_at")
     private Timestamp createdAt;
 
     

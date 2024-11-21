@@ -22,9 +22,9 @@ public class UploadRepository {
         Upload upload = new Upload();
         upload.setId(rs.getInt("id"));
         upload.setFilename(rs.getString("filename"));
-        upload.setIdUser(rs.getInt("idUser"));
-        upload.setIdPost(rs.getInt("idPost"));
-        upload.setCreatedAt(rs.getTimestamp("createdAt"));
+        upload.setIdUser(rs.getInt("id_user"));
+        upload.setIdPost(rs.getInt("id_post"));
+        upload.setCreatedAt(rs.getTimestamp("created_at"));
         return upload;
     };
 
@@ -43,7 +43,7 @@ public class UploadRepository {
     public List<Upload> findByFilenameContaining(String filename) {
         // SQL dotaz s JOIN na tabulku users a kontrolou isBanned
         String sql = "SELECT u.* FROM uploads u " +
-                     "JOIN users usr ON u.idUser = usr.id " +
+                     "JOIN users usr ON u.id_user = usr.id " +
                      "WHERE u.filename LIKE ? AND usr.isBanned = false";
     
         // Přidání zástupných znaků procent k termínu vyhledávání
@@ -58,7 +58,7 @@ public class UploadRepository {
 
 
     public List<Upload> findByUserId(Long userId) {
-        String sql = "SELECT * FROM Uploads WHERE idUser = ?";
+        String sql = "SELECT * FROM Uploads WHERE id_user = ?";
         return jdbcTemplate.query(sql, new Object[]{userId}, new BeanPropertyRowMapper<>(Upload.class));
     }
     
@@ -67,12 +67,12 @@ public class UploadRepository {
 
 
     public void createUpload(Upload upload) {
-        String sql = "INSERT INTO Uploads (filename, idUser, idPost, createdAt) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Uploads (filename, id_user, id_post, created_at) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql, upload.getFilename(), upload.getIdUser(), upload.getIdPost(), new Timestamp(System.currentTimeMillis()));
     }
 
     public List<Upload> findByPostId(Long idPost) {
-        String sql = "SELECT * FROM uploads WHERE idPost = ? ";
+        String sql = "SELECT * FROM uploads WHERE id_post = ? ";
         return jdbcTemplate.query(sql, rowMapper, idPost);
     }
 
@@ -85,16 +85,16 @@ public class UploadRepository {
     }
 
     public int deleteByIdUser(Long idUser) {
-        return jdbcTemplate.update("DELETE FROM uploads WHERE idUser = ?", idUser);
+        return jdbcTemplate.update("DELETE FROM uploads WHERE id_user = ?", idUser);
     }
 
     public int deleteByIdPost(Long idPost){
-        return jdbcTemplate.update("DELETE FROM uploads WHERE idPost = ?", idPost);
+        return jdbcTemplate.update("DELETE FROM uploads WHERE id_post = ?", idPost);
     }
 
     public String getFileNameByPostId(Long idPost) {
         try {
-            String sql = "SELECT filename FROM uploads WHERE idPost = ?";
+            String sql = "SELECT filename FROM uploads WHERE id_post = ?";
             return jdbcTemplate.queryForObject(sql, new Object[]{idPost}, String.class);
         } catch (EmptyResultDataAccessException e) {
             // Záznam nebyl nalezen,
@@ -103,7 +103,7 @@ public class UploadRepository {
     }
 
     public List<Upload> findTop3ImagesOrderByCreatedAtDesc() {
-        String sql = "SELECT * FROM uploads WHERE filename LIKE '%.jpg' OR filename LIKE '%.jpeg' OR filename LIKE '%.png' OR filename LIKE '%.gif' ORDER BY createdAt DESC LIMIT 3";
+        String sql = "SELECT * FROM uploads WHERE filename LIKE '%.jpg' OR filename LIKE '%.jpeg' OR filename LIKE '%.png' OR filename LIKE '%.gif' ORDER BY created_at DESC LIMIT 3";
 
         return jdbcTemplate.query(sql, rowMapper);
     }

@@ -1,5 +1,6 @@
 package com.example.demo.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,28 +35,37 @@ public class FriendController {
 
     @GetMapping("/is-friend/{userId}")
     public boolean checkIfFriend(@PathVariable Long userId, HttpServletRequest request) {
-        String username = getUsernameFromRequest(request);
-        return friendService.isFriend(username, userId);
+        long id = getUserIdFromRequest(request);
+        if(id != -1){
+            return friendService.isFriend(id, userId);
+        }
+        return false;
     }
 
     @PostMapping("/request/{userId}")
     public ResponseEntity<?> sendFriendRequest(@PathVariable Long userId, HttpServletRequest request) {
-        String username = getUsernameFromRequest(request);
-        friendService.sendFriendRequest(username, userId);
+        long id = getUserIdFromRequest(request);
+        if(id != -1){
+            friendService.sendFriendRequest(id, userId);
+        }
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/accept/{requestId}")
     public ResponseEntity<?> acceptFriendRequest(@PathVariable Long requestId, HttpServletRequest request) {
-        String username = getUsernameFromRequest(request);
-        friendService.acceptFriendRequest(requestId, username);
+        long id = getUserIdFromRequest(request);
+        if(id != -1){
+            friendService.acceptFriendRequest(requestId, id);
+        }
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<?> removeFriend(@PathVariable Long userId, HttpServletRequest request) {
-        String username = getUsernameFromRequest(request);
-        friendService.deleteFriend(userId, username);
+        long id = getUserIdFromRequest(request);
+        if(id != -1){
+            friendService.deleteFriend(userId, id);
+        }
         return ResponseEntity.ok().build();
     }
     
@@ -63,9 +73,12 @@ public class FriendController {
 
     @GetMapping("/list")
     public ResponseEntity<List<User>> getFriends(HttpServletRequest request) {
-        String username = getUsernameFromRequest(request); // Získání username z cookies
+        long id = getUserIdFromRequest(request); // Získání username z cookies
         //System.out.println(username);
-        List<User> friends = friendService.getFriends(username);
+        List<User> friends = null;
+        if(id != -1){
+            friends = friendService.getFriends(id);
+        }
       
         return ResponseEntity.ok(friends);
     }
@@ -73,16 +86,29 @@ public class FriendController {
 
     @GetMapping("/requests")
     public ResponseEntity<List<FriendRequest>> getRequests(HttpServletRequest request) {
-        String username = getUsernameFromRequest(request); 
-        List<FriendRequest> requests = friendService.getRequests(username);
+        long id = getUserIdFromRequest(request); 
+        List<FriendRequest> requests = null;
+        if(id != -1){
+           requests = friendService.getRequests(id);
+        }
         return ResponseEntity.ok(requests);
     }
+    /* 
+
+    @GetMapping("/requests-dto")
+    public ResponseEntity<List<String>> getRequestsDTO(HttpServletRequest request) {
+        String username = getUserId
+FromRequest(request); 
+        List<String> requests = friendService.getRequestsDTO(username);
+        return ResponseEntity.ok(requests);
+    }
+        */
         
 
 
 
 
-    private String getUsernameFromRequest(HttpServletRequest request) {
+    private long getUserIdFromRequest(HttpServletRequest request) {
         // Získání session ID z cookies a validace uživatele
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
@@ -91,12 +117,13 @@ public class FriendController {
                     String sessionId = cookie.getValue();
                     User user = userService.findBySessionId(sessionId);
                     if (user != null) {
-                        return user.getLogin(); // Vraťte uživatelské jméno
+                        return user.getId(); 
                     }
                 }
             }
         }
-        throw new IllegalArgumentException("User is not authenticated");
+        return -1;
+   
     }
 }
 

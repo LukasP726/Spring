@@ -13,12 +13,14 @@ public class Post {
     private String content;
     
     @ManyToOne
-    @JoinColumn(name = "idUser")
+    @JoinColumn(name = "id_user")
     private Integer idUser;
 
     @ManyToOne
-    @JoinColumn(name = "idThread")
+    @JoinColumn(name = "id_thread")
     private Integer idThread;
+    
+    @JoinColumn(name = "created_at")
     private Timestamp createdAt;
 
 

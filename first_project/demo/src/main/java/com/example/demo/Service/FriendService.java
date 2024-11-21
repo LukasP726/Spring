@@ -24,18 +24,11 @@ public class FriendService {
     private FriendshipRepository friendshipRepository; // Repo pro přátelství
 
     // Zkontroluje, zda je uživatel již přítelem
-    public boolean isFriend(String username, Long userId) {
+    public boolean isFriend(Long fromUserId, Long toUserId) {
         try {
-            Optional<User> optionalUser = userRepository.findByLogin(username);
-            if (optionalUser.isPresent()) {
-                Long fromUserId = optionalUser.get().getId();
                 //System.out.println("isFriend: "+friendshipRepository.existsByUserIdAndFriendId(fromUserId, userId));
-                return friendshipRepository.existsByUserIdAndFriendId(fromUserId, userId);
-            } else {
-                // Zpracování situace, kdy uživatel nebyl nalezen
-                System.out.println("User with login " + username + " not found."); // Místo throw můžete logovat
-                return false; // Vrátíme false, pokud uživatel neexistuje
-            }
+                return friendshipRepository.existsByUserIdAndFriendId(fromUserId, toUserId);
+        
         } catch (Exception e) {
             System.out.println("An error occurred while checking friendship: " + e.getMessage());
             return false; // Můžete také vrátit false při chybě
@@ -43,15 +36,15 @@ public class FriendService {
     }
     
     // Odesílá žádost o přátelství
-    public void sendFriendRequest(String fromUsername, Long toUserId) {
+    public void sendFriendRequest(Long fromUserId, Long toUserId) {
         try {
             // Zkontroluj, zda existuje uživatel odesílatel
-            Optional<User> optionalUser = userRepository.findByLogin(fromUsername);
-            if (optionalUser.isPresent()) {
-                Long fromUserId = optionalUser.get().getId();
+        
+         
+                
     
                 // Zkontroluj, zda už není přátelství
-                if (isFriend(fromUsername, toUserId)) {
+                if (isFriend(fromUserId, toUserId)) {
                     System.out.println("You are already friends.");
                     return; // Ukončíme metodu, pokud jsou přátelé
                 }
@@ -62,10 +55,7 @@ public class FriendService {
                 request.setToUserId(toUserId);
                 friendRequestRepository.addFriendRequest(request);
                 System.out.println("Friend request sent successfully.");
-            } else {
-                // Zpracování situace, kdy uživatel nebyl nalezen
-                System.out.println("User with login " + fromUsername + " not found.");
-            }
+           
         } catch (Exception e) {
             System.out.println("An error occurred while sending the friend request: " + e.getMessage());
         }
@@ -73,17 +63,16 @@ public class FriendService {
     
 
     // Přijímá žádost o přátelství
-    public void acceptFriendRequest(Long requestId, String username) {
+    public void acceptFriendRequest(Long requestId, Long id) {
         // Získání uživatele podle uživatelského jména
-        User user = userRepository.findByLogin(username)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+       
     
         // Najděte žádost o přátelství
         FriendRequest request = friendRequestRepository.findById(requestId)
                 .orElseThrow(() -> new IllegalArgumentException("Request not found"));
     
         // Zkontrolujte, zda uživatel je ten, kdo žádost přijal
-        if (!request.getToUserId().equals(user.getId())) {
+        if (!request.getToUserId().equals(id)) {
             throw new IllegalArgumentException("You cannot accept this friend request.");
         }
     
@@ -103,27 +92,25 @@ public class FriendService {
     }
 
 
-    public List<User> getFriends(String username) {
-        User user = userRepository.findByLogin(username)
-            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public List<User> getFriends(Long id) {
 
-        // Získat seznam přátel z FriendshipRepository
-        //System.out.println(user.getId());
-        return friendshipRepository.findFriendsByUserId(user.getId());
+        return friendshipRepository.findFriendsByUserId(id);
     }
 
-    public List<FriendRequest> getRequests(String username) {
-        return friendRequestRepository.getRequests(username);
+    public List<FriendRequest> getRequests(Long id) {
+        return friendRequestRepository.getRequests(id);
     }
+    /* 
+    public List<String> getRequestsDTO(String username) {
+        return friendRequestRepository.getRequestsUsersLogin(username);
+    }
+        */
 
-    public void deleteFriend(Long userId, String username ){
-        // Získání uživatele podle uživatelského jména
-        User user = userRepository.findByLogin(username)
-        .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public void deleteFriend(Long userId, Long id ){
+     
 
-
-        friendshipRepository.deleteFriendship(userId, user.getId());
-        friendshipRepository.deleteFriendship(user.getId(), userId);
+        friendshipRepository.deleteFriendship(userId, id);
+        friendshipRepository.deleteFriendship(id, userId);
     }
     
 }

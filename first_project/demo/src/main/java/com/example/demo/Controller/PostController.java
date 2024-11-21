@@ -34,12 +34,15 @@ public class PostController {
     private PostService postService;
 
 
-
+    
     @GetMapping("/search")
     public ResponseEntity<List<Post>> getPostsByContent(@RequestParam String content) {
         List<Post> posts = postService.findByContentContaining(content);
         return ResponseEntity.ok(posts);
     }
+    
+
+
 
     @GetMapping("/user/{idUser}")
     public ResponseEntity<List<Post>> getPostsByUserId(@PathVariable Long idUser) {

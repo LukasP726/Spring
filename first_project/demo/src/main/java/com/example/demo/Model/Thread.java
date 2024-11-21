@@ -14,12 +14,17 @@ public class Thread {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private Integer idUser;
-    private Timestamp createdAt;
+
 
     @ManyToOne
-    @JoinColumn(name = "idUser", insertable = false, updatable = false)
-    private User user;
+    @JoinColumn(name = "id_user", insertable = false, updatable = false)
+    private Integer idUser;
+    
+    @JoinColumn(name = "create_at")
+    private Timestamp createdAt;
+
+
+    //private User user;
 
     public void setId(Integer id) {
         this.id = id;

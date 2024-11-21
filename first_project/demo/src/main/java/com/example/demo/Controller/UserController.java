@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.*;
 //import com.example.demo.Config.Md5PasswordEncoder;
 import com.example.demo.Model.Session;
 import com.example.demo.Model.User;
+import com.example.demo.Model.Role;
 import com.example.demo.Repository.UserRepository;
 import com.example.demo.Request.ChangePasswordRequest;
 import com.example.demo.Request.PasswordVerificationRequest;
 import com.example.demo.Service.AuthService;
+import com.example.demo.Service.RoleService;
 import com.example.demo.Service.SessionService;
 import com.example.demo.Service.UserService;
 
@@ -38,6 +40,8 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = {"http://localhost:4200","http://192.168.56.1:4200"})
 public class UserController {
 
+    final int ADMIN_WEIGHT = 10;
+
     @Autowired
     private UserService userService;
 
@@ -46,6 +50,9 @@ public class UserController {
 
     @Autowired
     private SessionService sessionService;
+
+    @Autowired
+    private RoleService roleService;
     
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -65,27 +72,29 @@ public class UserController {
 
 
 
-    @GetMapping
+@GetMapping
 public ResponseEntity<List<User>> getAllUser(HttpServletRequest request) {
     // 1. Získání aktuálního uživatele podle session
     String sessionId = getSessionIdFromRequest(request);
     if (sessionId == null) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
-    
+
     User currentUser = userService.findBySessionId(sessionId);
     if (currentUser == null) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
-    // 2. Získání všech uživatelů a filtrování přihlášeného
+    // 2. Získání všech uživatelů a filtrování
     List<User> users = userService.getAllUsers();
     List<User> filteredUsers = users.stream()
-        .filter(user -> !user.getId().equals(currentUser.getId()))
+        .filter(user -> !user.getId().equals(currentUser.getId())) // Nezahrnout aktuálního uživatele
+        .filter(user -> user.getIdRole() > currentUser.getIdRole()) // Zahrnout pouze uživatele s menším idRole
         .collect(Collectors.toList());
 
     return ResponseEntity.ok(filteredUsers);
 }
+
 
 // Pomocná metoda pro získání session ID
 private String getSessionIdFromRequest(HttpServletRequest request) {
@@ -159,32 +168,37 @@ private String getSessionIdFromRequest(HttpServletRequest request) {
     }
 
 
-        @GetMapping("/me")
-        public ResponseEntity<User> getCurrentUser(HttpServletRequest request) {
+    @GetMapping("/me")
+    public ResponseEntity<User> getCurrentUser(HttpServletRequest request) {
+        try {
             sessionService.checkAndExtendSession(request);
-            // 1. Získání session ID z cookies
+    
             Cookie[] cookies = request.getCookies();
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
-                    if ("JSESSIONID".equals(cookie.getName())) { 
+                    if ("JSESSIONID".equals(cookie.getName())) {
                         String sessionId = cookie.getValue();
                         System.out.println("Session ID(getCurrentUser): " + sessionId);
-                        
-                        // 2. Validace session a získání uživatele
-                        User user = userService.findBySessionId(sessionId); // Najdi uživatele podle session ID
-
+    
+                        User user = userService.findBySessionId(sessionId);
                         if (user != null) {
-                            return ResponseEntity.ok(user); // Uživatel byl nalezen a ověřen
+                            return ResponseEntity.ok(user);
                         } else {
-                            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // Uživatel není ověřen
+                            System.out.println("No user found for session ID.");
+                            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
                         }
                     }
                 }
             }
     
-            // Pokud není autentizován
+            System.out.println("No JSESSIONID cookie found.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } catch (Exception e) {
+            System.err.println("Error in getCurrentUser: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+    
         
     
 /*
@@ -292,15 +306,38 @@ private String getSessionIdFromRequest(HttpServletRequest request) {
 
     @GetMapping("/is-admin")
     public ResponseEntity<Boolean> isAdmin(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            User user = (User) session.getAttribute("user");
-            if (user != null) {
-                // Vrátí true pokud má idRole rovno 1, jinak false
-                return ResponseEntity.ok(user.getIdRole() == 1);
+        //HttpSession session = request.getSession(false);
+        Cookie[] cookies = request.getCookies();
+        //if (session != null) {
+        if (cookies != null) {
+            //User user = (User) session.getAttribute("user");
+            for (Cookie cookie : cookies) {
+                if ("JSESSIONID".equals(cookie.getName())) {
+                    String sessionId = cookie.getValue();
+                    User user = userService.findBySessionId(sessionId);
+                    if (user != null) {
+                        // Vrátí true pokud má idRole rovno 1, jinak false
+                        Long id = user.getIdRole();
+                        Optional<Role> role = roleService.getRoleById(id);
+                        int weightStrict = 0;
+                        try {
+                            weightStrict = role.orElseThrow(() -> new IllegalArgumentException("Role does not exist."))
+                                                    .getWeight();
+                            //System.out.println("Strict weight: " + weightStrict);
+                        } catch (IllegalArgumentException e) {
+                            System.out.println(e.getMessage());
+                        }
+        
+                        return ResponseEntity.ok(weightStrict >= ADMIN_WEIGHT);
+                    }
+                   
+                }
             }
+           
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false); // Pokud není přihlášen, vrátí false
     }
+
+
 
 }

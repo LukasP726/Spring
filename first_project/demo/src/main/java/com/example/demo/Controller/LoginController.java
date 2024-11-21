@@ -56,11 +56,7 @@ public class LoginController {
 
 
 
-    @GetMapping("/status")
-public ResponseEntity<Boolean> getStatus(HttpServletRequest request) {
-    boolean isLoggedIn = authService.isLoggedIn(request);
-    return ResponseEntity.ok(isLoggedIn);
-}
+
      
 
 

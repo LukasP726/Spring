@@ -59,11 +59,11 @@ public class SecurityConfig {
             .logout(logout -> logout.permitAll())
              //.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
             .sessionManagement(session -> session
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // Politika vytváření session
+                //.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // Politika vytváření session
                 .sessionFixation().none() // Vyhnout se session fixation útokům
-                .invalidSessionUrl("/session-invalid") // URL pro přesměrování po neplatné session
+                //.invalidSessionUrl("/session-invalid") // URL pro přesměrování po neplatné session
                 .maximumSessions(1) // Maximální počet session na uživatele
-                .expiredUrl("/session-expired") // URL pro přesměrování po vypršení session
+                //.expiredUrl("/session-expired") // URL pro přesměrování po vypršení session
             )
 
             .headers(headers -> headers

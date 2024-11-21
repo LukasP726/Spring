@@ -51,16 +51,29 @@ public class FriendRequestRepository {
     }
 
 
-    public List<FriendRequest> getRequests(String username) {
+    public List<FriendRequest> getRequests(Long id) {
         String sql = "SELECT * FROM friend_request fr " +
         "JOIN users u ON fr.to_user_id = u.id " +
-        "WHERE u.login = ?";
+        "WHERE u.id = ?";
 
-        return jdbcTemplate.query(sql, new Object[]{username}, this::mapRowToFriendRequest);
+        return jdbcTemplate.query(sql, new Object[]{id}, this::mapRowToFriendRequest);
 
 
 
     }
+
+/* 
+    public List<String> getRequestsUsersLogin(String username) {
+        String sql = "SELECT u.login FROM friend_request fr " +
+        "JOIN users u ON fr.to_user_id = u.id " +
+        "WHERE u.login = ?";
+
+        return jdbcTemplate.query(sql, new Object[]{username}, (rs, rowNum) -> rs.getString("login"));
+
+
+
+    }
+        */
 
     // Mapování výsledků dotazu na objekt FriendRequest
     private FriendRequest mapRowToFriendRequest(ResultSet rs, int rowNum) throws SQLException {

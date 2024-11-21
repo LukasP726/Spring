@@ -131,13 +131,7 @@ public void logout(HttpServletRequest request, HttpServletResponse response) {
     }
 
 
-    public boolean isLoggedIn(HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        boolean loggedIn = session != null && session.getAttribute("user") != null;
-        System.out.println("Session: " + session);
-        System.out.println("LoggedIn: " + loggedIn);
-        return loggedIn;
-    }
+
 
 
 }

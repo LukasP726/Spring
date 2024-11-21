@@ -27,9 +27,9 @@ public class PostRepository {
         Post post = new Post();
         post.setId(rs.getInt("id"));
         post.setContent(rs.getString("content"));
-        post.setIdUser(rs.getInt("idUser"));
-        post.setIdThread(rs.getInt("idThread"));
-        post.setCreatedAt(rs.getTimestamp("createdAt"));
+        post.setIdUser(rs.getInt("id_user"));
+        post.setIdThread(rs.getInt("id_thread"));
+        post.setCreatedAt(rs.getTimestamp("created_at"));
         return post;
     };
 /* 
@@ -42,7 +42,7 @@ public class PostRepository {
     public List<Post> findByContentContaining(String content) {
         // SQL dotaz s JOIN na tabulku Users a kontrolou isBanned
         String sql = "SELECT p.* FROM Posts p " +
-                     "JOIN Users u ON p.idUser = u.id " +
+                     "JOIN Users u ON p.id_user = u.id " +
                      "WHERE p.content LIKE ? AND u.isBanned = false";
     
         // Přidání zástupných znaků procent k contentu vyhledávání
@@ -54,7 +54,7 @@ public class PostRepository {
     
 
     public List<Post> findByUserId(Long idUser) {
-        String sql = "SELECT * FROM posts WHERE idUser = ?";
+        String sql = "SELECT * FROM posts WHERE id_user = ?";
         return jdbcTemplate.query(sql, ROW_MAPPER, idUser);
     }
 
@@ -64,22 +64,22 @@ public class PostRepository {
     }
 //new Timestamp(System.currentTimeMillis())
     public void createPost(Post post) {
-        String sql = "INSERT INTO posts (content, idUser, idThread, createdAt) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO posts (content, id_user, id_thread, created_at) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql, post.getContent(), post.getIdUser(), post.getIdThread(), post.getCreatedAt());
     }
 
     public List<Post> findByThreadId(Integer idThread){
-        String sql = "SELECT * FROM posts WHERE idThread = ?";
+        String sql = "SELECT * FROM posts WHERE id_thread = ?";
         return jdbcTemplate.query(sql, ROW_MAPPER, idThread);
         
     }
 
     public List<PostDTO> findPostDTOsByThreadId(Integer idThread) {
-        String sql = "SELECT p.id, p.content, p.createdAt, u.login AS owner " +
+        String sql = "SELECT p.id, p.content, p.created_at, u.login AS owner " +
                      "FROM posts p " +
-                     "JOIN users u ON p.idUser = u.id " +
-                     "WHERE p.idThread = ? " +
-                     "ORDER BY createdAt DESC ";
+                     "JOIN users u ON p.id_user = u.id " +
+                     "WHERE p.id_thread = ? " +
+                     "ORDER BY created_at DESC ";
         
         return jdbcTemplate.query(sql, new Object[]{idThread}, new BeanPropertyRowMapper<>(PostDTO.class));
     }
@@ -109,7 +109,7 @@ public class PostRepository {
 }
 
     public int deleteByIdUser(Long idUser) {
-        int rowsAffected = jdbcTemplate.update("DELETE FROM posts WHERE idUser = ?", idUser);
+        int rowsAffected = jdbcTemplate.update("DELETE FROM posts WHERE id_user = ?", idUser);
         return rowsAffected;
     }
 

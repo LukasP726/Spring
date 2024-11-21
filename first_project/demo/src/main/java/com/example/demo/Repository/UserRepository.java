@@ -128,8 +128,8 @@ public List<User> findByNameContaining(String term) {
 
     public List<User> getTopUsersByPostFrequency() {
         // Krok 1: Získání 5 nejčastějších idUser
-        String sql = "SELECT idUser, COUNT(*) AS frequency FROM posts GROUP BY idUser ORDER BY frequency DESC LIMIT 5";
-        List<Long> topUserIds = jdbcTemplate.query(sql, (rs, rowNum) -> rs.getLong("idUser"));
+        String sql = "SELECT id_user, COUNT(*) AS frequency FROM posts GROUP BY id_user ORDER BY frequency DESC LIMIT 5";
+        List<Long> topUserIds = jdbcTemplate.query(sql, (rs, rowNum) -> rs.getLong("id_user"));
 
         // Krok 2: Získání uživatelů podle idUser
         if (topUserIds.isEmpty()) {

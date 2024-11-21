@@ -24,8 +24,8 @@ public class ThreadRepository {
         Thread thread = new Thread();
         thread.setId(rs.getInt("id"));
         thread.setName(rs.getString("name"));
-        thread.setIdUser(rs.getInt("idUser"));
-        thread.setCreatedAt(rs.getTimestamp("createdAt"));
+        thread.setIdUser(rs.getInt("id_user"));
+        thread.setCreatedAt(rs.getTimestamp("created_at"));
         return thread;
     };
 /* 
@@ -40,7 +40,7 @@ public class ThreadRepository {
     public List<Thread> findByNameContaining(String name) {
         // SQL dotaz s JOIN na tabulku Users a kontrolou isBanned
         String sql = "SELECT t.* FROM threads t " +
-                     "JOIN users u ON t.idUser = u.id " +
+                     "JOIN users u ON t.id_user = u.id " +
                      "WHERE t.name LIKE ? AND u.isBanned = false";
     
         // Přidání zástupných znaků procent k termínu vyhledávání
@@ -54,7 +54,7 @@ public class ThreadRepository {
 
     
     public void createThread(Thread thread) {
-        String sql = "INSERT INTO threads (name, idUser, createdAt) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO threads (name, id_user, created_at) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, thread.getName(), thread.getIdUser(), new Timestamp(System.currentTimeMillis()));
     }
 
@@ -76,7 +76,7 @@ public class ThreadRepository {
 
 
         public List<Thread> findByUserId(Integer idUser) {
-        String sql = "SELECT * FROM threads WHERE idUser = ?";
+        String sql = "SELECT * FROM threads WHERE id_user = ?";
         return jdbcTemplate.query(sql, ROW_MAPPER, idUser);
     }
 
@@ -87,12 +87,12 @@ public class ThreadRepository {
     }
 
     public int deleteByIdUser(Long idUser) {
-        int rowsAffected = jdbcTemplate.update("DELETE FROM threads WHERE idUser = ?", idUser);
+        int rowsAffected = jdbcTemplate.update("DELETE FROM threads WHERE id_user = ?", idUser);
         return rowsAffected;
     }
 
     public Integer findOwnerByThreadId(int idThread) {
-        String sql = "SELECT idUser FROM threads WHERE id = ?";
+        String sql = "SELECT id_user FROM threads WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{idThread}, Integer.class);
     }
 
