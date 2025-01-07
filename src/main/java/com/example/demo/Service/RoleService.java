@@ -1,9 +1,9 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Model.Role;
-import com.example.demo.Repository.RoleRepository;
+import com.example.demo.model.Role;
+import com.example.demo.repository.RoleRepository;
 
 import java.util.List;
 import java.util.Optional;

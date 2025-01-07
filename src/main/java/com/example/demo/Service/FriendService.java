@@ -1,15 +1,15 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Model.FriendRequest;
-import com.example.demo.Model.Friendship;
-import com.example.demo.Model.User;
-import com.example.demo.Repository.FriendRequestRepository;
-import com.example.demo.Repository.FriendshipRepository;
-import com.example.demo.Repository.UserRepository;
+import com.example.demo.model.FriendRequest;
+import com.example.demo.model.Friendship;
+import com.example.demo.model.User;
+import com.example.demo.repository.FriendRequestRepository;
+import com.example.demo.repository.FriendshipRepository;
+import com.example.demo.repository.UserRepository;
 
 import java.util.List;
 

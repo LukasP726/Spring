@@ -1,4 +1,4 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.Model.FriendRequest;
-import com.example.demo.Model.User;
-import com.example.demo.Service.FriendService;
-import com.example.demo.Service.SessionService;
-import com.example.demo.Service.UserService;
+import com.example.demo.model.FriendRequest;
+import com.example.demo.model.User;
+import com.example.demo.service.FriendService;
+import com.example.demo.service.SessionService;
+import com.example.demo.service.UserService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

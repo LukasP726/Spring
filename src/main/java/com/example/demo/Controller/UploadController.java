@@ -1,4 +1,4 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,10 +32,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.core.io.UrlResource;
 
-import com.example.demo.Model.Post;
-import com.example.demo.Model.Upload;
-import com.example.demo.Repository.UploadRepository;
-import com.example.demo.Service.UploadService;
+import com.example.demo.model.Post;
+import com.example.demo.model.Upload;
+import com.example.demo.repository.UploadRepository;
+import com.example.demo.service.UploadService;
 
 @RestController
 @RequestMapping("/api/uploads")

@@ -1,13 +1,13 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.Model.Role;
-import com.example.demo.Model.User;
-import com.example.demo.Service.RoleService;
+import com.example.demo.model.Role;
+import com.example.demo.model.User;
+import com.example.demo.service.RoleService;
 
 import java.util.List;
 

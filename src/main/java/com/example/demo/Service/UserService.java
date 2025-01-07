@@ -1,20 +1,18 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Model.Role;
-import com.example.demo.Model.User;
-import com.example.demo.Repository.UserRepository;
+import com.example.demo.model.Role;
+import com.example.demo.model.User;
+import com.example.demo.repository.FriendshipRepository;
+import com.example.demo.repository.PostRepository;
+import com.example.demo.repository.ThreadRepository;
+import com.example.demo.repository.UploadRepository;
+import com.example.demo.repository.UserRepository;
 
 import jakarta.websocket.Session;
-
-import com.example.demo.Repository.FriendshipRepository;
-import com.example.demo.Repository.PostRepository;
-import com.example.demo.Repository.ThreadRepository;
-import com.example.demo.Repository.UploadRepository;
-
 
 import java.util.List;
 import java.util.Map;

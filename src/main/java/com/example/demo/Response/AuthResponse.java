@@ -1,4 +1,4 @@
-package com.example.demo.Response;
+package com.example.demo.response;
 
 public class AuthResponse {
     private String token;

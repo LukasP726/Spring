@@ -1,4 +1,4 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,10 +9,11 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import com.example.demo.Model.Post;
-import com.example.demo.Model.PostDTO;
-import com.example.demo.Repository.PostRepository;
-import com.example.demo.Repository.UploadRepository;
+
+import com.example.demo.model.Post;
+import com.example.demo.model.PostDTO;
+import com.example.demo.repository.PostRepository;
+import com.example.demo.repository.UploadRepository;
 
 @Service
 public class PostService {

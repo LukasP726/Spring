@@ -1,4 +1,4 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
 import java.util.Date;
 import java.util.Optional;
@@ -15,10 +15,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Model.Session;
-import com.example.demo.Model.User;
-import com.example.demo.Repository.SessionRepository;
-import com.example.demo.Repository.UserRepository;
+import com.example.demo.model.Session;
+import com.example.demo.model.User;
+import com.example.demo.repository.SessionRepository;
+import com.example.demo.repository.UserRepository;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

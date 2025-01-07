@@ -1,4 +1,4 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,17 +12,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-//import com.example.demo.Config.Md5PasswordEncoder;
-import com.example.demo.Model.Session;
-import com.example.demo.Model.User;
-import com.example.demo.Model.Role;
-import com.example.demo.Repository.UserRepository;
-import com.example.demo.Request.ChangePasswordRequest;
-import com.example.demo.Request.PasswordVerificationRequest;
-import com.example.demo.Service.AuthService;
-import com.example.demo.Service.RoleService;
-import com.example.demo.Service.SessionService;
-import com.example.demo.Service.UserService;
+import com.example.demo.model.Role;
+import com.example.demo.model.Session;
+import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.request.ChangePasswordRequest;
+import com.example.demo.request.PasswordVerificationRequest;
+import com.example.demo.service.AuthService;
+import com.example.demo.service.RoleService;
+import com.example.demo.service.SessionService;
+import com.example.demo.service.UserService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

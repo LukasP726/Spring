@@ -1,4 +1,4 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.Request.AuthRequest;
-import com.example.demo.Response.AuthResponse;
-import com.example.demo.Service.AuthService;
+import com.example.demo.request.AuthRequest;
+import com.example.demo.response.AuthResponse;
+import com.example.demo.service.AuthService;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

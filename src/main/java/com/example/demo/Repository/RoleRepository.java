@@ -1,10 +1,10 @@
-package com.example.demo.Repository;
+package com.example.demo.repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.Model.Role;
+import com.example.demo.model.Role;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;

@@ -1,4 +1,4 @@
-package com.example.demo.Repository;
+package com.example.demo.repository;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -11,8 +11,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.Model.Post;
-import com.example.demo.Model.Upload;
+import com.example.demo.model.Post;
+import com.example.demo.model.Upload;
 
 @Repository
 public class UploadRepository {

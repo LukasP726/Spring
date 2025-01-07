@@ -1,4 +1,4 @@
-package com.example.demo.Request;
+package com.example.demo.request;
 
 public class AuthRequest {
     private String username;

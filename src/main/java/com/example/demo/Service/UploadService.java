@@ -1,12 +1,12 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Model.Upload;
-import com.example.demo.Repository.UploadRepository;
+import com.example.demo.model.Upload;
+import com.example.demo.repository.UploadRepository;
 
 @Service
 public class UploadService {

@@ -1,4 +1,4 @@
-package com.example.demo.Controller;
+package com.example.demo.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.Repository.ThreadRepository;
-import com.example.demo.Service.ThreadService;
-import com.example.demo.Model.Post;
-import com.example.demo.Model.Thread;
-import com.example.demo.Model.User;
+import com.example.demo.model.Post;
+import com.example.demo.model.Thread;
+import com.example.demo.model.User;
+import com.example.demo.repository.ThreadRepository;
+import com.example.demo.service.ThreadService;
 
 @RestController
 @RequestMapping("/api/threads")

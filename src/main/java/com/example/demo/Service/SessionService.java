@@ -1,10 +1,10 @@
-package com.example.demo.Service;
+package com.example.demo.service;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.Model.Role;
-import com.example.demo.Model.Session;
-import com.example.demo.Repository.SessionRepository;
+import com.example.demo.model.Role;
+import com.example.demo.model.Session;
+import com.example.demo.repository.SessionRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

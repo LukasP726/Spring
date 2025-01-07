@@ -1,11 +1,11 @@
-package com.example.demo.Repository;
+package com.example.demo.repository;
 
-
-import com.example.demo.Model.Friendship;
-import com.example.demo.Model.User;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import com.example.demo.model.Friendship;
+import com.example.demo.model.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -1,4 +1,4 @@
-package com.example.demo.Repository;
+package com.example.demo.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -7,10 +7,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.Model.Post;
-import com.example.demo.Model.PostDTO;
-import com.example.demo.Model.Upload;
-import com.example.demo.Model.User;
+import com.example.demo.model.Post;
+import com.example.demo.model.PostDTO;
+import com.example.demo.model.Upload;
+import com.example.demo.model.User;
 
 import java.sql.Timestamp;
 import java.util.List;

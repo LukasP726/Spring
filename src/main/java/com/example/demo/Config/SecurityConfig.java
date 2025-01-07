@@ -1,4 +1,4 @@
-package com.example.demo.Config;
+package com.example.demo.config;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -21,7 +21,7 @@ import org.springframework.security.web.header.writers.StaticHeadersWriter;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.example.demo.Service.CustomUserDetailsService;
+import com.example.demo.service.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
