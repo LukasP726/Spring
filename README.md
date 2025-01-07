@@ -5,16 +5,18 @@
 To run this project, you need the following:
 
 - **Java Development Kit (JDK)**
-    - Minimum required version: **Java 17** (or another version specified in the project).
+    - Minimum required version: **Java 17**.
     - Download and install from: [https://adoptium.net/](https://adoptium.net/) or [Oracle](https://www.oracle.com/java/technologies/javase-downloads.html).
 
 - **Maven**
     - The project uses **Maven Wrapper**, so you don't need to have Maven installed on your system.
     - Maven Wrapper will automatically download the correct version of Maven when you run it.
 
-- **Database (if required)**
-    - If the project connects to an external database, ensure you have the database installed and properly configured (e.g., MySQL, PostgreSQL).
-    - Configuration details can be found in `application.properties` or `application.yml`.
+- **Database**
+   - The project uses **MySQL** as the database management system. Ensure that MySQL is installed and properly configured on your machine.  
+   - The required version of MySQL is **8.0 or higher**.
+   - The database schema is provided in the file located at `src/main/resources/forum.sql`. Import this file into your MySQL database to set up the required tables and data.  
+   - Configuration details for connecting to the database can be found in `src/main/resources/application.properties`.
 
 ## Project Setup
 
@@ -25,7 +27,7 @@ To run this project, you need the following:
     cd /path/to/your/project
     ```
 
-3. *(Optional)* If the project requires an external database, configure the database connection in the `src/main/resources/application.properties` file:
+3. Configure the database connection in the `src/main/resources/application.properties` file:
     ```properties
     spring.datasource.url=jdbc:mysql://localhost:3306/your_database
     spring.datasource.username=your_username
