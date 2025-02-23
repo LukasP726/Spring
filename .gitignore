@@ -1,0 +1,29 @@
+# Maven
+target/
+
+# Gradle
+.gradle/
+build/
+
+# IntelliJ IDEA
+.idea/
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Sensitive or temporary files
+*.bak
+*.swp
+*.tmp
