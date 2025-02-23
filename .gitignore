@@ -22,8 +22,14 @@ Thumbs.db
 
 # Logs
 *.log
+*.log.*
+
+# Compiled class files
+*.class
 
 # Sensitive or temporary files
 *.bak
 *.swp
 *.tmp
+
+
