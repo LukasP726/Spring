@@ -68,8 +68,6 @@ public class UserRepository {
         String rawPassword = user.getPassword();
         if(rawPassword == null) return -1;
         String hashedPassword = passwordEncoder.encode(rawPassword);
-        //String hashedPassword = hashPassword(rawPassword, "MD5");
-        //String hashedPassword = passwordEncoder.encode(rawPassword);
 
         int rowsAffected;
         Long userId;
@@ -100,21 +98,19 @@ public class UserRepository {
         int rowsAffected = jdbcTemplate.update("DELETE FROM users WHERE id = ?", id);
         return rowsAffected;
     }
-/* 
-    public List<User> findByNameContaining(String term) {
-        String sql = "SELECT * FROM users WHERE firstName LIKE ? OR lastName LIKE ? OR login LIKE ?";
-        return jdbcTemplate.query(sql, ROW_MAPPER, "%" + term + "%", "%" + term + "%","%" + term + "%");
-    }
-*/
+
 public List<User> findByNameContaining(String term) {
     // Upravený SQL dotaz s parametrizací
-    String sql = "SELECT * FROM users WHERE (firstName LIKE ? OR lastName LIKE ? OR login LIKE ?) AND isBanned = false";
+    //String sql = "SELECT * FROM users WHERE (firstName LIKE ? OR lastName LIKE ? OR login LIKE ?) AND isBanned = false";
 
     // Přidání zástupných znaků procent k termínu vyhledávání
-    String searchTerm = "%" + term + "%";
+    //String searchTerm = "%" + term + "%";
+    String sql = "SELECT * FROM users WHERE (firstName LIKE'" + term + "' OR lastName LIKE '" + term + "' OR login LIKE '" + term + "') AND isBanned = false";
+
 
     // Použití parametrizovaného dotazu s třemi argumenty, aby se předešlo SQL injection
-    return jdbcTemplate.query(sql, new Object[]{searchTerm, searchTerm, searchTerm}, ROW_MAPPER);
+    //return jdbcTemplate.query(sql, new Object[]{searchTerm, searchTerm, searchTerm}, ROW_MAPPER);
+    return jdbcTemplate.query(sql, ROW_MAPPER);
 }
 
     
@@ -144,7 +140,6 @@ public List<User> findByNameContaining(String term) {
     }
 
     public Optional<User> findBySessionId(String sessionId) {
-        //String sql = "SELECT * FROM users WHERE session_id = ?";  // Předpokládáme, že uživatelé mají sloupec 'session_id'
         String sql = "SELECT u.* FROM users u JOIN sessions s ON u.id = s.user_id WHERE s.session_id = ?";
         try {
             User user = jdbcTemplate.queryForObject(sql, new Object[]{sessionId},ROW_MAPPER);

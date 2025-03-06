@@ -41,15 +41,24 @@ public class PostRepository {
 
     public List<Post> findByContentContaining(String content) {
         // SQL dotaz s JOIN na tabulku Users a kontrolou isBanned
+        /* 
         String sql = "SELECT p.* FROM Posts p " +
                      "JOIN Users u ON p.id_user = u.id " +
                      "WHERE p.content LIKE ? AND u.isBanned = false";
+            */          
+                              
+                      String sql = "SELECT p.* FROM Posts p " +
+                      "JOIN Users u ON p.id_user = u.id " +
+                      "WHERE p.content LIKE '"+ content +"' AND u.isBanned = false"; 
     
         // Přidání zástupných znaků procent k contentu vyhledávání
-        String searchTerm = "%" + content + "%";
+        //String searchTerm = "%" + content + "%";
     
         // Použití parametrizovaného dotazu s argumentem searchTerm
-        return jdbcTemplate.query(sql, new Object[]{searchTerm}, ROW_MAPPER);
+        //return jdbcTemplate.query(sql, new Object[]{searchTerm}, ROW_MAPPER);
+       return jdbcTemplate.query(sql, ROW_MAPPER);
+       //return jdbcTemplate.queryForList(sql);
+    
     }
     
 

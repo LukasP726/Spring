@@ -20,8 +20,7 @@ import com.example.demo.model.User;
 import com.example.demo.repository.SessionRepository;
 import com.example.demo.repository.UserRepository;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

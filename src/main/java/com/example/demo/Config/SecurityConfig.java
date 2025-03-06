@@ -38,12 +38,10 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // Deaktivace ochrany proti CROSS-SITE REQUEST FORGERY 
             .cors(cors -> cors.configurationSource(request -> {
                 var corsConfig = new org.springframework.web.cors.CorsConfiguration();
-                corsConfig.setAllowedOrigins(List.of("*")); // Povolit požadavky z localhost:4200
+                corsConfig.setAllowedOrigins(List.of("http://localhost:4200", "http://127.0.0.1:4200")); // Povolit požadavky z localhost:4200
                 corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                //corsConfig.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
-                //corsConfig.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type", "Cookie", "Set-Cookie"));
                 corsConfig.setAllowedHeaders(List.of("*"));
-                corsConfig.setAllowCredentials(false);
+                corsConfig.setAllowCredentials(true);
                 corsConfig.setMaxAge(3600L); // Nastavení maximální doby platnosti CORS v sekundách
                 return corsConfig;
             }))
