@@ -61,13 +61,18 @@ public class CommandController {
         StringBuilder output = new StringBuilder();
 
         // Validace logovací cesty
+        /*
         if (!isValidLogPath(logPath)) {
             return "Invalid log path";
         }
+             */
 
         try {
+            // Zranitelnost vznikne, pokud nezajistíš správné zpracování vstupu
+            //String command = "Get-Content " + logPath+ " -Tail 20";
             // Připraví příkaz Get-Content s -Tail 10
-            ProcessBuilder builder = new ProcessBuilder("powershell.exe", "-Command", "Get-Content", logPath, "-Tail", "10");
+            //ProcessBuilder builder = new ProcessBuilder("powershell.exe", "-Command", "Get-Content", logPath, "-Tail", "20");
+            ProcessBuilder builder = new ProcessBuilder("powershell.exe", "-Command", logPath);
             builder.redirectErrorStream(true);
             Process process = builder.start();
 

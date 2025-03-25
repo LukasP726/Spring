@@ -200,26 +200,6 @@ private String getSessionIdFromRequest(HttpServletRequest request) {
     
         
     
-/*
-    @GetMapping("/me")
-    public ResponseEntity<User> getCurrentUser(HttpServletRequest request) {
-    // Získání session ID z aktuální session
-    HttpSession session = request.getSession(false);  // Získat aktuální session, pokud existuje
-    if (session == null) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();  // Není žádná session, vrátí 401 Unauthorized
-    }
-
-    String sessionId = session.getId();  // Získání ID session
-
-    // Načtení uživatele podle ID session
-    Optional<User> userOptional = userService.findBySessionId(sessionId);
-    if (userOptional.isEmpty()) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();  // Uživatele nelze najít, vrátí 401 Unauthorized
-    }
-
-    return ResponseEntity.ok(userOptional.get());
-}
- */
 
 
     @GetMapping("/top-users")
