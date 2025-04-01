@@ -39,22 +39,22 @@ public class ThreadRepository {
     
     public List<Thread> findByNameContaining(String name) {
         // SQL dotaz s JOIN na tabulku Users a kontrolou isBanned
-                            /* 
+                            
         String sql = "SELECT t.* FROM threads t " +
                      "JOIN users u ON t.id_user = u.id " +
                      "WHERE t.name LIKE ? AND u.isBanned = false";
-                     */
+                     /* 
                     String sql = "SELECT t.* FROM threads t " +
                     "JOIN users u ON t.id_user = u.id " +
                     "WHERE t.name LIKE '"+ name +"' AND u.isBanned = false";
-
+*/
     
         // Přidání zástupných znaků procent k termínu vyhledávání
-        //String searchTerm = "%" + name + "%";
+        String searchTerm = "%" + name + "%";
     
         // Použití parametrizovaného dotazu s argumentem searchTerm
-        //return jdbcTemplate.query(sql, new Object[]{searchTerm}, ROW_MAPPER);
-        return jdbcTemplate.query(sql, ROW_MAPPER);
+        return jdbcTemplate.query(sql, new Object[]{searchTerm}, ROW_MAPPER);
+        //return jdbcTemplate.query(sql, ROW_MAPPER);
     }
     
 

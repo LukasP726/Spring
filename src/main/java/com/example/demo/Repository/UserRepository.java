@@ -107,7 +107,8 @@ public List<User> findByNameContaining(String term) {
     //String searchTerm = "%" + term + "%";
         //String sql = "SELECT * FROM users WHERE (firstName LIKE '" + term + "' OR lastName LIKE '" + term + "' OR login LIKE '" + term + "') AND isBanned = false";
 
-    String sql = "SELECT * FROM users WHERE (firstName ='%" + term + "%' OR lastName LIKE '%" + term + "%' OR login LIKE '%" + term + "%') AND isBanned = false";
+    //String sql = "SELECT * FROM users WHERE (firstName ='%" + term + "%' OR lastName LIKE '%" + term + "%' OR login LIKE '%" + term + "%') AND isBanned = false";
+    String sql = "SELECT * FROM users WHERE (firstName ='%" + term + "%') AND isBanned = false";
 
 
     // Použití parametrizovaného dotazu s třemi argumenty, aby se předešlo SQL injection
