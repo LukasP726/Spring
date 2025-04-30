@@ -36,15 +36,19 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable()) // Deaktivace ochrany proti CROSS-SITE REQUEST FORGERY 
+            .cors(cors -> cors.disable())
+             /* 
             .cors(cors -> cors.configurationSource(request -> {
                 var corsConfig = new org.springframework.web.cors.CorsConfiguration();
-                corsConfig.setAllowedOrigins(List.of("http://localhost:4200", "http://127.0.0.1:4200")); // Povolit požadavky z localhost:4200
+                corsConfig.setAllowedOrigins(List.of("http://localhost:4200", "http://127.0.0.1:4200", "http://192.168.56.1:4200")); // Povolit požadavky z localhost:4200
                 corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                 corsConfig.setAllowedHeaders(List.of("*"));
                 corsConfig.setAllowCredentials(true);
                 corsConfig.setMaxAge(3600L); // Nastavení maximální doby platnosti CORS v sekundách
                 return corsConfig;
             }))
+                */
+                 
             .authorizeHttpRequests(auth -> auth
                
                 .anyRequest().permitAll() // Povolit přístup ke všem ostatním endpointům
@@ -62,7 +66,9 @@ public class SecurityConfig {
 
             .headers(headers -> headers
                 .addHeaderWriter(new StaticHeadersWriter("Content-Security-Policy", "")) // Prázdná hlavička
-            );
+                .xssProtection(xss -> xss.disable()) // Vypne XSS ochranu
+                //.frameOptions().sameOrigin()
+                );
 
            
         return http.build();
@@ -70,8 +76,8 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-        //return new Md5PasswordEncoder();
+        //return new BCryptPasswordEncoder();
+        return new Md5PasswordEncoder();
     }
  
 

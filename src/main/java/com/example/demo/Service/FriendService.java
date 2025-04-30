@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.FriendRequest;
+import com.example.demo.model.FriendRequestDTO;
 import com.example.demo.model.Friendship;
 import com.example.demo.model.User;
 import com.example.demo.repository.FriendRequestRepository;
@@ -100,11 +101,12 @@ public class FriendService {
     public List<FriendRequest> getRequests(Long id) {
         return friendRequestRepository.getRequests(id);
     }
-    /* 
-    public List<String> getRequestsDTO(String username) {
-        return friendRequestRepository.getRequestsUsersLogin(username);
+
+    
+    public List<FriendRequestDTO> getRequestsDTO(long id) {
+    
+       return friendRequestRepository.getFriendRequestsForUserDTO(id);
     }
-        */
 
     public void deleteFriend(Long userId, Long id ){
      

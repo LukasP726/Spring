@@ -1,8 +1,10 @@
 package com.example.demo.repository;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.model.FriendRequest;
+import com.example.demo.model.FriendRequestDTO;
 import com.example.demo.model.User;
 
 import java.sql.ResultSet;
@@ -61,6 +63,27 @@ public class FriendRequestRepository {
 
 
     }
+
+    public List<FriendRequestDTO> getFriendRequestsForUserDTO(Long toUserId) {
+    String sql = """
+        SELECT 
+            fr.id,
+            fr.from_user_id AS fromUserId,
+            fr.to_user_id AS toUserId,
+            fr.created_at AS createdAt,
+            fr.status,
+            u.login AS fromUserLogin
+        FROM 
+            friend_request fr
+        JOIN 
+            users u ON fr.from_user_id = u.id
+        WHERE 
+            fr.to_user_id = ?
+        ORDER BY fr.created_at DESC
+    """;
+
+    return jdbcTemplate.query(sql, new Object[]{toUserId}, new BeanPropertyRowMapper<>(FriendRequestDTO.class));
+}
 
 
 

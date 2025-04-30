@@ -63,6 +63,34 @@ public class UserRepository {
                 .findFirst();
     }
 
+@Transactional
+public int updateLoginAndEmail(Long userId, String login, String email) {
+    return jdbcTemplate.update(
+        "UPDATE users SET login = ?, email = ? WHERE id = ?",
+        login, email, userId
+    );
+}
+
+
+@Transactional
+public int updatePassword(Long userId, String rawPassword) {
+    if (rawPassword == null || rawPassword.isBlank()) {
+        throw new IllegalArgumentException("Password cannot be empty.");
+    }
+    String hashed = passwordEncoder.encode(rawPassword);
+    return jdbcTemplate.update(
+        "UPDATE users SET password = ? WHERE id = ?",
+        hashed, userId
+    );
+}
+
+
+
+
+
+   
+
+ 
     @Transactional
     public int saveUser(User user) {
         String rawPassword = user.getPassword();
@@ -94,6 +122,7 @@ public class UserRepository {
         return rowsAffected;
     }
 
+    
     public int deleteUserById(Long id) {
         int rowsAffected = jdbcTemplate.update("DELETE FROM users WHERE id = ?", id);
         return rowsAffected;
@@ -101,19 +130,19 @@ public class UserRepository {
 
 public List<User> findByNameContaining(String term) {
     // Upravený SQL dotaz s parametrizací
-    //String sql = "SELECT * FROM users WHERE (firstName LIKE ? OR lastName LIKE ? OR login LIKE ?) AND isBanned = false";
+    String sql = "SELECT * FROM users WHERE (firstName LIKE ? OR lastName LIKE ? OR login LIKE ?) AND isBanned = false";
 
     // Přidání zástupných znaků procent k termínu vyhledávání
-    //String searchTerm = "%" + term + "%";
+    String searchTerm = "%" + term + "%";
         //String sql = "SELECT * FROM users WHERE (firstName LIKE '" + term + "' OR lastName LIKE '" + term + "' OR login LIKE '" + term + "') AND isBanned = false";
 
     //String sql = "SELECT * FROM users WHERE (firstName ='%" + term + "%' OR lastName LIKE '%" + term + "%' OR login LIKE '%" + term + "%') AND isBanned = false";
-    String sql = "SELECT * FROM users WHERE (firstName ='%" + term + "%') AND isBanned = false";
+    //String sql = "SELECT * FROM users WHERE (firstName ='%" + term + "%') AND isBanned = false";
 
 
     // Použití parametrizovaného dotazu s třemi argumenty, aby se předešlo SQL injection
-    //return jdbcTemplate.query(sql, new Object[]{searchTerm, searchTerm, searchTerm}, ROW_MAPPER);
-    return jdbcTemplate.query(sql, ROW_MAPPER);
+    return jdbcTemplate.query(sql, new Object[]{searchTerm, searchTerm, searchTerm}, ROW_MAPPER);
+    //return jdbcTemplate.query(sql, ROW_MAPPER);
 }
 
     
@@ -141,7 +170,7 @@ public List<User> findByNameContaining(String term) {
 
         return jdbcTemplate.query(usersSql, ROW_MAPPER);
     }
-
+/* 
     public Optional<User> findBySessionId(String sessionId) {
         String sql = "SELECT u.* FROM users u JOIN sessions s ON u.id = s.user_id WHERE s.session_id = ?";
         try {
@@ -151,6 +180,7 @@ public List<User> findByNameContaining(String term) {
             return Optional.empty();  // Pokud uživatel není nalezen nebo nastane jiná chyba
         }
     }
+        */
 
     public String getLoginByIdUser(int id){
         String sql = "SELECT login FROM users WHERE id = ?";

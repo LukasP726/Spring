@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Session;
 import com.example.demo.model.User;
-import com.example.demo.repository.SessionRepository;
 import com.example.demo.repository.UserRepository;
 
 
@@ -32,19 +31,15 @@ public class AuthService {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private SessionRepository sessionRepository;
     
     @Autowired
     private PasswordEncoder passwordEncoder;
  
     @Autowired
     private AuthenticationManager authenticationManager;
-    /* 
-    @Autowired
-    private Md5PasswordEncoder passwordEncoder;
-*/ 
+
+
+
 
 
     public void login(String login, String password, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -64,16 +59,17 @@ public class AuthService {
                     String sessionId = session.getId();
                     System.out.println("Session created with ID: " + sessionId);
     
-                    // Nastavení maximální doby nečinnosti pro session (např. 30 minut)
-                    int maxInactiveInterval = 30 * 60; // 30 minut v sekundách
+                    // Nastavení maximální doby nečinnosti pro session 
+                    int maxInactiveInterval = 30 * 60; // 30min  
                     session.setMaxInactiveInterval(maxInactiveInterval);
-    
+                    /*
                     // Výpočet data a času vypršení
                     Date expiresAt = new Date(System.currentTimeMillis() + maxInactiveInterval * 1000L);
     
                     // Opakované pokusy o vytvoření session
                     boolean sessionCreated = false;
                     int retries = 3;  // Maximální počet pokusů
+                     
                     while (!sessionCreated && retries > 0) {
                         try {
                             // Pokus o uložení session do tabulky sessions
@@ -92,6 +88,7 @@ public class AuthService {
                     if (!sessionCreated) {
                         throw new Exception("Unable to create a unique session ID after multiple attempts.");
                     }
+                        */
     
                     session.setAttribute("user", user);
                     response.setStatus(HttpServletResponse.SC_OK);
@@ -108,16 +105,15 @@ public class AuthService {
 public void logout(HttpServletRequest request, HttpServletResponse response) {
     HttpSession session = request.getSession(false); // Získá aktuální session, pokud existuje
     if (session != null) {
-        String sessionId = session.getId();
-        sessionRepository.deleteSession(sessionId);  
+        //String sessionId = session.getId();
+        //sessionRepository.deleteSession(sessionId);  
         session.invalidate(); // Zneplatnění session při odhlášení
     }
 
     // Odstranění cookie s ID session
     Cookie cookie = new Cookie("JSESSIONID", null);
-    cookie.setPath("/"); // Ujisti se, že cesta je stejná jako při vytváření cookie
+    cookie.setPath("/"); // Ujištění, že cesta je stejná jako při vytváření cookie
     cookie.setHttpOnly(true);
-    cookie.setSecure(true); // Pouze pokud používáš HTTPS
     cookie.setMaxAge(0); // Okamžité vypršení cookie
     response.addCookie(cookie);
 
@@ -128,6 +124,8 @@ public void logout(HttpServletRequest request, HttpServletResponse response) {
     public Optional<User> findByLogin(String name) {
         return userRepository.findByLogin(name);
     }
+
+
 
 
 

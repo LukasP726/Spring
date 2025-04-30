@@ -22,7 +22,7 @@ import java.util.concurrent.TimeoutException;
 @RequestMapping("/api")
 @CrossOrigin(origins = {"http://localhost:4200", "http://192.168.56.1:4200"})
 public class CommandController {
-
+/* 
     @GetMapping("/execute")
     public String executeCommand(String command) {
         
@@ -53,6 +53,8 @@ public class CommandController {
         return command != null && command.matches("^(backup|monitor|clean).*");
     }
 
+    */
+
 
 
 
@@ -60,19 +62,9 @@ public class CommandController {
     public String getLogs(@RequestParam String logPath) {
         StringBuilder output = new StringBuilder();
 
-        // Validace logovací cesty
-        /*
-        if (!isValidLogPath(logPath)) {
-            return "Invalid log path";
-        }
-             */
-
         try {
             // Zranitelnost vznikne, pokud nezajistíš správné zpracování vstupu
-            //String command = "Get-Content " + logPath+ " -Tail 20";
-            // Připraví příkaz Get-Content s -Tail 10
-            //ProcessBuilder builder = new ProcessBuilder("powershell.exe", "-Command", "Get-Content", logPath, "-Tail", "20");
-            ProcessBuilder builder = new ProcessBuilder("powershell.exe", "-Command", logPath);
+            ProcessBuilder builder = new ProcessBuilder("powershell.exe", "-Command", "Get-Content", "logs\\"+logPath, "-Tail", "20");
             builder.redirectErrorStream(true);
             Process process = builder.start();
 

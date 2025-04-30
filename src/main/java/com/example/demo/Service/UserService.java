@@ -66,6 +66,14 @@ public class UserService {
         return userRepository.saveUser(user);
     }
 
+    public int updateLoginAndEmail(Long userId, String login, String email){
+        return userRepository.updateLoginAndEmail(userId, login, email);
+    }
+
+    public int updatePassword(Long userId, String rawPassword) {
+        return userRepository.updatePassword(userId, rawPassword);
+    }
+
     public void deleteUser(Long id) {
         userRepository.deleteUserById(id);
         threadRepository.deleteByIdUser(id);
@@ -94,10 +102,11 @@ public class UserService {
     public List<User> getTopUsers() {
        return userRepository.getTopUsersByPostFrequency();
     }
-
+/* 
     public User findBySessionId(String sessionId) {
         return userRepository.findBySessionId(sessionId).orElse(null);
     }
+        */
 
     
 

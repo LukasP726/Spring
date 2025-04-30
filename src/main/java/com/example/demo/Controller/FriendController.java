@@ -1,9 +1,7 @@
 package com.example.demo.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,17 +9,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.demo.model.FriendRequest;
+import com.example.demo.model.FriendRequestDTO;
 import com.example.demo.model.User;
 import com.example.demo.service.FriendService;
-import com.example.demo.service.SessionService;
 import com.example.demo.service.UserService;
-
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
-import java.security.Principal;
+
 
 
 @RestController
@@ -93,22 +89,20 @@ public class FriendController {
         }
         return ResponseEntity.ok(requests);
     }
-    /* 
 
-    @GetMapping("/requests-dto")
-    public ResponseEntity<List<String>> getRequestsDTO(HttpServletRequest request) {
-        String username = getUserId
-FromRequest(request); 
-        List<String> requests = friendService.getRequestsDTO(username);
+    @GetMapping("/requestsDTO")
+    public ResponseEntity<List<FriendRequestDTO>> getRequestsDTO(HttpServletRequest request) {
+        long id = getUserIdFromRequest(request); 
+        List<FriendRequestDTO> requests = null;
+        if(id != -1){
+           requests = friendService.getRequestsDTO(id);
+        }
         return ResponseEntity.ok(requests);
     }
-        */
-        
 
 
-
-
-    private long getUserIdFromRequest(HttpServletRequest request) {
+/* 
+    private long getUserIdFromRequest(HttpServletRequest request) { 
         // Získání session ID z cookies a validace uživatele
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
@@ -123,8 +117,26 @@ FromRequest(request);
             }
         }
         return -1;
-   
+    
     }
+        */
+
+    private long getUserIdFromRequest(HttpServletRequest request) {
+        HttpSession session = request.getSession(false); // false = nevytvářet novou session
+        if (session != null) {
+            User user = (User) session.getAttribute("user");
+            if (user != null) {
+                return user.getId();
+            }
+        }
+        return -1;
+    }
+    
+
+
+
+
+
 }
 
 

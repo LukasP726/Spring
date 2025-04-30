@@ -27,7 +27,7 @@ import com.example.demo.service.ThreadService;
 
 @RestController
 @RequestMapping("/api/posts")
-@CrossOrigin(origins = {"http://localhost:4200","http://192.168.56.1:4200"})
+//@CrossOrigin(origins = {"http://localhost:4200","http://192.168.56.1:4200"})
 public class PostController {
     @Autowired
     //private PostRepository postRepository;
