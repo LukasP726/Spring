@@ -13,12 +13,8 @@ import com.example.demo.model.FriendRequest;
 import com.example.demo.model.FriendRequestDTO;
 import com.example.demo.model.User;
 import com.example.demo.service.FriendService;
-import com.example.demo.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-
-
-
 
 @RestController
 @RequestMapping("/api/friends")
@@ -26,9 +22,11 @@ public class FriendController {
 
     @Autowired
     private FriendService friendService;
-    @Autowired
-    private UserService userService;
 
+    /**
+     * Kontroluje, zda je aktuální uživatel ve vztahu přátelství s jiným uživatelem.
+     * Pokud nelze zjistit ID přihlášeného uživatele, vrací false.
+     */
     @GetMapping("/is-friend/{userId}")
     public boolean checkIfFriend(@PathVariable Long userId, HttpServletRequest request) {
         long id = getUserIdFromRequest(request);
@@ -37,7 +35,11 @@ public class FriendController {
         }
         return false;
     }
-
+    
+    /**
+     * Odesílá žádost o přátelství z účtu aktuálně přihlášeného uživatele.
+     * Pokud nelze zjistit ID uživatele, nedojde k žádné akci.
+     */
     @PostMapping("/request/{userId}")
     public ResponseEntity<?> sendFriendRequest(@PathVariable Long userId, HttpServletRequest request) {
         long id = getUserIdFromRequest(request);
@@ -47,6 +49,11 @@ public class FriendController {
         return ResponseEntity.ok().build();
     }
 
+
+    /**
+     * Přijímá žádost o přátelství na základě ID žádosti.
+     * Pokud nelze zjistit ID aktuálního uživatele, nic se nestane.
+     */
     @PostMapping("/accept/{requestId}")
     public ResponseEntity<?> acceptFriendRequest(@PathVariable Long requestId, HttpServletRequest request) {
         long id = getUserIdFromRequest(request);
@@ -56,6 +63,11 @@ public class FriendController {
         return ResponseEntity.ok().build();
     }
 
+
+    /**
+     * Odstraňuje uživatele z přátel přihlášeného uživatele.
+     * Pokud ID přihlášeného uživatele není získáno, nic se neprovede.
+     */
     @DeleteMapping("/{userId}")
     public ResponseEntity<?> removeFriend(@PathVariable Long userId, HttpServletRequest request) {
         long id = getUserIdFromRequest(request);
@@ -66,11 +78,13 @@ public class FriendController {
     }
     
 
-
+    /**
+     * Vrací seznam přátel aktuálně přihlášeného uživatele.
+     * Pokud se ID uživatele nezjistí, vrací prázdný seznam (null).
+     */
     @GetMapping("/list")
     public ResponseEntity<List<User>> getFriends(HttpServletRequest request) {
         long id = getUserIdFromRequest(request); // Získání username z cookies
-        //System.out.println(username);
         List<User> friends = null;
         if(id != -1){
             friends = friendService.getFriends(id);
@@ -79,7 +93,10 @@ public class FriendController {
         return ResponseEntity.ok(friends);
     }
 
-
+    /**
+     * Vrací seznam příchozích žádostí o přátelství pro přihlášeného uživatele.
+     * Pokud není uživatel autentizován, vrací null.
+     */
     @GetMapping("/requests")
     public ResponseEntity<List<FriendRequest>> getRequests(HttpServletRequest request) {
         long id = getUserIdFromRequest(request); 
@@ -90,6 +107,10 @@ public class FriendController {
         return ResponseEntity.ok(requests);
     }
 
+    /**
+     * Vrací příchozí žádosti o přátelství ve formátu DTO.
+     * DTO může obsahovat jen omezené nebo přizpůsobené informace pro frontend.
+     */
     @GetMapping("/requestsDTO")
     public ResponseEntity<List<FriendRequestDTO>> getRequestsDTO(HttpServletRequest request) {
         long id = getUserIdFromRequest(request); 
@@ -101,26 +122,10 @@ public class FriendController {
     }
 
 
-/* 
-    private long getUserIdFromRequest(HttpServletRequest request) { 
-        // Získání session ID z cookies a validace uživatele
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if ("JSESSIONID".equals(cookie.getName())) {
-                    String sessionId = cookie.getValue();
-                    User user = userService.findBySessionId(sessionId);
-                    if (user != null) {
-                        return user.getId(); 
-                    }
-                }
-            }
-        }
-        return -1;
-    
-    }
-        */
-
+    /**
+    * Získá ID aktuálně přihlášeného uživatele ze session.
+    * Vrací -1, pokud není session nebo pokud není uživatel přihlášen.
+    */
     private long getUserIdFromRequest(HttpServletRequest request) {
         HttpSession session = request.getSession(false); // false = nevytvářet novou session
         if (session != null) {

@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -10,9 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.demo.model.User;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 
 @RestController
@@ -21,18 +18,19 @@ import com.example.demo.service.UserService;
 public class RegistrationController {
     private static final Logger logger = Logger.getLogger(RegistrationController.class.getName());
     private final UserService userService;
-    //private final UserRepository userRepository;
+
     
     public RegistrationController(UserService userService) {
         this.userService = userService;
     }
     
-    /* 
-    public RegistrationController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-        */
-
+    /**
+     * Endpoint pro registraci nového uživatele.
+     * 
+     * Při přijetí požadavku s daty nového uživatele v těle požadavku se uživatel uloží do databáze. 
+     * Pokud je registrace úspěšná, vrátí se HTTP 201 CREATED s informacemi o uživatelském účtu.
+     * V případě chyby se vrátí HTTP 500 INTERNAL SERVER ERROR.
+     */
     @PostMapping
     public ResponseEntity<User> register(@RequestBody User user) {
         logger.log(Level.INFO, "Received registration request: {0}", user);

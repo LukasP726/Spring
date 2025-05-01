@@ -1,24 +1,18 @@
 package com.example.demo.service;
 
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.example.demo.model.FriendRequest;
 import com.example.demo.model.FriendRequestDTO;
 import com.example.demo.model.Friendship;
 import com.example.demo.model.User;
 import com.example.demo.repository.FriendRequestRepository;
 import com.example.demo.repository.FriendshipRepository;
-import com.example.demo.repository.UserRepository;
-
 import java.util.List;
 
 @Service
 public class FriendService {
 
-    @Autowired
-    private UserRepository userRepository; // Repo pro uživatele
     @Autowired
     private FriendRequestRepository friendRequestRepository; // Repo pro žádosti o přátelství
     @Autowired
@@ -93,27 +87,27 @@ public class FriendService {
     }
 
 
+    // Získá seznam přátel uživatele podle jeho ID.
     public List<User> getFriends(Long id) {
-
         return friendshipRepository.findFriendsByUserId(id);
     }
 
+    // Získá seznam žádostí o přátelství pro uživatele podle jeho ID.
     public List<FriendRequest> getRequests(Long id) {
         return friendRequestRepository.getRequests(id);
     }
 
-    
+    // Získá seznam žádostí o přátelství pro uživatele v podobě DTO objektů.
     public List<FriendRequestDTO> getRequestsDTO(long id) {
-    
-       return friendRequestRepository.getFriendRequestsForUserDTO(id);
+        return friendRequestRepository.getFriendRequestsForUserDTO(id);
     }
 
-    public void deleteFriend(Long userId, Long id ){
-     
-
+    // Odstraní přátelství mezi dvěma uživateli podle jejich ID.
+    public void deleteFriend(Long userId, Long id) {
         friendshipRepository.deleteFriendship(userId, id);
         friendshipRepository.deleteFriendship(id, userId);
     }
+
     
 }
 

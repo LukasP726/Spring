@@ -1,12 +1,9 @@
 package com.example.demo.repository;
 
-
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
 import com.example.demo.model.Friendship;
 import com.example.demo.model.User;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -31,62 +28,44 @@ public class FriendshipRepository {
         String sql = "SELECT * FROM friendship WHERE user_id = ?";
         return jdbcTemplate.query(sql, new Object[]{userId}, this::mapRowToFriendship);
     }
-
+    /**
+     * Kontroluje, zda existuje přátelství mezi dvěma uživateli.
+     * Vrací true, pokud záznam existuje v tabulce friendship.
+     */
     public boolean existsByUserIdAndFriendId(Long userId, Long friendId) {
         String sql = "SELECT COUNT(*) FROM friendship WHERE user_id = ? AND friend_id = ?";
         Integer count = jdbcTemplate.queryForObject(sql, new Object[]{userId, friendId}, Integer.class);
         return count != null && count > 0;
     }
 
+    /**
+     * Odstraňuje konkrétní přátelství mezi dvěma uživateli z tabulky friendship.
+     */
     public void deleteFriendship(Long userId, Long friendId) {
         String sql = "DELETE FROM friendship WHERE user_id = ? AND friend_id = ?";
         jdbcTemplate.update(sql, userId, friendId);
     }
 
+    /**
+     * Odstraňuje všechna přátelství, kde je uživatel buď user_id nebo friend_id.
+     * Slouží například při mazání uživatelského účtu.
+     */
     public void deleteAllFriendshipsByUserId(Long userId) {
         String sql = "DELETE FROM friendship WHERE user_id = ? OR friend_id = ?";
         jdbcTemplate.update(sql, userId, userId);
     }
 
-
+    /**
+     * Vyhledává všechny přátele daného uživatele.
+     * Vrací seznam uživatelů, kteří jsou spojeni s userId v tabulce friendship.
+     */
     public List<User> findFriendsByUserId(Long userId) {
-        
         String sql = "SELECT u.* FROM users AS u " +
         "JOIN friendship AS f ON (u.id = f.friend_id) " +
         "WHERE ( f.user_id = ?)";
-         /*
-        String sql = "SELECT u.* FROM users AS u " +    
-        "JOIN friendship AS f ON (u.id = f.user_id) " +
-        "WHERE ( f.user_id = ?)";
-        
-
-         String sql = "SELECT u.* FROM users AS u " + // Uprav podle sloupců v tabulce users
-         "JOIN friendship AS f ON u.id = f.friend_id " +
-         "WHERE f.user_id = ? " +
-         "UNION ALL " +
-         "SELECT u.* FROM users AS u " + // Uprav podle sloupců v tabulce users
-         "JOIN friendship AS f ON u.id = f.user_id " +
-         "WHERE f.friend_id = ?";
-          */
-
-
-
-         
-
-
-       
-        
-        /* 
-        String sql = "SELECT u.* FROM users u "+
-        "WHERE u.id = ?";
-        */
-
-
-
-
-    
         return jdbcTemplate.query(sql, new Object[]{userId}, this::mapRowToUser);
     }
+
     
 
     // Mapování výsledků dotazu na objekt Friendship
@@ -101,7 +80,7 @@ public class FriendshipRepository {
 
 
 
-    
+    // Mapování výsledků dotazu na objekt User
     private User mapRowToUser(ResultSet rs, int rowNum) throws SQLException {
         User user = new User();
         user.setId(rs.getLong("id"));

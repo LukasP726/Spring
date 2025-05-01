@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import java.sql.Timestamp;
-
 import javax.persistence.*;
 
 @Table(name = "posts")

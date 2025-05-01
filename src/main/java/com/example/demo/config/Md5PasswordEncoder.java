@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class Md5PasswordEncoder implements PasswordEncoder {
 
+    // Metoda pro zašifrování (zahashování) zadaného hesla
     @Override
     public String encode(CharSequence rawPassword) {
         try {
@@ -20,7 +21,8 @@ public class Md5PasswordEncoder implements PasswordEncoder {
             throw new RuntimeException("MD5 Algorithm not found", e);
         }
     }
-
+    
+    // Metoda ověřující, zda hash hesla odpovídá zadanému heslu
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
         return encode(rawPassword).equals(encodedPassword);

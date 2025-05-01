@@ -2,22 +2,16 @@ package com.example.demo.controller;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.demo.request.AuthRequest;
-import com.example.demo.response.AuthResponse;
 import com.example.demo.service.AuthService;
-
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -29,7 +23,15 @@ public class LoginController {
     @Autowired
     private AuthService authService;
 
-   @PostMapping("/login")
+
+    /**
+     * Endpoint pro přihlášení uživatele.
+     * Vstupní data obsahují uživatelské jméno a heslo.
+     * Pokud je přihlášení úspěšné, vytvoří se session a může se nastavit cookie.
+     * 
+     * V případě chyby se vrací HTTP 401 (Unauthorized) s chybovou zprávou.
+     */
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest loginRequest, HttpServletRequest request, HttpServletResponse response) {
         Map<String, String> responseBody = new HashMap<>();
         try {
@@ -44,7 +46,11 @@ public class LoginController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
         }
     }
-
+    
+    /**
+     * Endpoint pro odhlášení uživatele.
+     * Zneplatní session nebo cookie a vrátí potvrzení o úspěšném odhlášení.
+     */ 
     @PostMapping("/logout")
     public ResponseEntity<Map<String, String>> logout(HttpServletRequest request, HttpServletResponse response) {
         authService.logout(request, response);

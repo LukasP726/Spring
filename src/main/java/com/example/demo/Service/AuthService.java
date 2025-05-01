@@ -1,30 +1,22 @@
 package com.example.demo.service;
 
-import java.util.Date;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.web.session.SessionConcurrencyDsl;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Service;
-
-import com.example.demo.model.Session;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
-
-
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-//import com.example.demo.Config.Md5PasswordEncoder;
+
 
 @Service
 public class AuthService {
@@ -46,56 +38,42 @@ public class AuthService {
         Optional<User> userOptional = userRepository.findByLogin(login);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            
+
             // Ověření hesla
-            //System.out.println(user.getPassword());
             if (passwordEncoder.matches(password, user.getPassword())) {
                 Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(login, password)
                 );
-                
+
                 if (authentication.isAuthenticated()) {
+                    // Vytvoření HTTP session
                     HttpSession session = request.getSession(true);
                     String sessionId = session.getId();
                     System.out.println("Session created with ID: " + sessionId);
-    
-                    // Nastavení maximální doby nečinnosti pro session 
-                    int maxInactiveInterval = 30 * 60; // 30min  
+
+                    // Nastavení délky session
+                    int maxInactiveInterval = 30 * 60; // 30 minut
                     session.setMaxInactiveInterval(maxInactiveInterval);
-                    /*
-                    // Výpočet data a času vypršení
-                    Date expiresAt = new Date(System.currentTimeMillis() + maxInactiveInterval * 1000L);
-    
-                    // Opakované pokusy o vytvoření session
-                    boolean sessionCreated = false;
-                    int retries = 3;  // Maximální počet pokusů
-                     
-                    while (!sessionCreated && retries > 0) {
-                        try {
-                            // Pokus o uložení session do tabulky sessions
-                            sessionRepository.createSession(sessionId, user.getId(), request.getRemoteAddr(), request.getHeader("User-Agent"), expiresAt);
-                            sessionCreated = true;  // Pokud úspěšně vytvoříme session, nastavíme flag na true
-                        } catch (DataIntegrityViolationException e) {
-                            // Pokud dojde k chybě kvůli duplicitnímu session_id, vygenerujeme nové session_id
-                            System.out.println("Duplicate session ID detected, generating a new one.");
-                            session.invalidate();  // Zneplatnit starou session
-                            session = request.getSession(true);  // Vytvořit novou session
-                            sessionId = session.getId();
-                            retries--;  // Snížit počet zbývajících pokusů
-                        }
-                    }
-    
-                    if (!sessionCreated) {
-                        throw new Exception("Unable to create a unique session ID after multiple attempts.");
-                    }
-                        */
-    
+
+
+                    //  Uložit uživatele do session (pokud to potřebuješ)
                     session.setAttribute("user", user);
+
+                    //  Uložit SecurityContext (tohle je KLÍČOVÉ pro Spring Security)
+                    SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
+                    securityContext.setAuthentication(authentication);
+                    SecurityContextHolder.setContext(securityContext);
+                    session.setAttribute(
+                        HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+                        securityContext
+                    );
+
                     response.setStatus(HttpServletResponse.SC_OK);
                     return;
                 }
             }
         }
+
         throw new Exception("Invalid login or password");
     }
     
@@ -105,10 +83,10 @@ public class AuthService {
 public void logout(HttpServletRequest request, HttpServletResponse response) {
     HttpSession session = request.getSession(false); // Získá aktuální session, pokud existuje
     if (session != null) {
-        //String sessionId = session.getId();
-        //sessionRepository.deleteSession(sessionId);  
         session.invalidate(); // Zneplatnění session při odhlášení
     }
+
+    SecurityContextHolder.clearContext();
 
     // Odstranění cookie s ID session
     Cookie cookie = new Cookie("JSESSIONID", null);

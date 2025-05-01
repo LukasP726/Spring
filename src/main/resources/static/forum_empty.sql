@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: 127.0.0.1:3306
--- Vytvořeno: Čtv 28. lis 2024, 09:36
+-- Vytvořeno: Čtv 01. kvě 2025, 10:18
 -- Verze serveru: 8.3.0
 -- Verze PHP: 8.2.18
 
@@ -36,15 +36,15 @@ CREATE TABLE IF NOT EXISTS `friendship` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_friendship` (`user_id`,`friend_id`),
   KEY `friend_id` (`friend_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 --
 -- Vypisuji data pro tabulku `friendship`
 --
 
 INSERT INTO `friendship` (`id`, `user_id`, `friend_id`, `created_at`) VALUES
-(12, 39, 38, '2024-11-19 16:40:19'),
-(13, 38, 39, '2024-11-19 16:40:19');
+(23, 39, 44, '2025-04-28 15:18:02'),
+(22, 44, 39, '2025-04-28 15:18:02');
 
 -- --------------------------------------------------------
 
@@ -62,16 +62,7 @@ CREATE TABLE IF NOT EXISTS `friend_request` (
   PRIMARY KEY (`id`),
   KEY `from_user_id` (`from_user_id`),
   KEY `to_user_id` (`to_user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
-
---
--- Vypisuji data pro tabulku `friend_request`
---
-
-INSERT INTO `friend_request` (`id`, `from_user_id`, `to_user_id`, `created_at`, `status`) VALUES
-(10, 39, 35, '2024-11-19 12:50:51', 'PENDING'),
-(2, 30, 32, '2024-10-24 16:06:19', 'PENDING'),
-(5, 30, 35, '2024-11-02 15:53:04', 'PENDING');
+) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 -- --------------------------------------------------------
 
@@ -90,18 +81,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   PRIMARY KEY (`id`),
   KEY `idUser` (`id_user`),
   KEY `idThread` (`id_thread`)
-) ENGINE=MyISAM AUTO_INCREMENT=196 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
-
---
--- Vypisuji data pro tabulku `posts`
---
-
-INSERT INTO `posts` (`id`, `content`, `id_user`, `id_thread`, `created_at`, `updated_at`) VALUES
-(195, 'pic', 38, 15, '2024-11-19 18:12:11', '2024-11-19 18:12:11'),
-(194, 'gagag', 38, 15, '2024-11-19 17:23:33', '2024-11-19 17:23:33'),
-(193, 'a', 39, 16, '2024-11-19 15:06:43', '2024-11-19 15:06:42'),
-(192, 'a', 39, 16, '2024-11-19 14:19:32', '2024-11-19 14:19:31'),
-(191, 'test', 38, 15, '2024-11-11 16:57:22', '2024-11-11 16:57:22');
+) ENGINE=MyISAM AUTO_INCREMENT=840 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 -- --------------------------------------------------------
 
@@ -129,35 +109,6 @@ INSERT INTO `role` (`id`, `name`, `weight`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktura tabulky `sessions`
---
-
-DROP TABLE IF EXISTS `sessions`;
-CREATE TABLE IF NOT EXISTS `sessions` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `session_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
-  `user_id` bigint NOT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `last_accessed` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `expires_at` timestamp NULL DEFAULT NULL,
-  `ip_address` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci DEFAULT NULL,
-  `user_agent` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `session_id` (`session_id`(191)),
-  KEY `user_id` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=148 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
-
---
--- Vypisuji data pro tabulku `sessions`
---
-
-INSERT INTO `sessions` (`id`, `session_id`, `user_id`, `created_at`, `last_accessed`, `expires_at`, `ip_address`, `user_agent`) VALUES
-(146, 'E1AF90A3FE12DDAC0F2E14045FAD5B02', 38, '2024-11-19 16:40:13', '2024-11-19 18:01:10', '2024-11-19 19:01:10', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:132.0) Gecko/20100101 Firefox/132.0'),
-(147, '660F4F8F54DE4072400FE4DEEB9E6FDA', 39, '2024-11-22 07:04:14', '2024-11-22 07:04:14', '2024-11-22 07:34:15', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:132.0) Gecko/20100101 Firefox/132.0');
-
--- --------------------------------------------------------
-
---
 -- Struktura tabulky `threads`
 --
 
@@ -169,15 +120,7 @@ CREATE TABLE IF NOT EXISTS `threads` (
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `idUser` (`id_user`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
-
---
--- Vypisuji data pro tabulku `threads`
---
-
-INSERT INTO `threads` (`id`, `name`, `id_user`, `created_at`) VALUES
-(15, 'test', 38, '2024-11-11 16:57:12'),
-(16, 'asdfaf', 39, '2024-11-19 14:19:23');
+) ENGINE=MyISAM AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 -- --------------------------------------------------------
 
@@ -195,16 +138,22 @@ CREATE TABLE IF NOT EXISTS `uploads` (
   PRIMARY KEY (`id`),
   KEY `idUser` (`id_user`),
   KEY `idPost` (`id_post`)
-) ENGINE=MyISAM AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=83 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 
 --
 -- Vypisuji data pro tabulku `uploads`
 --
 
 INSERT INTO `uploads` (`id`, `filename`, `id_user`, `id_post`, `created_at`) VALUES
+(79, 'smiley-face-emoji-colorful-explosion-digital-art-4k-wallpaper-changed.jpg', 54, 836, '2025-04-29 12:27:27'),
 (73, 'colorful-abstract-ai-art-4k-wallpaper-uhdpaper.com-16@0@i.jpg', 38, 195, '2024-11-19 18:12:12'),
 (72, 'abstract-digital-art-uhdpaper.com-4K-8.2839.jpg', 38, 194, '2024-11-19 17:23:33'),
-(71, 'abstract-paint-blue-yellow-digital-art-huawei-mate-background-4k-wallpaper-uhdpaper.com-262@0@f.jpg', 39, 193, '2024-11-19 15:06:43');
+(71, 'abstract-paint-blue-yellow-digital-art-huawei-mate-background-4k-wallpaper-uhdpaper.com-262@0@f.jpg', 39, 193, '2024-11-19 15:06:43'),
+(78, '4303035-3207430937.jpg', 48, 834, '2025-04-29 10:33:53'),
+(77, 'monster-abstract-digital-art-4k-wallpaper-3840x2160-uhdpaper.com-530.0_a.jpg', 44, 828, '2025-04-13 20:10:14'),
+(80, '4303035-3207430937.jpg', 55, 837, '2025-04-30 09:05:38'),
+(81, 'abstract-paint-blue-yellow-digital-art-huawei-mate-background-4k-wallpaper-uhdpaper.com-262@0@f.jpg', 55, 838, '2025-04-30 09:31:36'),
+(82, 'monster-abstract-digital-art-4k-wallpaper-3840x2160-uhdpaper.com-530.0_a.jpg', 66, 839, '2025-04-30 14:18:50');
 
 -- --------------------------------------------------------
 
@@ -222,30 +171,12 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci NOT NULL,
   `idRole` int DEFAULT NULL,
   `isBanned` tinyint(1) DEFAULT '0',
+  `uid` varchar(36) COLLATE utf8mb4_czech_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`),
   UNIQUE KEY `email` (`email`),
   KEY `idRole` (`idRole`)
-) ENGINE=MyISAM AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
-
---
--- Vypisuji data pro tabulku `users`
---
-
-INSERT INTO `users` (`id`, `firstName`, `lastName`, `login`, `password`, `email`, `idRole`, `isBanned`) VALUES
-(36, 'test2', 'test2', 'test2', '$2a$10$NpozsYLew6/BCdpQGcaOWegjMbugYa5YbsyiF9B06ktHQAMKUuSlC', 'test2@test', 3, 0),
-(39, 'asdfa', 'asdfa', 'asdfa', '$2a$10$sAngU5nG4l0Dd0WxsRdIfOwYf1FdvYHHXQiXbnT3xq5V99nEAMbtG', 'asdfa@asdfa', 1, 0),
-(38, 'test', 'test', 'test', '$2a$10$cPcGThM85TYiruEPTay5pOk7iqAnBCbLHmm6BG3fSH6/oAcurpZNS', 'test@test', 2, 0),
-(35, 'ljalskdjflůakj', 'afgasfgasgdasdga', 'chanukaděsmandloň', '$2a$10$PbKLdRBgXNzZWxlbWcOP7uiXMnTi5rVnCEHXySp6x4DnRw5mNE7bG', 'hej@hey', 3, 0);
-
-DELIMITER $$
---
--- Události
---
-DROP EVENT IF EXISTS `delete_expired_sessions`$$
-CREATE DEFINER=`root`@`localhost` EVENT `delete_expired_sessions` ON SCHEDULE EVERY 1 HOUR STARTS '2024-09-07 15:46:55' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM sessions WHERE expires_at < NOW()$$
-
-DELIMITER ;
+) ENGINE=MyISAM AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

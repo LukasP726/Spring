@@ -1,12 +1,10 @@
 package com.example.demo.repository;
+
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
 import com.example.demo.model.FriendRequest;
 import com.example.demo.model.FriendRequestDTO;
-import com.example.demo.model.User;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -40,7 +38,7 @@ public class FriendRequestRepository {
         jdbcTemplate.update(sql, status, requestId);
     }
 
-
+    // Smazání žádosti o přátelství
     public void deleteFriendRequest(Long requestId) {
         String sql = "DELETE FROM friend_request WHERE id = ?";
         jdbcTemplate.update(sql, requestId);
@@ -52,7 +50,10 @@ public class FriendRequestRepository {
         return jdbcTemplate.query(sql, new Object[]{requestId}, this::mapRowToFriendRequest).stream().findFirst();
     }
 
-
+    /**
+    * Získá seznam žádostí o přátelství, které byly odeslány konkrétnímu uživateli.
+    * Propojuje tabulku friend_request s tabulkou users podle ID cílového uživatele.
+    */
     public List<FriendRequest> getRequests(Long id) {
         String sql = "SELECT * FROM friend_request fr " +
         "JOIN users u ON fr.to_user_id = u.id " +
@@ -64,26 +65,32 @@ public class FriendRequestRepository {
 
     }
 
-    public List<FriendRequestDTO> getFriendRequestsForUserDTO(Long toUserId) {
-    String sql = """
-        SELECT 
-            fr.id,
-            fr.from_user_id AS fromUserId,
-            fr.to_user_id AS toUserId,
-            fr.created_at AS createdAt,
-            fr.status,
-            u.login AS fromUserLogin
-        FROM 
-            friend_request fr
-        JOIN 
-            users u ON fr.from_user_id = u.id
-        WHERE 
-            fr.to_user_id = ?
-        ORDER BY fr.created_at DESC
-    """;
 
-    return jdbcTemplate.query(sql, new Object[]{toUserId}, new BeanPropertyRowMapper<>(FriendRequestDTO.class));
-}
+    /**
+     * Načte seznam žádostí o přátelství pro zadaného uživatele ve formátu DTO.
+     * Výsledek zahrnuje informace o odesílateli včetně jeho přihlašovacího jména.
+     * Výsledky jsou seřazeny sestupně podle data vytvoření.
+     */
+    public List<FriendRequestDTO> getFriendRequestsForUserDTO(Long toUserId) {
+        String sql = """
+            SELECT 
+                fr.id,
+                fr.from_user_id AS fromUserId,
+                fr.to_user_id AS toUserId,
+                fr.created_at AS createdAt,
+                fr.status,
+                u.login AS fromUserLogin
+            FROM 
+                friend_request fr
+            JOIN 
+                users u ON fr.from_user_id = u.id
+            WHERE 
+                fr.to_user_id = ?
+            ORDER BY fr.created_at DESC
+        """;
+
+        return jdbcTemplate.query(sql, new Object[]{toUserId}, new BeanPropertyRowMapper<>(FriendRequestDTO.class));
+    }
 
 
 
